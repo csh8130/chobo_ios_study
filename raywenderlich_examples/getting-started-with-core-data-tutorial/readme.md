@@ -22,13 +22,13 @@
 
 1. Data Model 파일이 생성됩니다.
    
-   > ![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-16-51-19-image.png)
+   > ![image](https://user-images.githubusercontent.com/25359605/92460884-7a5d9b00-f203-11ea-956f-ee41736d942b.png)
    > 
    > *.xcdatamodeld 데이터 모델 파일이 생성됩니다. Core Data는 기본적으로 SQLite DB를 사용하므로 여기서 model은 데이터베이스의 schema와 동일한 개념입니다.
    > 
    > 
    > 
-   > ![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-17-00-43-image.png)
+   > !![image](https://user-images.githubusercontent.com/25359605/92460845-69ad2500-f203-11ea-9b4b-893abb2e8fb1.png)
    > 
    > 모델 편집기에서 Entity를 추가할 수 있습니다. Entity는 Core data에 저장하기위한 데이터의 구조를 정의합니다.
 
@@ -73,7 +73,7 @@
    
    ```
 
-![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-17-18-15-image.png)
+!![image](https://user-images.githubusercontent.com/25359605/92460898-7e89b880-f203-11ea-8882-b6c624a1ac9c.png)
 
 2. Add 버튼을 누르면 사용자에게 입력을 받도록 Alert을 추가합니다.
    
@@ -112,7 +112,7 @@
 
 아래와 같이 입력받은 내용을 보여주는 메모 앱을 완성시킵니다.
 
-![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-17-27-57-image.png)
+![image](https://user-images.githubusercontent.com/25359605/92460905-821d3f80-f203-11ea-989f-87187ef7d71c.png)
 
 아직까지 데이터 저장을 위한 Core Data를 사용하지 않았습니다. 앱을 강제종료하고 다시 실행하면 리스트가 모두 사라지게됩니다. Core Data를 사용하여 입력받은 데이터를 저장하도록 하겠습니다.
 
@@ -120,13 +120,13 @@
 
 **Core Data Model 편집**
 
-![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-17-51-23-image.png)
+![image](https://user-images.githubusercontent.com/25359605/92460917-85183000-f203-11ea-9511-d6dd78198f1a.png)
 
 Data Model 파일을 클릭해서 Model 편집기를 엽니다. 편집기의 Add Entity 버튼을 눌러 Entity를 추가하고 이름을 Person으로 바꿉니다.
 
 
 
-![](/Users/kakao/Library/Application Support/marktext/images/2020-09-08-17-53-06-image.png)
+![image](https://user-images.githubusercontent.com/25359605/92460830-644fda80-f203-11ea-83d5-339c2278d038.png)
 
 Person Entity에 name attribute를 추가하고 데이터 타입을 String으로 지정합니다.
 
