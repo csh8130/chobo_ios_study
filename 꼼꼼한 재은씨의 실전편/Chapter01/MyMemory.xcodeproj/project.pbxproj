@@ -17,6 +17,7 @@
 		C25C9C512512824600A550F1 /* MemoFromVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C502512824600A550F1 /* MemoFromVC.swift */; };
 		C25C9C532512825500A550F1 /* MemoReadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C522512825500A550F1 /* MemoReadVC.swift */; };
 		C25C9C55251282A700A550F1 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C54251282A700A550F1 /* MemoCell.swift */; };
+		C25C9C572512881C00A550F1 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C562512881C00A550F1 /* MemoData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		C25C9C502512824600A550F1 /* MemoFromVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoFromVC.swift; sourceTree = "<group>"; };
 		C25C9C522512825500A550F1 /* MemoReadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoReadVC.swift; sourceTree = "<group>"; };
 		C25C9C54251282A700A550F1 /* MemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
+		C25C9C562512881C00A550F1 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				C25C9C502512824600A550F1 /* MemoFromVC.swift */,
 				C25C9C522512825500A550F1 /* MemoReadVC.swift */,
 				C25C9C54251282A700A550F1 /* MemoCell.swift */,
+				C25C9C562512881C00A550F1 /* MemoData.swift */,
 			);
 			path = MyMemory;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C25C9C55251282A700A550F1 /* MemoCell.swift in Sources */,
+				C25C9C572512881C00A550F1 /* MemoData.swift in Sources */,
 				C25C9C4225126A4100A550F1 /* MyMemory.xcdatamodeld in Sources */,
 				C25C9C3825126A4100A550F1 /* AppDelegate.swift in Sources */,
 				C25C9C532512825500A550F1 /* MemoReadVC.swift in Sources */,

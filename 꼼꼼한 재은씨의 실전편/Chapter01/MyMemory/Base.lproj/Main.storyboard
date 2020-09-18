@@ -68,6 +68,11 @@
                                         <constraint firstItem="yP8-sz-ORW" firstAttribute="top" secondItem="rb3-NX-T1q" secondAttribute="topMargin" id="xQF-Zx-yK9"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contents" destination="8DO-we-Pw0" id="Qqa-Wb-h5O"/>
+                                    <outlet property="regdate" destination="V2e-u2-HYK" id="zF9-td-X0Z"/>
+                                    <outlet property="subject" destination="yP8-sz-ORW" id="FNe-jo-Wb6"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="memoCellWithImage" rowHeight="80" id="hYc-J0-dmb" customClass="MemoCell" customModule="MyMemory" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="108" width="375" height="80"/>
@@ -79,6 +84,7 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fms-QN-vBw">
                                             <rect key="frame" x="16" y="11" width="45" height="58"/>
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="45" id="Md0-aS-sSj"/>
                                                 <constraint firstAttribute="width" secondItem="Fms-QN-vBw" secondAttribute="height" multiplier="45:58" id="woB-n2-LRU"/>
                                             </constraints>
                                         </imageView>
@@ -125,6 +131,12 @@
                                         <constraint firstItem="Fms-QN-vBw" firstAttribute="leading" secondItem="FU6-3n-TNp" secondAttribute="leadingMargin" id="vAh-qn-Sk3"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contents" destination="fwB-u9-e1B" id="dxH-DH-rhG"/>
+                                    <outlet property="img" destination="Fms-QN-vBw" id="ZLJ-Co-w0h"/>
+                                    <outlet property="regdate" destination="4Js-IF-oe0" id="rFq-0m-OZv"/>
+                                    <outlet property="subject" destination="Kq7-Cb-mjy" id="bfd-1D-sLC"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -185,10 +197,22 @@
                     </view>
                     <navigationItem key="navigationItem" title="메모 작성" id="Y6b-dS-gXx">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="camera" id="7cf-PB-q57"/>
-                            <barButtonItem title="저장" id="XVW-Bb-49c"/>
+                            <barButtonItem systemItem="camera" id="7cf-PB-q57">
+                                <connections>
+                                    <action selector="pick:" destination="Ukp-Kl-5Lv" id="fW9-FO-ukw"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="저장" id="XVW-Bb-49c">
+                                <connections>
+                                    <action selector="save:" destination="Ukp-Kl-5Lv" id="2Na-p8-6ga"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="contents" destination="M8C-S9-dc1" id="7tu-ed-Sw3"/>
+                        <outlet property="preview" destination="FZQ-If-7NT" id="JHW-pk-4co"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4K1-R8-h2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -197,7 +221,7 @@
         <!--상세 화면-->
         <scene sceneID="VDU-gd-I9g">
             <objects>
-                <viewController title="상세 화면" id="Hgj-1k-faj" customClass="MemoReadVC" customModule="MyMemory" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemoRead" title="상세 화면" id="Hgj-1k-faj" customClass="MemoReadVC" customModule="MyMemory" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5OI-uU-FzC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -239,6 +263,11 @@
                         <viewLayoutGuide key="safeArea" id="no1-7w-nIa"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="j6j-83-3qy"/>
+                    <connections>
+                        <outlet property="contents" destination="Ker-T3-qUo" id="sVO-AJ-KNK"/>
+                        <outlet property="img" destination="MaG-rl-HMv" id="QOf-kr-nbW"/>
+                        <outlet property="subject" destination="Lla-3o-eAv" id="W0n-H9-XOR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pf5-fp-lbN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
