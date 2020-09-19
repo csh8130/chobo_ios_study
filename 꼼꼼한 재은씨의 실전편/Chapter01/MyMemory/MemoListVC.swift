@@ -19,7 +19,9 @@ class MemoListVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = self.appDelegate.memolist[indexPath.row]
         let cellId = row.image == nil ? "memoCell" : "memoCellWithImage"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! MemoCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as? MemoCell else {
+            return UITableViewCell()
+        }
         
         cell.subject?.text = row.title
         cell.contents?.text = row.contents
@@ -36,13 +38,11 @@ class MemoListVC: UITableViewController {
         self.tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = self.appDelegate.memolist[indexPath.row]
-        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "MemoRead") as? MemoReadVC else {
-            return
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "memoCellWithImageSegue" || segue.identifier == "memoCellSegue" {
+            let vc = segue.destination as? MemoReadVC
+            let selectedIndex = tableView.indexPathForSelectedRow!.row
+            vc?.param = self.appDelegate.memolist[selectedIndex]
         }
-        
-        vc.param = row
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

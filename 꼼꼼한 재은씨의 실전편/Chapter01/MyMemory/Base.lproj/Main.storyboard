@@ -72,6 +72,7 @@
                                     <outlet property="contents" destination="8DO-we-Pw0" id="Qqa-Wb-h5O"/>
                                     <outlet property="regdate" destination="V2e-u2-HYK" id="zF9-td-X0Z"/>
                                     <outlet property="subject" destination="yP8-sz-ORW" id="FNe-jo-Wb6"/>
+                                    <segue destination="Hgj-1k-faj" kind="show" identifier="memoCellSegue" id="Kun-vL-bgJ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="memoCellWithImage" rowHeight="80" id="hYc-J0-dmb" customClass="MemoCell" customModule="MyMemory" customModuleProvider="target">
@@ -136,6 +137,7 @@
                                     <outlet property="img" destination="Fms-QN-vBw" id="ZLJ-Co-w0h"/>
                                     <outlet property="regdate" destination="4Js-IF-oe0" id="rFq-0m-OZv"/>
                                     <outlet property="subject" destination="Kq7-Cb-mjy" id="bfd-1D-sLC"/>
+                                    <segue destination="Hgj-1k-faj" kind="show" identifier="memoCellWithImageSegue" id="eat-oX-6c6"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -147,13 +149,10 @@
                     <navigationItem key="navigationItem" title="목록" id="t73-gT-5mS">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="V0W-t5-oFq">
                             <connections>
-                                <segue destination="Ukp-Kl-5Lv" kind="show" id="X5N-aa-hlY"/>
+                                <segue destination="Ukp-Kl-5Lv" kind="show" identifier="read_sg" id="X5N-aa-hlY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="Hgj-1k-faj" kind="show" identifier="read_sg" id="JW0-1v-5MB"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nxy-G6-NAr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -271,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pf5-fp-lbN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="486" y="854"/>
+            <point key="canvasLocation" x="-375" y="918"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3M0-cf-yno">
@@ -290,4 +289,7 @@
             <point key="canvasLocation" x="-1327" y="79"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Kun-vL-bgJ"/>
+    </inferredMetricsTieBreakers>
 </document>
