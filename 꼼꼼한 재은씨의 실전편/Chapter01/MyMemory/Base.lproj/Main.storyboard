@@ -149,7 +149,7 @@
                     <navigationItem key="navigationItem" title="목록" id="t73-gT-5mS">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="V0W-t5-oFq">
                             <connections>
-                                <segue destination="Ukp-Kl-5Lv" kind="show" identifier="read_sg" id="X5N-aa-hlY"/>
+                                <segue destination="Ukp-Kl-5Lv" kind="show" identifier="" id="X5N-aa-hlY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
