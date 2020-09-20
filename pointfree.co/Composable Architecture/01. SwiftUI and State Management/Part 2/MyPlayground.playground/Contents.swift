@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var state: AppState
+    @EnvironmentObject var state: AppState
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: CounterView(state: self.state)) {
+                NavigationLink(destination: CounterView()) {
                     Text("Counter demo")
                 }
-                NavigationLink(destination: FavoritePrimes(state: self.state)) {
+                NavigationLink(destination: FavoritePrimes()) {
                   Text("Favorite primes")
                 }
             }
@@ -23,7 +23,7 @@ class AppState: ObservableObject {
 }
 
 struct CounterView: View {
-    @ObservedObject var state: AppState
+    @EnvironmentObject var state: AppState
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
     
@@ -52,7 +52,7 @@ struct CounterView: View {
         .font(.title)
         .navigationBarTitle("Counter demo")
         .sheet(isPresented: $isPrimeModalShown) {
-            IsPrimeModalView(state: self.state)
+            IsPrimeModalView().environmentObject(self.state)
         }
         .alert(item: self.$alertNthPrime) { alert in
           Alert(
@@ -70,7 +70,7 @@ struct CounterView: View {
 }
 
 struct IsPrimeModalView: View {
-  @ObservedObject var state: AppState
+  @EnvironmentObject var state: AppState
   var body: some View {
     VStack {
       if isPrime(self.state.count) {
@@ -92,7 +92,7 @@ struct IsPrimeModalView: View {
 }
 
 struct FavoritePrimes: View {
-  @ObservedObject var state: AppState
+  @EnvironmentObject var state: AppState
 
     var body: some View {
         List {
@@ -184,6 +184,6 @@ struct PrimeAlert: Identifiable {
 import PlaygroundSupport
 
 PlaygroundPage.current.liveView = UIHostingController(
-    rootView: ContentView(state: AppState())
+    rootView: ContentView().environmentObject(AppState())
 //  rootView: CounterView()
 )
