@@ -1,7 +1,5 @@
 # SwiftUI and State Management: Part 2
 
-
-
 ```swift
 class AppState: ObservableObject {
     var count: Int = 0 {
@@ -25,8 +23,6 @@ class AppState: ObservableObject {
 
 @Published 프로퍼티 레퍼를 사용하는것으로 간단하게 구현이 가능하다.
 
-
-
 배열을 순회하며 View를 추가하기위해 ForEach를 사용했다.
 
 ```swift
@@ -41,4 +37,10 @@ class AppState: ObservableObject {
         }
 ```
 
+
+
 ForEach안에 `id: .self`는 왜 필요한것인지 아직 잘 모르겠다.
+
+설명되어있는것 같은 페이지 : https://www.hackingwithswift.com/books/ios-swiftui/why-does-self-work-for-foreach
+
+List에 들어가는 뷰들은 무조건 서로를 구분할수 있는 id가 필요한듯하고 .self를 사용하면 각자 자신의 hash값을 (hashable 프로토콜을 구현하지않으면 애러) id로 사용하는것 같다.
