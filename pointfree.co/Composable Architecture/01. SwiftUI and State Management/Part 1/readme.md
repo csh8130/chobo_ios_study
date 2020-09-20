@@ -48,9 +48,40 @@ SwiftUI에 대해 많은 내용을 알아보지는 않을것입니다. 컴포저
 
 
 
+`var  body: some  View`에서 some은 어떤것일까?
 
-
-
+> - Opaque Type - some
+> 
+> Generic 타입의 반대되는 개념으로 생각할 수 있다.
+> 
+> 우선 Generic Type은 호출하는 코드에서 타입을 결정해주고, 실제로 구현하는곳에서는 추상화된 타입을 사용한다. 그래서 구현부 외부에서 타입을 바로 알 수 있다.
+> 
+> 
+> 
+> Opaque Type은 구현부에서 타입이 선택된다.
+> 
+> 
+> 
+> Opaque Type은 Type Identity를 보존하기때문에 특정 유형임을 나타낼 수 있다(?) - 아직 잘 모르겠다.
+> 
+> - 참고자료
+> 
+> [https://github.com/dev-yong/SwiftUI_Playground](https://github.com/dev-yong/SwiftUI_Playground)
+> 
+> [https://jcsoohwancho.github.io/2019-08-24-Opaque-Type-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0/](https://jcsoohwancho.github.io/2019-08-24-Opaque-Type-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0/)
+> 
+> ```swift
+> example("Opaque type is preserve type identity") {
+>     func someEquatable() -> some Equatable {
+>         return String()
+>     }
+> }
+> example("Protocol type isn't preserve type identity") {
+> //    func equatable() -> Equatable {
+> //        return String()
+> //    }
+> }
+> ```
 
 
 
