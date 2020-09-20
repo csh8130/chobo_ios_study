@@ -64,24 +64,28 @@ SwiftUI에 대해 많은 내용을 알아보지는 않을것입니다. 컴포저
 > 
 > Opaque Type은 Type Identity를 보존하기때문에 특정 유형임을 나타낼 수 있다(?) - 아직 잘 모르겠다.
 > 
+> ```swift
+> example("Opaque type is preserve type identity") {
+>  func someEquatable() -> some Equatable {
+>  return String()
+>  }
+> }
+> example("Protocol type isn't preserve type identity") {
+> // func equatable() -> Equatable {
+> // return String()
+> // }
+> }
+> ```
+> 
 > - 참고자료
 > 
 > [https://github.com/dev-yong/SwiftUI_Playground](https://github.com/dev-yong/SwiftUI_Playground)
 > 
 > [https://jcsoohwancho.github.io/2019-08-24-Opaque-Type-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0/](https://jcsoohwancho.github.io/2019-08-24-Opaque-Type-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0/)
 > 
-> ```swift
-> example("Opaque type is preserve type identity") {
->     func someEquatable() -> some Equatable {
->         return String()
->     }
-> }
-> example("Protocol type isn't preserve type identity") {
-> //    func equatable() -> Equatable {
-> //        return String()
-> //    }
-> }
-> ```
+> http://minsone.github.io/programming/swift-opaque-type-and-erase-type
+> 
+> 
 
 
 
