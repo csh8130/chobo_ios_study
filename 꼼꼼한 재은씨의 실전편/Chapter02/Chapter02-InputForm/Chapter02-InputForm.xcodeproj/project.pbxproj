@@ -13,6 +13,7 @@
 		C2891C3F2518F4770068B713 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2891C3D2518F4770068B713 /* Main.storyboard */; };
 		C2891C412518F4780068B713 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2891C402518F4780068B713 /* Assets.xcassets */; };
 		C2891C442518F4780068B713 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2891C422518F4780068B713 /* LaunchScreen.storyboard */; };
+		C2CD99F6251B939000046E8A /* ReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CD99F5251B939000046E8A /* ReadViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C2891C402518F4780068B713 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C2891C432518F4780068B713 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2891C452518F4780068B713 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2CD99F5251B939000046E8A /* ReadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				C2891C372518F4770068B713 /* AppDelegate.swift */,
 				C2891C392518F4770068B713 /* SceneDelegate.swift */,
 				C2891C3B2518F4770068B713 /* ViewController.swift */,
+				C2CD99F5251B939000046E8A /* ReadViewController.swift */,
 				C2891C3D2518F4770068B713 /* Main.storyboard */,
 				C2891C402518F4780068B713 /* Assets.xcassets */,
 				C2891C422518F4780068B713 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				C2891C3C2518F4770068B713 /* ViewController.swift in Sources */,
 				C2891C382518F4770068B713 /* AppDelegate.swift in Sources */,
+				C2CD99F6251B939000046E8A /* ReadViewController.swift in Sources */,
 				C2891C3A2518F4770068B713 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
