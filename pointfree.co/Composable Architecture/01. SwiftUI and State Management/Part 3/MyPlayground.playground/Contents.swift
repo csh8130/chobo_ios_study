@@ -8,7 +8,7 @@ struct ContentView: View {
                 NavigationLink(destination: CounterView(state: state)) {
                     Text("Counter demo")
                 }
-                NavigationLink(destination: FavoritePrimes(state: state)) {
+                NavigationLink(destination: FavoritePrimesView(state: self.$state.favoritePrimesState)) {
                   Text("Favorite primes")
                 }
             }
@@ -22,28 +22,29 @@ class AppState: ObservableObject {
     @Published var favoritePrimes: [Int] = []
     @Published var loggedInUser: User?
     @Published var activityFeed: [Activity] = []
-}
+    
+    struct Activity {
+      let timestamp: Date
+      let type: ActivityType
 
-struct Activity {
-  let timestamp: Date
-  let type: ActivityType
+      enum ActivityType {
+        case addedFavoritePrime(Int)
+        case removedFavoritePrime(Int)
+      }
+    }
 
-  enum ActivityType {
-    case addedFavoritePrime(Int)
-    case removedFavoritePrime(Int)
-  }
-}
-
-struct User {
-  let id: Int
-  let name: String
-  let bio: String
+    struct User {
+      let id: Int
+      let name: String
+      let bio: String
+    }
 }
 
 struct CounterView: View {
     @ObservedObject var state: AppState
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
+    @State var isNthPrimeButtonDisabled = false
     
     var body: some View {
         VStack {
@@ -59,13 +60,10 @@ struct CounterView: View {
             Button(action: { self.isPrimeModalShown = true }) {
                 Text("Is this prime?")
             }
-            Button(action: {
-              nthPrime(self.state.count) { prime in
-                self.alertNthPrime = prime.map{PrimeAlert(prime: $0)}
-              }
-            }) {
+            Button(action: nthPrimeButtonAction) {
               Text("What's the \(ordinal(self.state.count)) prime?")
             }
+            .disabled(isNthPrimeButtonDisabled)
         }
         .font(.title)
         .navigationBarTitle("Counter demo")
@@ -85,6 +83,14 @@ struct CounterView: View {
       formatter.numberStyle = .ordinal
       return formatter.string(for: n) ?? ""
     }
+    
+    func nthPrimeButtonAction() {
+        self.isNthPrimeButtonDisabled = true
+        nthPrime(self.state.count) { prime in
+            self.alertNthPrime = prime.map{PrimeAlert(prime: $0)}
+            self.isNthPrimeButtonDisabled = false
+        }
+    }
 }
 
 struct IsPrimeModalView: View {
@@ -94,11 +100,15 @@ struct IsPrimeModalView: View {
       if isPrime(self.state.count) {
         Text("\(self.state.count) is prime 🎉")
         if self.state.favoritePrimes.contains(self.state.count) {
-          Button(action: { self.state.favoritePrimes.removeAll(where: { $0 == self.state.count }) }) {
+          Button(action: { self.state.favoritePrimes.removeAll(where: { $0 == self.state.count })
+            self.state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(self.state.count)))
+          }) {
             Text("Remove from favorite primes")
           }
         } else {
-          Button(action: { self.state.favoritePrimes.append(self.state.count) }) {
+          Button(action: { self.state.favoritePrimes.append(self.state.count)
+            self.state.activityFeed.append(.init(timestamp: Date(), type: .addedFavoritePrime(self.state.count)))
+          }) {
             Text("Save to favorite primes")
           }
         }
@@ -109,8 +119,27 @@ struct IsPrimeModalView: View {
   }
 }
 
-struct FavoritePrimes: View {
-  @ObservedObject var state: AppState
+struct FavoritePrimesState {
+  var favoritePrimes: [Int]
+  var activityFeed: [AppState.Activity]
+}
+extension AppState {
+  var favoritePrimesState: FavoritePrimesState {
+    get {
+      FavoritePrimesState(
+        favoritePrimes: self.favoritePrimes,
+        activityFeed: self.activityFeed
+      )
+    }
+    set {
+      self.favoritePrimes = newValue.favoritePrimes
+      self.activityFeed = newValue.activityFeed
+    }
+  }
+}
+
+struct FavoritePrimesView: View {
+  @Binding var state: FavoritePrimesState
 
     var body: some View {
         List {
@@ -118,7 +147,9 @@ struct FavoritePrimes: View {
                 Text("\(prime)")
             }.onDelete { indexSet in
                 for index in indexSet {
+                    let prime = self.state.favoritePrimes[index]
                     self.state.favoritePrimes.remove(at: index)
+                    self.state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(prime)))
                 }
             }
         }
