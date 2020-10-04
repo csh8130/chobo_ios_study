@@ -69,6 +69,22 @@ final class Store<Value>: ObservableObject {
     }
 }
 
+enum CounterAction {
+  case decrTapped
+  case incrTapped
+}
+
+func counterReducer(state: AppState, action: CounterAction) -> AppState {
+  var copy = state
+  switch action {
+  case .decrTapped:
+    copy.count -= 1
+  case .incrTapped:
+    copy.count += 1
+  }
+  return copy
+}
+
 struct CounterView: View {
     @ObservedObject var store: Store<AppState>
     @State var isPrimeModalShown: Bool = false
@@ -78,12 +94,12 @@ struct CounterView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: { self.store.value.count -= 1 }) {
-                  Text("-")
+                Button("-") {
+                  self.store.value = counterReducer(state: self.store.value, action: .decrTapped)
                 }
                 Text("\(self.store.value.count)")
-                Button(action: { self.store.value.count += 1 }) {
-                  Text("+")
+                Button("+") {
+                  self.store.value = counterReducer(state: self.store.value, action: .incrTapped)
                 }
             }
             Button(action: { self.isPrimeModalShown = true }) {

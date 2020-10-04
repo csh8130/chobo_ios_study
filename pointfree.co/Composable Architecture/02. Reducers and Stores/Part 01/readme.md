@@ -93,4 +93,51 @@ Combine, SwiftUI 프레임워크에서 상태관리 코드를 분리하고 struc
 
 조금 더 복잡한 문제를 해결 해 보겠다. 상태 값을 변경하는 코드를 일관되게 관리해야 한다.
 
+현재 코드의 문제는 사용자 액션을 잘못 정의했다는 점이다. 뷰에서 직접 상태 변화를 일으키는 대신 뷰가 할 행동을 enum으로 정의하겠습니다.
+
+```swift
+enum CounterAction {
+  case decrTapped
+  case incrTapped
+}
+```
+
+이제 현재 상태에서 액션을 수행하고 새로운 상태를 반환하는 함수를 만들 수 있습니다.
+
+```swift
+func counterReducer(state: AppState, action: CounterAction) -> AppState {
+  var copy = state
+  switch action {
+  case .decrTapped:
+    copy.count -= 1
+  case .incrTapped:
+    copy.count += 1
+  }
+  return copy
+}
+```
+
+리듀서에서 항상 copy를 한번 합니다, 그리고 copy와 state를 햇갈리면 미묘한 버그를 유발합니다. 나중에 좀 더 개선해보겠습니다.
+
+왜 이름이 `counterReducer`일까요? `reduce`를 보면 알 수 있습니다.
+
+```swift
+[1, 2, 3].reduce(
+  <#initialResult: Result#>,
+  <#nextPartialResult: (Result, Int) throws -> Result#>
+)
+```
+
+기존의 reduce는 연산을 계속 해서 `Result`에 축적해 나갑니다. 우리의 `counterReducer`가 reducer라는 이름이 붙은 이유입니다.
+
+버튼의 코드를 아래와 같이 변경합니다.
+
+```swift
+Button("-") {
+  self.store.value = counterReducer(state: self.store.value, action: .decrTapped)
+}
+```
+
+코드가 많이 추가되었지만 한가지 좋은 점이 있습니다. 버튼의 액션 클로저 내부의 상태를 직접 변경하는 대신 해당 액션 값을 리듀서에 보내고 리듀서가 필요한 모든 변경을 수행하도록합니다. 이것이 바로 사용자 작업을 선언형으로 처리 한다는 의미입니다. 그리고 상태의 변화를 리듀서 내부로 제한시켰습니다.
+
 
