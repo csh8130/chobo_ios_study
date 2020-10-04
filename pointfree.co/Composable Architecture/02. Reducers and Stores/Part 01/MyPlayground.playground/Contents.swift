@@ -76,32 +76,42 @@ final class Store<Value, Action>: ObservableObject {
 }
 
 enum CounterAction {
- case decrTapped
- case incrTapped
+    case decrTapped
+    case incrTapped
 }
 enum PrimeModalAction {
- case saveFavoritePrimeTapped
- case removeFavoritePrimeTapped
+    case saveFavoritePrimeTapped
+    case removeFavoritePrimeTapped
+}
+enum FavoritePrimesAction {
+    case deleteFavoritePrimes(IndexSet)
 }
 enum AppAction {
- case counter(CounterAction)
- case primeModal(PrimeModalAction)
+    case counter(CounterAction)
+    case primeModal(PrimeModalAction)
+    case favoritePrimes(FavoritePrimesAction)
 }
 
-func appReducer(value: inout AppState, action: AppAction) -> Void {
-  switch action {
-  case .counter(.decrTapped):
-    value.count -= 1
-  case .counter(.incrTapped):
-    value.count += 1
-  case .primeModal(.saveFavoritePrimeTapped):
-    value.favoritePrimes.append(value.count)
-    value.activityFeed.append(.init( type: .addedFavoritePrime(value.count)))
 
-  case .primeModal(.removeFavoritePrimeTapped):
-    value.favoritePrimes.removeAll(where: { $0 == value.count })
-    value.activityFeed.append(.init( type: .removedFavoritePrime(value.count)))
-  }
+func appReducer(value: inout AppState, action: AppAction) -> Void {
+    switch action {
+    case .counter(.decrTapped):
+        value.count -= 1
+    case .counter(.incrTapped):
+        value.count += 1
+    case .primeModal(.saveFavoritePrimeTapped):
+        value.favoritePrimes.append(value.count)
+        value.activityFeed.append(.init( type: .addedFavoritePrime(value.count)))
+    case .primeModal(.removeFavoritePrimeTapped):
+        value.favoritePrimes.removeAll(where: { $0 == value.count })
+        value.activityFeed.append(.init( type: .removedFavoritePrime(value.count)))
+    case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
+        for index in indexSet {
+            let prime = value.favoritePrimes[index]
+            value.favoritePrimes.remove(at: index)
+            value.activityFeed.append(.init(type: .removedFavoritePrime(prime)))
+        }
+    }
 }
 
 struct CounterView: View {
@@ -188,9 +198,7 @@ struct FavoritePrimesView: View {
             ForEach(self.store.value.favoritePrimes, id: \.self) { prime in
                 Text("\(prime)")
             }.onDelete { indexSet in
-                for index in indexSet {
-                    self.store.value.favoritePrimes.remove(at: index)
-                }
+             self.store.send(.favoritePrimes(.deleteFavoritePrimes(indexSet)))
             }
         }
         .navigationBarTitle(Text("Favorite Primes"))

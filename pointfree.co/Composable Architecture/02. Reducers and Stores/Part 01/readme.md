@@ -228,4 +228,26 @@ enum AppAction {
 
 이와같이 즐겨찾기 액션을 추가하면서 모듈화 시키고 컴파일 애러를 잡아줍니다.
 
+다음으로 변경할 상태변경 코드는 `FavoritePrimesView`에서 구현한 `.onDelete` 코드입니다
 
+마찬가지로 액션을 추가합니다.
+
+```swift
+enum FavoritePrimesAction {
+  case deleteFavoritePrimes(IndexSet)
+}
+enum AppAction {
+  …
+  case favoritePrimes(FavoritePrimesAction)
+}
+```
+
+컴파일러 애러를 잡고 onDelete코드를 변경합니다.
+
+```swift
+.onDelete { indexSet in
+  self.store.send(.favoritePrimes(.removeFavoritePrimes(at: indexSet)))
+}
+```
+
+이제 모든 상태변경 인라인 코드를 리듀서로 옮겼습니다.
