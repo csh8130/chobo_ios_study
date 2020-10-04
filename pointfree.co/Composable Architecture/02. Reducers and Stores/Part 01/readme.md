@@ -251,3 +251,25 @@ enum AppAction {
 ```
 
 이제 모든 상태변경 인라인 코드를 리듀서로 옮겼습니다.
+
+하지만 일부 상태변경을 일으키는 요소가 남아있습니다. 글로벌 영역에서 관리하지않는 `@State`가 붙은 녀석들 입니다.
+
+```swift
+@State var isPrimeModalShown = false
+@State var alertNthPrime: Int?
+@State var isNthPrimeButtonDisabled = false
+```
+
+Alert과 모달을 처리하는것은 좀 더 복잡하므로 리듀서를 좀 더 알아보고 이 문제를 해결 할 것입니다.
+
+### 다음 시간
+
+ 우리는 아키텍쳐의 기본 버전을 만들었습니다. 애플리케이션의 전체 상태를 나타내는 `AppState`와 애플리케이션에서 발생할 수 있는 사용자 작업을 나타내는 `AppAction`을 정의했습니다.
+
+에피소드 시작때 언급한 5가지 문제중 2가지를 해결하였으나 아직 더 개선해야합니다.
+
+appReducer는 확장 가능하지 않아보입니다. 3개의 다른 화면에대한 처리를 case문으로 처리했지만 수십개의 화면을 만들었을때 모두 case문으로 처리하는것을 원치 않습니다.
+
+여러개의 reducer를 더 큰 하나의 reducer로 묶는법을 만들어보겠습니다.
+
+
