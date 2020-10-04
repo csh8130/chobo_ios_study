@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var store: Store<AppState>
+    @ObservedObject var store: Store<AppState, CounterAction>
     var body: some View {
         NavigationView {
             List {
@@ -62,10 +62,16 @@ struct AppState {
   }
 }
 
-final class Store<Value>: ObservableObject {
+final class Store<Value, Action>: ObservableObject {
     @Published var value: Value
-    init(initialValue: Value) {
-        self.value = initialValue
+    let reducer: (Value, Action) -> Value
+    init(initialValue: Value, reducer: @escaping (Value, Action) -> Value) {
+      self.value = initialValue
+      self.reducer = reducer
+    }
+    
+    func send(_ action: Action) {
+      self.value = self.reducer(self.value, action)
     }
 }
 
@@ -86,7 +92,7 @@ func counterReducer(state: AppState, action: CounterAction) -> AppState {
 }
 
 struct CounterView: View {
-    @ObservedObject var store: Store<AppState>
+    @ObservedObject var store: Store<AppState, CounterAction>
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
     @State var isNthPrimeButtonDisabled = false
@@ -139,7 +145,7 @@ struct CounterView: View {
 }
 
 struct IsPrimeModalView: View {
-  @ObservedObject var store: Store<AppState>
+  @ObservedObject var store: Store<AppState, CounterAction>
   var body: some View {
     VStack {
       if isPrime(self.store.value.count) {
@@ -168,7 +174,7 @@ struct FavoritePrimesState {
 }
 
 struct FavoritePrimesView: View {
-  @ObservedObject var store: Store<AppState>
+  @ObservedObject var store: Store<AppState, CounterAction>
 
     var body: some View {
         List {
@@ -260,5 +266,5 @@ struct PrimeAlert: Identifiable {
 import PlaygroundSupport
 
 PlaygroundPage.current.liveView = UIHostingController(
-    rootView: ContentView(store: Store(initialValue: AppState()))
+    rootView: ContentView(store: Store(initialValue: AppState(), reducer: counterReducer))
 )

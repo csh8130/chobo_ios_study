@@ -140,4 +140,46 @@ Button("-") {
 
 코드가 많이 추가되었지만 한가지 좋은 점이 있습니다. 버튼의 액션 클로저 내부의 상태를 직접 변경하는 대신 해당 액션 값을 리듀서에 보내고 리듀서가 필요한 모든 변경을 수행하도록합니다. 이것이 바로 사용자 작업을 선언형으로 처리 한다는 의미입니다. 그리고 상태의 변화를 리듀서 내부로 제한시켰습니다.
 
+### Ergonomics: capturing reducer in store
 
+그러나 이것은 우리가 reducer와 store를 사용하는 방식이 아닙니다. 매번 리듀서를 직접 호출하고 store에 다시 할당해주는 코드를 없애고싶습니다.
+
+reducer를 호출하는 책임을 store에게 맡긴다고 생각해보십시오.
+
+```swift
+Button("-") { self.store.send(.decrTapped) }
+```
+
+이렇게 간단한 코드가 될것입니다. 이렇게 변경하기위해 우선 store에 Action 종류를 알기위한 제네릭이 필요합니다.
+
+```swift
+final class Store<Value, Action>: ObservableObject {
+  …
+  func send(_ action: Action) {
+
+  }
+}
+```
+
+store 내부에서 reducer를 생성합니다.
+
+```swift
+class Store<Value, Action>: ObservableObject {
+  let reducer: (Value, Action) -> Value
+  …
+  init(initialValue: Value, reducer: @escaping (Value, Action) -> Value) {
+    self.value = value
+    self.reducer = reducer
+  }
+}
+```
+
+그리고 send를 구현합니다.
+
+```swift
+func send(_ action: Action) {
+  self.value = self.reducer(self.value, action)
+}
+```
+
+이전과 똑같이 동작합니다. 다른점은 store에서 상태 변화를 시키고있다는 점 입니다. 이제 다른 위치에서는 AppState를 변경 할 수 없습니다. 액션을 넘겨서 리듀서에 보내야만 합니다.
