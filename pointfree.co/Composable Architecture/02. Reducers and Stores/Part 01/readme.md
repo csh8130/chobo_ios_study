@@ -205,4 +205,27 @@ func counterReducer(value: inout AppState, action: CounterAction) {
 }
 ```
 
+성능적으로도 향상되었고, 가독성도 높아졌습니다.
+
+### Moving more mutations into the store
+
+아직 상태 변경 코드는 두가지로 나뉘어 있습니다. 일부는 스토어에 액션을 보내는 새 인터페이스를 이용하지만. 일부는 아직 뷰에 인라인으로 코드가 남아있습니다. 이를 수정하겠습니다.
+
+```swift
+enum CounterAction {
+  case decrTapped
+  case incrTapped
+}
+enum PrimeModalAction {
+  case saveFavoritePrimeTapped
+  case removeFavoritePrimeTapped
+}
+enum AppAction {
+  case counter(CounterAction)
+  case primeModal(PrimeModalAction)
+}
+```
+
+이와같이 즐겨찾기 액션을 추가하면서 모듈화 시키고 컴파일 애러를 잡아줍니다.
+
 

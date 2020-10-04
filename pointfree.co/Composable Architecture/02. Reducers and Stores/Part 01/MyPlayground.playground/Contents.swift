@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var store: Store<AppState, CounterAction>
+    @ObservedObject var store: Store<AppState, AppAction>
     var body: some View {
         NavigationView {
             List {
@@ -76,21 +76,36 @@ final class Store<Value, Action>: ObservableObject {
 }
 
 enum CounterAction {
-  case decrTapped
-  case incrTapped
+ case decrTapped
+ case incrTapped
+}
+enum PrimeModalAction {
+ case saveFavoritePrimeTapped
+ case removeFavoritePrimeTapped
+}
+enum AppAction {
+ case counter(CounterAction)
+ case primeModal(PrimeModalAction)
 }
 
-func counterReducer(value: inout AppState, action: CounterAction) {
-    switch action {
-    case .decrTapped:
-        value.count -= 1
-    case .incrTapped:
-        value.count += 1
-    }
+func appReducer(value: inout AppState, action: AppAction) -> Void {
+  switch action {
+  case .counter(.decrTapped):
+    value.count -= 1
+  case .counter(.incrTapped):
+    value.count += 1
+  case .primeModal(.saveFavoritePrimeTapped):
+    value.favoritePrimes.append(value.count)
+    value.activityFeed.append(.init( type: .addedFavoritePrime(value.count)))
+
+  case .primeModal(.removeFavoritePrimeTapped):
+    value.favoritePrimes.removeAll(where: { $0 == value.count })
+    value.activityFeed.append(.init( type: .removedFavoritePrime(value.count)))
+  }
 }
 
 struct CounterView: View {
-    @ObservedObject var store: Store<AppState, CounterAction>
+    @ObservedObject var store: Store<AppState, AppAction>
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
     @State var isNthPrimeButtonDisabled = false
@@ -98,13 +113,9 @@ struct CounterView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("-") {
-                    counterReducer(value: &self.store.value, action: .decrTapped)
-                }
+                Button("-") { self.store.send(.counter(.decrTapped)) }
                 Text("\(self.store.value.count)")
-                Button("+") {
-                    counterReducer(value: &self.store.value, action: .incrTapped)
-                }
+                Button("+") { self.store.send(.counter(.incrTapped)) }
             }
             Button(action: { self.isPrimeModalShown = true }) {
                 Text("Is this prime?")
@@ -143,20 +154,18 @@ struct CounterView: View {
 }
 
 struct IsPrimeModalView: View {
-  @ObservedObject var store: Store<AppState, CounterAction>
+  @ObservedObject var store: Store<AppState, AppAction>
   var body: some View {
     VStack {
       if isPrime(self.store.value.count) {
         Text("\(self.store.value.count) is prime 🎉")
         if self.store.value.favoritePrimes.contains(self.store.value.count) {
-          Button(action: { self.store.value.favoritePrimes.removeAll(where: { $0 == self.store.value.count })
-          }) {
-            Text("Remove from favorite primes")
+          Button("Remove from favorite primes") {
+            self.store.send(.primeModal(.removeFavoritePrimeTapped))
           }
         } else {
-          Button(action: { self.store.value.favoritePrimes.append(self.store.value.count)
-          }) {
-            Text("Save to favorite primes")
+          Button("Save to favorite primes") {
+            self.store.send(.primeModal(.saveFavoritePrimeTapped))
           }
         }
       } else {
@@ -172,7 +181,7 @@ struct FavoritePrimesState {
 }
 
 struct FavoritePrimesView: View {
-  @ObservedObject var store: Store<AppState, CounterAction>
+  @ObservedObject var store: Store<AppState, AppAction>
 
     var body: some View {
         List {
@@ -264,5 +273,5 @@ struct PrimeAlert: Identifiable {
 import PlaygroundSupport
 
 PlaygroundPage.current.liveView = UIHostingController(
-    rootView: ContentView(store: Store(initialValue: AppState(), reducer: counterReducer))
+    rootView: ContentView(store: Store(initialValue: AppState(), reducer: appReducer))
 )
