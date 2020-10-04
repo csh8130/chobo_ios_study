@@ -183,3 +183,26 @@ func send(_ action: Action) {
 ```
 
 이전과 똑같이 동작합니다. 다른점은 store에서 상태 변화를 시키고있다는 점 입니다. 이제 다른 위치에서는 AppState를 변경 할 수 없습니다. 액션을 넘겨서 리듀서에 보내야만 합니다.
+
+
+
+### Ergonomics: in-out reducers
+
+이제 계속해서 더 많은 상태 변경 코드를 액션과 리듀서에 추가 할 수 있습니다. 하지만 성가신 점이 두가지 있습니다. 먼저 AppState를 복사해서 변경하고 다시 대입하는 구문이 있습니다. 오류를 일으키기 쉽고 또 번거로운 형태입니다. 두번째로 AppState가 점점 커질수록 이런 복사 동작은 비효율적입니다. 리듀서가 동작할 때 마다 거대한 State를 복사하게 될 것 입니다.
+
+Swift의 `inout`을 사용하여 해결하겠습니다.
+
+새 값을 복사하고 반환하는 대신 inout을 사용하여 직접 매개변수의 주소에 접근하도록 리듀서를 변경합니다.
+
+```swift
+func counterReducer(value: inout AppState, action: CounterAction) {
+  switch action {
+  case .decrTapped:
+    value.count -= 1
+  case .incrTapped:
+    value.count += 1
+  }
+}
+```
+
+

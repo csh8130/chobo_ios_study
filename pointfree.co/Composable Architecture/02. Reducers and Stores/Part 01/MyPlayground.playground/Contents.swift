@@ -64,14 +64,14 @@ struct AppState {
 
 final class Store<Value, Action>: ObservableObject {
     @Published var value: Value
-    let reducer: (Value, Action) -> Value
-    init(initialValue: Value, reducer: @escaping (Value, Action) -> Value) {
+    let reducer: (inout Value, Action) -> Void
+    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
       self.value = initialValue
       self.reducer = reducer
     }
     
     func send(_ action: Action) {
-      self.value = self.reducer(self.value, action)
+      self.reducer(&self.value, action)
     }
 }
 
@@ -80,15 +80,13 @@ enum CounterAction {
   case incrTapped
 }
 
-func counterReducer(state: AppState, action: CounterAction) -> AppState {
-  var copy = state
-  switch action {
-  case .decrTapped:
-    copy.count -= 1
-  case .incrTapped:
-    copy.count += 1
-  }
-  return copy
+func counterReducer(value: inout AppState, action: CounterAction) {
+    switch action {
+    case .decrTapped:
+        value.count -= 1
+    case .incrTapped:
+        value.count += 1
+    }
 }
 
 struct CounterView: View {
@@ -101,11 +99,11 @@ struct CounterView: View {
         VStack {
             HStack {
                 Button("-") {
-                  self.store.value = counterReducer(state: self.store.value, action: .decrTapped)
+                    counterReducer(value: &self.store.value, action: .decrTapped)
                 }
                 Text("\(self.store.value.count)")
                 Button("+") {
-                  self.store.value = counterReducer(state: self.store.value, action: .incrTapped)
+                    counterReducer(value: &self.store.value, action: .incrTapped)
                 }
             }
             Button(action: { self.isPrimeModalShown = true }) {
