@@ -29,6 +29,8 @@ class ViewController: UIViewController {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let tabBar = self.tabBarController?.tabBar
-        tabBar?.isHidden = (tabBar?.isHidden == true) ? false : true
+        UIView.animate(withDuration: TimeInterval(0.15)) {
+            tabBar?.alpha = ( tabBar?.alpha == 0 ? 1 : 0 )
+        }
     }
 }
