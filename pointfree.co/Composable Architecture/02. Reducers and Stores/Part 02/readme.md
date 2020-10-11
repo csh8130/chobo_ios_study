@@ -176,4 +176,54 @@ pullback(counterReducer, get: { $0.count }, set: { $0.count = $1 })
 pullback(counterReducer, value: \.count)
 ```
 
+### Pulling back more reducers
+
+favoritePrimesReducer에도 풀백을 적용 해 보겠습니다. 즐겨찾기 배열과 활동 피드만 접근하면 되는것으로 보입니다.
+
+우리가 필요한 데이터만 가질 수 있게 중간 모델을 정의합니다.
+
+```swift
+struct FavoritePrimesState {
+  var favoritePrimes: [Int]
+  var activityFeed: [AppState.Activity]
+}
+```
+
+중간 모델을 사용하기 때문에 풀백에서 기존의 키-패스를 사용하기에 문제가 생깁니다.
+
+이를 위해 AppState에 키-패스를 수동으로 추가 해 주어야합니다.
+
+```swift
+extension AppState {
+  var favoritePrimesState: FavoritePrimesState {
+    get {
+      return FavoritePrimesState(
+        favoritePrimes: self.favoritePrimes,
+        activityFeed: self.activityFeed
+      )
+    }
+    set {
+      self.activityFeed = newValue.activityFeed
+      self.favoritePrimes = newValue.favoritePrimes
+    }
+  }
+}
+
+let appReducer = combine(
+  pullback(counterReducer, value: \.count),
+  primeModalReducer,
+  pullback(favoritePrimesReducer, value: \.favoritePrimesState)
+)
+```
+
+마지막으로 아직 글로벌 AppState를 사용하는 리듀서가 남아있습니다. `primeModalReducer`
+
+이 리듀서는 너무 많은 상태가 필요하기 때문에 그대로 둡니다.
+
+### Till next time
+
+여전히 문제는 있습니다. 쪼개진 리듀서들은 더 작은 범위의 상태만 가지고 작동 되지만, 아직 더 큰 리듀서에 대해서 많은 정보를 알고 있으며 모든 Action에 대해 반응 할 수 있습니다.
+
+
+
 

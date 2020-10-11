@@ -62,6 +62,21 @@ struct AppState {
   }
 }
 
+extension AppState {
+  var favoritePrimesState: FavoritePrimesState {
+    get {
+      return FavoritePrimesState(
+        favoritePrimes: self.favoritePrimes,
+        activityFeed: self.activityFeed
+      )
+    }
+    set {
+      self.activityFeed = newValue.activityFeed
+      self.favoritePrimes = newValue.favoritePrimes
+    }
+  }
+}
+
 final class Store<Value, Action>: ObservableObject {
     @Published private(set) var value: Value
     let reducer: (inout Value, Action) -> Void
@@ -120,14 +135,14 @@ func primeModalReducer(state: inout AppState, action: AppAction) -> Void {
   }
 }
 
-func favoritePrimesReducer(state: inout AppState, action: AppAction) -> Void {
+func favoritePrimesReducer(state: inout FavoritePrimesState, action: AppAction) -> Void {
   switch action {
   case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
     for index in indexSet {
-        let prime = state.favoritePrimes[index]
-        state.favoritePrimes.remove(at: index)
-        state.activityFeed.append(.init(type: .removedFavoritePrime(prime)))
+      state.activityFeed.append(.init(type: .removedFavoritePrime(state.favoritePrimes[index])))
+      state.favoritePrimes.remove(at: index)
     }
+
   default:
     break
   }
@@ -145,35 +160,11 @@ func combine<Value, Action>(
 }
 
 let appReducer = combine(
-    //    pullback(counterReducer) { $0.count },
-//    pullback(counterReducer, get: { $0.count }, set: { $0.count = $1 }),
-    pullback(counterReducer, value: \.count),
-    primeModalReducer,
-    favoritePrimesReducer
+  pullback(counterReducer, value: \.count),
+  primeModalReducer,
+  pullback(favoritePrimesReducer, value: \.favoritePrimesState)
 )
 
-//func pullback<LocalValue, GlobalValue, Action>(
-//  _ reducer: @escaping (inout LocalValue, Action) -> Void,
-//  _ f: @escaping (GlobalValue) -> LocalValue
-//) -> (inout GlobalValue, Action) -> Void {
-//
-//  return  { globalValue, action in
-//    var localValue = f(globalValue)
-//    reducer(&localValue, action)
-//  }
-//}
-//func pullback<LocalValue, GlobalValue, Action>(
-//  _ reducer: @escaping (inout LocalValue, Action) -> Void,
-//  get: @escaping (GlobalValue) -> LocalValue,
-//  set: @escaping (inout GlobalValue, LocalValue) -> Void
-//) -> (inout GlobalValue, Action) -> Void {
-//
-//  return  { globalValue, action in
-//    var localValue = get(globalValue)
-//    reducer(&localValue, action)
-//    set(&globalValue, localValue)
-//  }
-//}
 func pullback<LocalValue, GlobalValue, Action>(
   _ reducer: @escaping (inout LocalValue, Action) -> Void,
   value: WritableKeyPath<GlobalValue, LocalValue>
