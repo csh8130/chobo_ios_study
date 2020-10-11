@@ -117,4 +117,59 @@ let appReducer = combine(
 )
 ```
 
+### Focusing a reducer's state
+
+Reducer를 쪼개는데는 성공했지만 각각의 리듀서는 AppState 전체를 취하고있습니다. 우리가 원하는것은 아래와 같이 각 리듀서가 자신에게 필요한 앱 상태만 취하는것입니다.
+
+```swift
+//func counterReducer(state: inout AppState, action: AppAction) -> Void {
+func counterReducer(state: inout Int, action: AppAction) -> Void {
+  switch action {
+  case .counter(.decrTapped):
+    // state.count -= 1
+    state -= 1
+
+  case .counter(.incrTapped):
+    // state.count += 1
+    state += 1
+
+  default:
+    break
+  }
+}
+```
+
+하지만 이렇게 바꾸면 방금 구현한 combine 에서 컴파일 애러가 발생한다. 이를 해결하기위해 `pullback`을 사용하여 해결하게 된다.
+
+### Pulling back reducers along state
+
+```swift
+pullback(counterReducer) { $0.count }
+```
+
+ 위에서 변경한 local state를 가지는 counterReducer를 글로벌 state를 가지는 reducer로 변형 해주는 함수를 만들어 컴파일 애러를 잡아야 한다. 기존의 (예전에 다른 강의에서 소개했던) pullback 구조로는 동작이 원하는데로 되지 않는다. 
+
+```swift
+func pullback<LocalValue, GlobalValue, Action>(
+  _ reducer: @escaping (inout LocalValue, Action) -> Void,
+  get: @escaping (GlobalValue) -> LocalValue,
+  set: @escaping (inout GlobalValue, LocalValue) -> Void
+) -> (inout GlobalValue, Action) -> Void {
+
+  return  { globalValue, action in
+    var localValue = get(globalValue)
+    reducer(&localValue, action)
+    set(&globalValue, localValue)
+  }
+}
+```
+
+`get`, `set`을 모두 가지는 풀백 구조로 변형하여 글로벌 상태 내부의 변수에 set이 가능하도록 만들었다.
+
+```swift
+pullback(counterReducer, get: { $0.count }, set: { $0.count = $1 })
+```
+
+풀백을 호출하는 형태도 위와같이 변경 해야 한다.
+
 

@@ -92,13 +92,15 @@ enum AppAction {
     case favoritePrimes(FavoritePrimesAction)
 }
 
-func counterReducer(state: inout AppState, action: AppAction) -> Void {
+func counterReducer(state: inout Int, action: AppAction) -> Void {
   switch action {
   case .counter(.decrTapped):
-    state.count -= 1
+    // state.count -= 1
+    state -= 1
 
   case .counter(.incrTapped):
-    state.count += 1
+    // state.count += 1
+    state += 1
 
   default:
     break
@@ -143,31 +145,34 @@ func combine<Value, Action>(
 }
 
 let appReducer = combine(
-  counterReducer,
-  primeModalReducer,
-  favoritePrimesReducer
+    //    pullback(counterReducer) { $0.count },
+    pullback(counterReducer, get: { $0.count }, set: { $0.count = $1 }),
+    primeModalReducer,
+    favoritePrimesReducer
 )
+
+//func pullback<LocalValue, GlobalValue, Action>(
+//  _ reducer: @escaping (inout LocalValue, Action) -> Void,
+//  _ f: @escaping (GlobalValue) -> LocalValue
+//) -> (inout GlobalValue, Action) -> Void {
 //
-//func appReducer(value: inout AppState, action: AppAction) -> Void {
-//    switch action {
-//    case .counter(.decrTapped):
-//        value.count -= 1
-//    case .counter(.incrTapped):
-//        value.count += 1
-//    case .primeModal(.saveFavoritePrimeTapped):
-//        value.favoritePrimes.append(value.count)
-//        value.activityFeed.append(.init( type: .addedFavoritePrime(value.count)))
-//    case .primeModal(.removeFavoritePrimeTapped):
-//        value.favoritePrimes.removeAll(where: { $0 == value.count })
-//        value.activityFeed.append(.init( type: .removedFavoritePrime(value.count)))
-//    case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
-//        for index in indexSet {
-//            let prime = value.favoritePrimes[index]
-//            value.favoritePrimes.remove(at: index)
-//            value.activityFeed.append(.init(type: .removedFavoritePrime(prime)))
-//        }
-//    }
+//  return  { globalValue, action in
+//    var localValue = f(globalValue)
+//    reducer(&localValue, action)
+//  }
 //}
+func pullback<LocalValue, GlobalValue, Action>(
+  _ reducer: @escaping (inout LocalValue, Action) -> Void,
+  get: @escaping (GlobalValue) -> LocalValue,
+  set: @escaping (inout GlobalValue, LocalValue) -> Void
+) -> (inout GlobalValue, Action) -> Void {
+
+  return  { globalValue, action in
+    var localValue = get(globalValue)
+    reducer(&localValue, action)
+    set(&globalValue, localValue)
+  }
+}
 
 struct CounterView: View {
     @ObservedObject var store: Store<AppState, AppAction>
