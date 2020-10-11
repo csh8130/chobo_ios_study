@@ -170,6 +170,10 @@ func pullback<LocalValue, GlobalValue, Action>(
 pullback(counterReducer, get: { $0.count }, set: { $0.count = $1 })
 ```
 
-풀백을 호출하는 형태도 위와같이 변경 해야 한다.
+풀백을 호출하는 형태도 위와같이 변경 해야 한다. 키-패스를 사용하면 구성을 더 단순하게 변경이 가능하다.
+
+```swift
+pullback(counterReducer, value: \.count)
+```
 
 
