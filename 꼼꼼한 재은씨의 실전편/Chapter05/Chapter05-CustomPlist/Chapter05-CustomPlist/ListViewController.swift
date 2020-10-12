@@ -130,9 +130,14 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     
     @IBAction func changeGender(_ sender: UISegmentedControl) {
         let value = sender.selectedSegmentIndex
-        let plist = UserDefaults.standard
-        plist.set(value, forKey: "gender")
-        plist.synchronize()
+        
+        let customPlist = "\(self.account.text!).plist"
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let path = paths[0] as NSString
+        let plist = path.strings(byAppendingPaths: [customPlist]).first!
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        data.setValue(value, forKey: "gender")
+        data.write(toFile: plist, atomically: true)
     }
     
     @IBAction func changeMarried(_ sender: UISwitch) {
