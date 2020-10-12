@@ -53,7 +53,7 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let path = paths[0] as NSString
             let clist = path.strings(byAppendingPaths: [customPlist]).first!
-            let data = NSMutableDictionary(contentsOfFile: clist) ?? NSMutableDictionary()
+            let data = NSDictionary(contentsOfFile: clist) ?? NSDictionary()
             
             self.name.text = data["name"] as? String
             self.gender.selectedSegmentIndex = data["gender"] as? Int ?? 0
