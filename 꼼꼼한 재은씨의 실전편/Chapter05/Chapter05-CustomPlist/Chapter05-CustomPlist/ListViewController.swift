@@ -65,6 +65,9 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
             self.gender.isEnabled = false
             self.married.isEnabled = false
         }
+        
+        let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(newAccount(_:)))
+        self.navigationItem.rightBarButtonItem = addBtn
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
