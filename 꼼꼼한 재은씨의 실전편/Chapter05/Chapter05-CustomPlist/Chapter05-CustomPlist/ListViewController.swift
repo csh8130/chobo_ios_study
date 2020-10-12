@@ -142,9 +142,14 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     
     @IBAction func changeMarried(_ sender: UISwitch) {
         let value = sender.isOn
-        let plist = UserDefaults.standard
-        plist.set(value, forKey: "married")
-        plist.synchronize()
+        
+        let customPlist = "\(self.account.text!).plist"
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let path = paths[0] as NSString
+        let plist = path.strings(byAppendingPaths: [customPlist]).first!
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        data.setValue(value, forKey: "married")
+        data.write(toFile: plist, atomically: true)
     }
 
 }
