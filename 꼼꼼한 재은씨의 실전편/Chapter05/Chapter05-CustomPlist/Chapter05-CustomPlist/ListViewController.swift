@@ -17,8 +17,15 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     @IBOutlet weak var gender: UISegmentedControl!
     @IBOutlet weak var married: UISwitch!
     
+    var defaultPlist: NSDictionary!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let defaultPlistPath = Bundle.main.path(forResource: "UserInfo", ofType: "plist") {
+            self.defaultPlist = NSDictionary(contentsOfFile: defaultPlistPath)
+        }
+        
         let picker = UIPickerView()
         picker.delegate = self
         self.account.inputView = picker
@@ -104,7 +111,7 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
                 let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let path = paths[0] as NSString
                 let plist = path.strings(byAppendingPaths: [customPlist]).first!
-                let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+                let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPlist)
                 data.setValue(value, forKey: "name")
                 data.write(toFile: plist, atomically: true)
                 
@@ -167,7 +174,7 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let path = paths[0] as NSString
         let plist = path.strings(byAppendingPaths: [customPlist]).first!
-        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPlist)
         data.setValue(value, forKey: "gender")
         data.write(toFile: plist, atomically: true)
     }
@@ -179,7 +186,7 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let path = paths[0] as NSString
         let plist = path.strings(byAppendingPaths: [customPlist]).first!
-        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPlist)
         data.setValue(value, forKey: "married")
         data.write(toFile: plist, atomically: true)
     }
