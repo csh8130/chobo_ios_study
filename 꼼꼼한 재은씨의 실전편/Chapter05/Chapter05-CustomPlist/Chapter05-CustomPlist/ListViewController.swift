@@ -84,9 +84,15 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
             }
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                 let value = alert.textFields?[0].text
-                let plist = UserDefaults.standard
-                plist.setValue(value, forKey: "name")
-                plist.synchronize()
+                
+                let customPlist = "\(self.account.text!).plist"
+                let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                let path = paths[0] as NSString
+                let plist = path.strings(byAppendingPaths: [customPlist]).first!
+                let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+                data.setValue(value, forKey: "name")
+                data.write(toFile: plist, atomically: true)
+                
                 self.name.text = value
             }))
             self.present(alert, animated: false, completion: nil)
