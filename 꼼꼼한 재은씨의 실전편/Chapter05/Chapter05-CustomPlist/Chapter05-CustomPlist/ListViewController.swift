@@ -107,6 +107,20 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     
     @objc func pickerDone(_ sender: Any) {
         self.view.endEditing(true)
+        
+        if let account = self.account.text {
+            self.account.text = account
+            
+            let customPlist = "\(account).plist"
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let path = paths[0] as NSString
+            let clist = path.strings(byAppendingPaths: [customPlist]).first!
+            let data = NSDictionary(contentsOfFile: clist) ?? NSDictionary()
+            
+            self.name.text = data["name"] as? String
+            self.gender.selectedSegmentIndex = data["gender"] as? Int ?? 0
+            self.married.isOn = data["married"] as? Bool ?? false
+        }
     }
     
     @objc func newAccount(_ sender: Any) {
