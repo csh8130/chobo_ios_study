@@ -47,6 +47,12 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
         self.name.text = plist.string(forKey: "name")
         self.married.isOn = plist.bool(forKey: "married")
         self.gender.selectedSegmentIndex = plist.integer(forKey: "gender")
+        
+        let accountlist = plist.array(forKey: "accountlist") as? [String] ?? [String]()
+        self.accountlist = accountlist
+        if let account = plist.string(forKey: "selectedAccount") {
+            self.account.text = account
+        }
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
