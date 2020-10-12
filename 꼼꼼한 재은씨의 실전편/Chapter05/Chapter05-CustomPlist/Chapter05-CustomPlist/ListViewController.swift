@@ -102,6 +102,9 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
                 self.name.text = ""
                 self.gender.selectedSegmentIndex = 0
                 self.married.isOn = false
+                
+                let plist = UserDefaults.standard
+                plist.set(self.accountlist, forKey: "accountlist")
             }
         }))
         self.present(alert, animated: false, completion: nil)
