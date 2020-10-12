@@ -44,14 +44,20 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
         
         let plist = UserDefaults.standard
         
-        self.name.text = plist.string(forKey: "name")
-        self.married.isOn = plist.bool(forKey: "married")
-        self.gender.selectedSegmentIndex = plist.integer(forKey: "gender")
-        
         let accountlist = plist.array(forKey: "accountlist") as? [String] ?? [String]()
         self.accountlist = accountlist
         if let account = plist.string(forKey: "selectedAccount") {
             self.account.text = account
+            
+            let customPlist = "\(account).plist"
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let path = paths[0] as NSString
+            let clist = path.strings(byAppendingPaths: [customPlist]).first!
+            let data = NSMutableDictionary(contentsOfFile: clist) ?? NSMutableDictionary()
+            
+            self.name.text = data["name"] as? String
+            self.gender.selectedSegmentIndex = data["gender"] as? Int ?? 0
+            self.married.isOn = data["married"] as? Bool ?? false
         }
     }
 
