@@ -64,6 +64,10 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let account = self.accountlist[row]
         self.account.text = account
+        
+        let plist = UserDefaults.standard
+        plist.set(account, forKey: "selectedAccount")
+        plist.synchronize()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -105,6 +109,8 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
                 
                 let plist = UserDefaults.standard
                 plist.set(self.accountlist, forKey: "accountlist")
+                plist.set(account, forKey: "selectedAccount")
+                plist.synchronize()
             }
         }))
         self.present(alert, animated: false, completion: nil)
