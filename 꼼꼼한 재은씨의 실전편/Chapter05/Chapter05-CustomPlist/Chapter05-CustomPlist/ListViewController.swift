@@ -59,6 +59,12 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
             self.gender.selectedSegmentIndex = data["gender"] as? Int ?? 0
             self.married.isOn = data["married"] as? Bool ?? false
         }
+        
+        if (self.account.text?.isEmpty)! {
+            self.account.placeholder = "등록된 계정이 없습니다."
+            self.gender.isEnabled = false
+            self.married.isEnabled = false
+        }
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -83,7 +89,7 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
+        if indexPath.row == 1 && !(self.account.text?.isEmpty)! {
             let alert = UIAlertController(title: nil, message: "이름을 입력하세요", preferredStyle: .alert)
             alert.addTextField {
                 $0.text = self.name.text
@@ -143,6 +149,9 @@ class ListViewController: UITableViewController, UIPickerViewDelegate, UIPickerV
                 plist.set(self.accountlist, forKey: "accountlist")
                 plist.set(account, forKey: "selectedAccount")
                 plist.synchronize()
+                
+                self.gender.isEnabled = true
+                self.married.isEnabled = true
             }
         }))
         self.present(alert, animated: false, completion: nil)
