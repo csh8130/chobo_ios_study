@@ -55,4 +55,31 @@ class TutorialMasterVC: UIViewController, UIPageViewControllerDataSource {
         return self.getContentVC(atIndex: index)
     }
     
+    override func viewDidLoad() {
+        //페이지 뷰컨트롤러 객체 생성
+        self.pageVC = self.instanceTutorialVC(name: "PageVC") as? UIPageViewController
+        self.pageVC.dataSource = self
+        
+        //기본 페이지 지정
+        let startContentVC = self.getContentVC(atIndex: 0)!
+        self.pageVC.setViewControllers([startContentVC], direction: .forward, animated: true, completion: nil)
+        
+        //출력 영역 지정
+        self.pageVC.view.frame.origin = CGPoint(x: 0, y: 0)
+        self.pageVC.view.frame.size.width = self.view.frame.width
+        self.pageVC.view.frame.size.height = self.view.frame.height - 50
+        
+        //마스터 뷰컨트롤러의 자식 뷰컨트롤러로
+        self.addChild(self.pageVC)
+        self.view.addSubview(self.pageVC.view)
+        self.pageVC.didMove(toParent: self)
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return self.contentTitles.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        return 0
+    }
 }
