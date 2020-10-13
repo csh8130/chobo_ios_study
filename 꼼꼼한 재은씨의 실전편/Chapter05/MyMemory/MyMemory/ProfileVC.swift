@@ -33,7 +33,7 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         bgImg.layer.masksToBounds = true
         self.view.addSubview(bgImg)
         
-        let image = UIImage(named: "account.jpg")
+        let image = self.uinfo.profile
         self.profileImage.image = image
         self.profileImage.frame.size = CGSize(width: 100, height: 100)
         self.profileImage.center = CGPoint(x: self.view.frame.width/2, y: 270)
@@ -73,6 +73,12 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.uinfo.isLogin == false {
+            self.doLogin(self.tv)
+        }
+    }
+    
     @objc func close(_ sender: Any) {
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
@@ -91,7 +97,8 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let account = loginAlert.textFields?[0].text ?? ""
             let passwd = loginAlert.textFields?[1].text ?? ""
             if self.uinfo.login(account: account, passwd: passwd) {
-                // TODO 로그인 성공
+                self.tv.reloadData() //테이블 뷰 갱신
+                self.profileImage.image = self.uinfo.profile //이미지뷰는 테이블 뷰와 별도이므로 갱신
             } else {
                 let msg = "로그인에 실패했습니다."
                 let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
@@ -108,7 +115,8 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { (_) in
             if self.uinfo.logout() {
-                // 로그아웃 로직
+                self.tv.reloadData()
+                self.profileImage.image = self.uinfo.profile
             }
         }))
         self.present(alert, animated: false, completion: nil)
