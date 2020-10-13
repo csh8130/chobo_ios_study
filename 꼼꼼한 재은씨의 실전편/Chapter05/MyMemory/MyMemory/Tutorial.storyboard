@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Tutorial MasterVC-->
         <scene sceneID="mn5-jY-aP2">
             <objects>
-                <viewController storyboardIdentifier="MasterVC" id="zba-L7-RBy" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterVC" id="zba-L7-RBy" customClass="TutorialMasterVC" customModule="MyMemory" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mMP-g3-ZdJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -46,10 +46,10 @@
             </objects>
             <point key="canvasLocation" x="319" y="60"/>
         </scene>
-        <!--View Controller-->
+        <!--Tutorial ContentsVC-->
         <scene sceneID="dDh-VD-ogz">
             <objects>
-                <viewController storyboardIdentifier="ContentsVC" id="htL-R9-mfg" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContentsVC" id="htL-R9-mfg" customClass="TutorialContentsVC" customModule="MyMemory" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ipl-38-cze">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -78,6 +78,10 @@
                             <constraint firstItem="OBp-MY-NqB" firstAttribute="centerX" secondItem="ipl-38-cze" secondAttribute="centerX" id="x3U-xn-xVy"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="bgImageView" destination="eP5-q9-916" id="A3q-Sn-rFb"/>
+                        <outlet property="titleLabel" destination="OBp-MY-NqB" id="IUn-j7-15a"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gih-bh-C2o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

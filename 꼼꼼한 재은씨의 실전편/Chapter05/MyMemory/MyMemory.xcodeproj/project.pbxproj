@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C2003FDF2535A743006B5D41 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2003FDE2535A743006B5D41 /* Tutorial.storyboard */; };
 		C2003FE22535A983006B5D41 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2003FE12535A983006B5D41 /* Utils.swift */; };
+		C2003FE92535AA63006B5D41 /* TutorialContentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2003FE82535AA63006B5D41 /* TutorialContentsVC.swift */; };
+		C2003FEE2535AB61006B5D41 /* TutorialMasterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2003FED2535AB61006B5D41 /* TutorialMasterVC.swift */; };
 		C21143B02531C9ED00A23C35 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */; };
 		C21143BB2531C9FB00A23C35 /* icon01.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B12531C9FA00A23C35 /* icon01.png */; };
 		C21143BC2531C9FB00A23C35 /* icon06.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B22531C9FA00A23C35 /* icon06.png */; };
@@ -43,6 +45,8 @@
 /* Begin PBXFileReference section */
 		C2003FDE2535A743006B5D41 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		C2003FE12535A983006B5D41 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		C2003FE82535AA63006B5D41 /* TutorialContentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialContentsVC.swift; sourceTree = "<group>"; };
+		C2003FED2535AB61006B5D41 /* TutorialMasterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialMasterVC.swift; sourceTree = "<group>"; };
 		C21143AD2531C9ED00A23C35 /* MyMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyMemory-Bridging-Header.h"; sourceTree = "<group>"; };
 		C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		C21143AF2531C9ED00A23C35 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -89,6 +93,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C2003FEB2535AA84006B5D41 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				C2003FE82535AA63006B5D41 /* TutorialContentsVC.swift */,
+				C2003FED2535AB61006B5D41 /* TutorialMasterVC.swift */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
 		C25C9C2B25126A4100A550F1 = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +121,7 @@
 		C25C9C3625126A4100A550F1 /* MyMemory */ = {
 			isa = PBXGroup;
 			children = (
+				C2003FEB2535AA84006B5D41 /* Tutorial */,
 				C21143AF2531C9ED00A23C35 /* SWRevealViewController.h */,
 				C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */,
 				C2AB045D2530C97D00234BA8 /* Resorces */,
@@ -250,9 +264,11 @@
 				C25C9C3825126A4100A550F1 /* AppDelegate.swift in Sources */,
 				C25C9C532512825500A550F1 /* MemoReadVC.swift in Sources */,
 				C25C9C4F2512821600A550F1 /* MemoListVC.swift in Sources */,
+				C2003FEE2535AB61006B5D41 /* TutorialMasterVC.swift in Sources */,
 				C21143B02531C9ED00A23C35 /* SWRevealViewController.m in Sources */,
 				C25C9C512512824600A550F1 /* MemoFormVC.swift in Sources */,
 				C2A18C1E2535447D004BA812 /* UserInfoManager.swift in Sources */,
+				C2003FE92535AA63006B5D41 /* TutorialContentsVC.swift in Sources */,
 				C25C9C3A25126A4100A550F1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
