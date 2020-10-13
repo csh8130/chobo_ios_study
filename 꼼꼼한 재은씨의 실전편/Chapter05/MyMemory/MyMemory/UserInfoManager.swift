@@ -76,7 +76,7 @@ class UserInfoManager {
     }
     
     func login(account: String, passwd: String) -> Bool {
-        if account.isEqual("sqlpro@naver.com") && passwd.isEqual("1234") {
+        if account.isEqual("a@a.com") && passwd.isEqual("a") {
             let ud = UserDefaults.standard
             ud.set(100, forKey: UserInfoKey.loginId)
             ud.set(account, forKey: UserInfoKey.account)
