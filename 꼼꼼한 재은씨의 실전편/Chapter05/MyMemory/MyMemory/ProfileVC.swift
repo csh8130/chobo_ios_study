@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    let uinfo = UserInfoManager()
     let profileImage = UIImageView()
     let tv = UITableView()
     
@@ -62,10 +63,10 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell.textLabel?.text = "이름"
-            cell.detailTextLabel?.text = "asdasd"
+            cell.detailTextLabel?.text = self.uinfo.name ?? "Login please"
         case 1:
             cell.textLabel?.text = "계정"
-            cell.detailTextLabel?.text = "afsdaf@adfasf.com"
+            cell.detailTextLabel?.text = self.uinfo.account ?? "Login please"
         default:
             ()
         }
@@ -74,5 +75,42 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @objc func close(_ sender: Any) {
         self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func doLogin(_ sender: Any) {
+        let loginAlert = UIAlertController(title: "LOGIN", message: nil, preferredStyle: .alert)
+        loginAlert.addTextField { (tf) in
+            tf.placeholder = "Your Account"
+        }
+        loginAlert.addTextField { (tf) in
+            tf.placeholder = "Password"
+            tf.isSecureTextEntry = true
+        }
+        loginAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        loginAlert.addAction(UIAlertAction(title: "Login", style: .destructive, handler: { (_) in
+            let account = loginAlert.textFields?[0].text ?? ""
+            let passwd = loginAlert.textFields?[1].text ?? ""
+            if self.uinfo.login(account: account, passwd: passwd) {
+                // TODO 로그인 성공
+            } else {
+                let msg = "로그인에 실패했습니다."
+                let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alert, animated: false)
+            }
+        }))
+        self.present(loginAlert, animated: false)
+    }
+    
+    @objc func doLogout(_ sender: Any) {
+        let msg = "로그아웃하시겠습니까?"
+        let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { (_) in
+            if self.uinfo.logout() {
+                // 로그아웃 로직
+            }
+        }))
+        self.present(alert, animated: false, completion: nil)
     }
 }
