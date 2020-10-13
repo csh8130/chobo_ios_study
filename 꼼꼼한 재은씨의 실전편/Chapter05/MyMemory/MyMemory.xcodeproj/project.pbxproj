@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C2003FDF2535A743006B5D41 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2003FDE2535A743006B5D41 /* Tutorial.storyboard */; };
+		C2003FE22535A983006B5D41 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2003FE12535A983006B5D41 /* Utils.swift */; };
 		C21143B02531C9ED00A23C35 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */; };
 		C21143BB2531C9FB00A23C35 /* icon01.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B12531C9FA00A23C35 /* icon01.png */; };
 		C21143BC2531C9FB00A23C35 /* icon06.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B22531C9FA00A23C35 /* icon06.png */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		C2003FDE2535A743006B5D41 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
+		C2003FE12535A983006B5D41 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		C21143AD2531C9ED00A23C35 /* MyMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyMemory-Bridging-Header.h"; sourceTree = "<group>"; };
 		C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		C21143AF2531C9ED00A23C35 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				C21143CD2531D94700A23C35 /* ProfileVC.swift */,
 				C21143CB2531D2B700A23C35 /* SideBarVC.swift */,
 				C2AB045B2530C88600234BA8 /* CSLogButton.swift */,
+				C2003FE12535A983006B5D41 /* Utils.swift */,
 				C25C9C3925126A4100A550F1 /* SceneDelegate.swift */,
 				C25C9C3D25126A4100A550F1 /* Main.storyboard */,
 				C2003FDE2535A743006B5D41 /* Tutorial.storyboard */,
@@ -240,6 +243,7 @@
 				C21143CE2531D94700A23C35 /* ProfileVC.swift in Sources */,
 				C2AB045C2530C88600234BA8 /* CSLogButton.swift in Sources */,
 				C21143CC2531D2B700A23C35 /* SideBarVC.swift in Sources */,
+				C2003FE22535A983006B5D41 /* Utils.swift in Sources */,
 				C25C9C55251282A700A550F1 /* MemoCell.swift in Sources */,
 				C25C9C572512881C00A550F1 /* MemoData.swift in Sources */,
 				C25C9C4225126A4100A550F1 /* MyMemory.xcdatamodeld in Sources */,
