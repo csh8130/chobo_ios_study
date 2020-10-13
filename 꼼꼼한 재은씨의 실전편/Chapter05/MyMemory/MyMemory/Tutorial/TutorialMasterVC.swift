@@ -8,7 +8,8 @@
 
 import UIKit
 
-class TutorialMasterVC: UIViewController {
+class TutorialMasterVC: UIViewController, UIPageViewControllerDataSource {
+    
     var pageVC: UIPageViewController!
     
     var contentTitles = ["STEP 1", "STEP 2", "STEP 3", "STEP 4"]
@@ -27,4 +28,31 @@ class TutorialMasterVC: UIViewController {
         cvc.pageIndex = idx
         return cvc
     }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard var index = (viewController as! TutorialContentsVC).pageIndex else {
+            return nil
+        }
+        
+        guard index > 0 else {
+            return nil
+        }
+        
+        index -= 1
+        return self.getContentVC(atIndex: index)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard var index = (viewController as! TutorialContentsVC).pageIndex else {
+            return nil
+        }
+        
+        guard index > 0 else {
+            return nil
+        }
+        
+        index += 1
+        return self.getContentVC(atIndex: index)
+    }
+    
 }
