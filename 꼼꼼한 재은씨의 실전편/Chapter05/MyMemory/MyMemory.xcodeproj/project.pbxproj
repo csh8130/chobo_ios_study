@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2003FDF2535A743006B5D41 /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2003FDE2535A743006B5D41 /* Tutorial.storyboard */; };
 		C21143B02531C9ED00A23C35 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */; };
 		C21143BB2531C9FB00A23C35 /* icon01.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B12531C9FA00A23C35 /* icon01.png */; };
 		C21143BC2531C9FB00A23C35 /* icon06.png in Resources */ = {isa = PBXBuildFile; fileRef = C21143B22531C9FA00A23C35 /* icon06.png */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C2003FDE2535A743006B5D41 /* Tutorial.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		C21143AD2531C9ED00A23C35 /* MyMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyMemory-Bridging-Header.h"; sourceTree = "<group>"; };
 		C21143AE2531C9ED00A23C35 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		C21143AF2531C9ED00A23C35 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				C2AB045B2530C88600234BA8 /* CSLogButton.swift */,
 				C25C9C3925126A4100A550F1 /* SceneDelegate.swift */,
 				C25C9C3D25126A4100A550F1 /* Main.storyboard */,
+				C2003FDE2535A743006B5D41 /* Tutorial.storyboard */,
 				C25C9C4325126A4200A550F1 /* Assets.xcassets */,
 				C25C9C4525126A4200A550F1 /* LaunchScreen.storyboard */,
 				C25C9C4825126A4200A550F1 /* Info.plist */,
@@ -218,6 +221,7 @@
 				C2AB04622530C98D00234BA8 /* fountainpen@2x.png in Resources */,
 				C2AB04632530C98D00234BA8 /* memo-background@2x.png in Resources */,
 				C21143C12531C9FB00A23C35 /* icon04.png in Resources */,
+				C2003FDF2535A743006B5D41 /* Tutorial.storyboard in Resources */,
 				C25C9C3F25126A4100A550F1 /* Main.storyboard in Resources */,
 				C21143BD2531C9FB00A23C35 /* button-bg.png in Resources */,
 				C21143BC2531C9FB00A23C35 /* icon06.png in Resources */,
