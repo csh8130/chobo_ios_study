@@ -96,3 +96,23 @@ enum AppAction {
 앞으로는 위의 작업을 수동으로 일일이 하기보다는 [오픈소스](https://github.com/pointfreeco/swift-enum-properties) 도구를 만들어 두었으므로 이를 적용해서 진행할 것이다.
 
 
+
+도구를 사용했다면 우리가 지금 필요한 getter 가 생성되었을 것이고 나중에 필요한 setter도 생성되었을 것이다. enum을 아래와 같이 구조체처럼 사용 할 수 있게된다. 그리고 아래처럼 키패스도 동작하게 된다
+
+```swift
+let someAction = AppAction.counter(.incrTapped)
+someAction.counter
+// Optional(incrTapped)
+
+someAction.favoritePrimes
+// nil
+
+\AppAction.counter
+// WritableKeyPath<AppAction, CounterAction?>
+```
+
+
+
+### Pulling back reducers along actions
+
+
