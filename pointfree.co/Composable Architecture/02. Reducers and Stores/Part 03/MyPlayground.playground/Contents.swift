@@ -151,29 +151,24 @@ func counterReducer(state: inout Int, action: CounterAction) -> Void {
   }
 }
 
-func primeModalReducer(state: inout AppState, action: AppAction) -> Void {
+func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void {
   switch action {
-  case .primeModal(.saveFavoritePrimeTapped):
+  case .saveFavoritePrimeTapped:
     state.favoritePrimes.append(state.count)
     state.activityFeed.append(.init( type: .addedFavoritePrime(state.count)))
-  case .primeModal(.removeFavoritePrimeTapped):
+  case .removeFavoritePrimeTapped:
     state.favoritePrimes.removeAll(where: { $0 == state.count })
     state.activityFeed.append(.init( type: .removedFavoritePrime(state.count)))
-  default:
-    break
   }
 }
 
-func favoritePrimesReducer(state: inout FavoritePrimesState, action: AppAction) -> Void {
+func favoritePrimesReducer(state: inout FavoritePrimesState, action: FavoritePrimesAction) -> Void {
   switch action {
-  case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
+  case let .deleteFavoritePrimes(indexSet):
     for index in indexSet {
       state.activityFeed.append(.init(type: .removedFavoritePrime(state.favoritePrimes[index])))
       state.favoritePrimes.remove(at: index)
     }
-
-  default:
-    break
   }
 }
 
@@ -202,18 +197,23 @@ default:
     favoritePrimes = nil
 }
 
-let appReducer = combine(
-  pullback(counterReducer, value: \.count),
-  primeModalReducer,
-  pullback(favoritePrimesReducer, value: \.favoritePrimesState)
+let _appReducer: (inout AppState, AppAction) -> Void = combine(
+  pullback(counterReducer, value: \.count, action: \.counter),
+  pullback(primeModalReducer, value: \.self, action: \.primeModal),
+  pullback(favoritePrimesReducer, value: \.favoritePrimesState, action: \.favoritePrimes)
 )
 
-func pullback<LocalValue, GlobalValue, Action>(
-  _ reducer: @escaping (inout LocalValue, Action) -> Void,
-  value: WritableKeyPath<GlobalValue, LocalValue>
-) -> (inout GlobalValue, Action) -> Void {
-  return { globalValue, action in
-    reducer(&globalValue[keyPath: value], action)
+let appReducer = pullback(_appReducer, value: \.self, action: \.self)
+
+func pullback<GlobalValue, LocalValue, GlobalAction, LocalAction>(
+  _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
+  value: WritableKeyPath<GlobalValue, LocalValue>,
+  action: WritableKeyPath<GlobalAction, LocalAction?>
+) -> (inout GlobalValue, GlobalAction) -> Void {
+
+  return { globalValue, globalAction in
+    guard let localAction = globalAction[keyPath: action] else { return }
+    reducer(&globalValue[keyPath: value], localAction)
   }
 }
 

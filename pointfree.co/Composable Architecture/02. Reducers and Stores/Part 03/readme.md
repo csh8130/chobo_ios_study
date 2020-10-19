@@ -37,8 +37,6 @@ func counterReducer(state: inout Int, action: CounterAction) -> Void {
 
  이번장에서는 이와 같이 CounterAction으로 관심있는 action에 대해서만 동작하도록 변경 해 보겠습니다. 코드가 짧아지고 이 코드를 처음 접하는 사람이 해당 모듈 이외에는 어디도 건드릴 수 없도록 제한 시킬 수 있게 됩니다.
 
-
-
 ### Enums and key paths
 
 ```swift
@@ -95,8 +93,6 @@ enum AppAction {
 
 앞으로는 위의 작업을 수동으로 일일이 하기보다는 [오픈소스](https://github.com/pointfreeco/swift-enum-properties) 도구를 만들어 두었으므로 이를 적용해서 진행할 것이다.
 
-
-
 도구를 사용했다면 우리가 지금 필요한 getter 가 생성되었을 것이고 나중에 필요한 setter도 생성되었을 것이다. enum을 아래와 같이 구조체처럼 사용 할 수 있게된다. 그리고 아래처럼 키패스도 동작하게 된다
 
 ```swift
@@ -111,8 +107,63 @@ someAction.favoritePrimes
 // WritableKeyPath<AppAction, CounterAction?>
 ```
 
-
-
 ### Pulling back reducers along actions
 
+action에 대한 pullback을 만들어보겠습니다.
 
+```swift
+func pullback<Value, GlobalAction, LocalAction>(
+  _ reducer: @escaping (inout Value, LocalAction) -> Void,
+  action: WritableKeyPath<GlobalAction, LocalAction?>
+) -> (inout Value, GlobalAction) -> Void {
+
+  return { value, globalAction in
+    guard let localAction = globalAction[keyPath: action] else { return }
+    reducer(&value, localAction)
+  }
+}
+```
+
+우리는 이제 action과 state 두가지 버전의 pullback을 가지게 되었습니다. 두가지를 하나로 합쳐서 사용하도록 합니다.
+
+
+
+### Pulling back more reducers
+
+이제 favoritePrimesReducer 가 app 전체 action을 처리하지 않도록 수정합니다.
+
+```swift
+func favoritePrimesReducer(state: inout FavoritePrimesState, action: FavoritePrimesAction) -> Void {
+  switch action {
+  case let .deleteFavoritePrimes(indexSet):
+    for index in indexSet {
+      state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.favoritePrimes[index])))
+      state.favoritePrimes.remove(at: index)
+    }
+  }
+}
+```
+
+그리고 모달에서 사용되는 액션에 대해서도 수정합니다.
+
+```swift
+func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void {
+  switch action {
+  case .removeFavoritePrimeTapped:
+    state.favoritePrimes.removeAll(where: { $0 == state.count })
+    state.activityFeed.append(.init(timestamp: Date(), type: .removedFavoritePrime(state.count)))
+
+  case .saveFavoritePrimeTapped:
+    state.favoritePrimes.append(state.count)
+    state.activityFeed.append(.init(timestamp: Date(), type: .addedFavoritePrime(state.count)))
+  }
+}
+```
+
+현재 아키텍처의 단점은 enum의 key-path 사용을 위한 코드를 일일이 삽입 해주어야 한다는 점 입니다. 추후 enum과 struct의 차이에서 오는 결함을 언젠가 고쳐야 합니다.
+
+
+
+### Till next time
+
+고차 함수 개념과 마찬가지로 고차 리듀서(higher order reducer) 를 만들어 활용하는 법에 대해 알아볼 것입니다.
