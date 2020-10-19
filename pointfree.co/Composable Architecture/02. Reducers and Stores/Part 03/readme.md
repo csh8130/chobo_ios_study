@@ -62,6 +62,8 @@ struct EnumKeyPath<Root, Value> {
 
  enum은 struct에 비해 지원되는 기능이 적습니다. enum properties라는 개념의 [주제](https://www.pointfree.co/episodes/ep52-enum-properties)로 다룬적이 있는 내용입니다. 이번에도 동일하게 enum을 다룹니다.
 
+ 간단히 말하자면 enum은 struct와 다르게 저장프로퍼티가 지원되지 않습니다. 하지만 연산 프로퍼티는 지원되기 때문에 이를 활용하여 저장 프로퍼티처럼 동작되도록 만들 수 있습니다.
+
 ```swift
 enum AppAction {
   case counter(CounterAction)
