@@ -77,6 +77,18 @@ struct AppState {
 //  }
 //}
 
+func logging<Value, Action>(
+  _ reducer: @escaping (inout Value, Action) -> Void
+) -> (inout Value, Action) -> Void {
+  return { value, action in
+    reducer(&value, action)
+    print("Action: \(action)")
+    print("State:")
+    dump(value)
+    print("---")
+  }
+}
+
 final class Store<Value, Action>: ObservableObject {
     @Published private(set) var value: Value
     let reducer: (inout Value, Action) -> Void
@@ -411,5 +423,5 @@ struct PrimeAlert: Identifiable {
 import PlaygroundSupport
 
 PlaygroundPage.current.liveView = UIHostingController(
-    rootView: ContentView(store: Store(initialValue: AppState(), reducer: activityFeed(appReducer)))
+    rootView: ContentView(store: Store(initialValue: AppState(), reducer: logging(activityFeed(appReducer))))
 )

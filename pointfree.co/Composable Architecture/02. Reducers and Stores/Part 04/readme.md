@@ -206,4 +206,81 @@ pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrime
 
 ### Higher-order logging
 
- 이제 모든 피드 항목이 고차 리듀서로 이동했습니다. 아직 활동 피드를 조회하는 화면이 없어서 제대로 동작하는지 확인이 어렵습니다.
+ 이제 모든 피드 항목이 고차 리듀서로 이동했습니다. 아직 활동 피드를 조회하는 화면이 없어서 제대로 동작하는지 확인이 어렵습니다. 우선 Store에 print를 추가하여 콘솔에서 로그를 확인 할 수 있습니다.
+
+```swift
+func send(_ action: Action) {
+  self.reducer(&self.value, action)
+  print("Action: \(action)")
+  print("Value:")
+  dump(self.value)
+  print("---")
+}
+```
+
+확인이 되면 이를 제거하고 고차 리듀서로 다시 만들어봅니다. 그리고 고차 리듀서를 적용합니다
+
+```swift
+func logging<Value, Action>(
+  _ reducer: @escaping (inout Value, Action) -> Void
+) -> (inout Value, Action) -> Void {
+  return { value, action in
+    reducer(&value, action)
+    print("Action: \(action)")
+    print("State:")
+    dump(value)
+    print("---")
+  }
+}
+
+logging(activityFeed(appReducer))
+```
+
+하지만 이런식으로 고차 리듀서가 계속 중첩되는것은 좋지않습니다.
+
+```swift
+bar(foo(logger(activityFeed(appReducer))))
+```
+
+Overture라는 라이브러리를 이용해서 이를 해결 할 수 있습니다.
+
+```swift
+// import Overture
+
+ContentView(
+  store: Store(
+    value: AppState(),
+    reducer: with(
+      appReducer,
+      compose(
+        logger,
+        activityFeed
+      )
+    )
+  )
+)
+```
+
+ 깔끔해졌습니다. 이런 방식으로 고차 리듀서를 활용하는것이 얼마나 강력한지 생각 해볼 가치가 있습니다. 앱 동작에 영향을 주지않는 로직을 추가하느라 앱 내부에 버그를 만드는것을 방지하고 손쉽게 로깅 기능을 추가했기 때문입니다.
+
+이런 작업은 순수 SwiftUI로는 불가능한 작업입니다. 그리고 지금까지 본것은 고차 리듀서의 시작일 뿐입니다. 
+
+### What’s the point?
+
+지금까지 리듀서는 4가지 유형으로 다루었습니다.
+
+- 동일한 유형의 리듀서들을 combine을 통해 단일 리듀서로 합성했습니다.
+
+- 하위 레벨 상태에서 동작하는 리듀서를 global 영역 상태에서 작동하도록 pullback 했습니다.
+
+- 하위 레벨 액션에서 동작하는 리듀서를 global 영역 액션에서 작동하도록 pullback 했습니다.
+
+- 고차 리듀서를 만들어 추가기능을 계층적으로 쌓을 수 있었습니다
+
+
+
+ 이것으로 컴포저블 아키텍처의 상태관리 파트 시리즈를 마무리하겠습니다. 아직 우리는 시리즈 시작때 설명한 5가지 문제중 2.5가지정도밖에 해결하지 못했습니다.
+
+우리는 모듈식 아키텍처를 원했기 때문에 구성을 분리하고 자체 모듈에 넣을 수 있어야 합니다. 리듀서를 더 작은 리듀서로 나눌 수 있지만 여전히 상태와 액션을 가지는 Store에 의존적입니다. 그 객체를 분리 할 방법이 없으며 이를 다음장부터 다룰것입니다.
+
+또한 사이드 이펙트에대해서 다뤄야하지만 이번장에서는 언급하지 않았습니다. 마지막으로 아키텍처를 완성 해 갈수록 더 테스트 가능한 앱이 될것이라는점도 다룰 것입니다!
