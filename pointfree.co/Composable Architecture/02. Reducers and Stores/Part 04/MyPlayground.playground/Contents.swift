@@ -62,20 +62,20 @@ struct AppState {
   }
 }
 
-extension AppState {
-  var favoritePrimesState: FavoritePrimesState {
-    get {
-      return FavoritePrimesState(
-        favoritePrimes: self.favoritePrimes,
-        activityFeed: self.activityFeed
-      )
-    }
-    set {
-      self.activityFeed = newValue.activityFeed
-      self.favoritePrimes = newValue.favoritePrimes
-    }
-  }
-}
+//extension AppState {
+//  var favoritePrimesState: FavoritePrimesState {
+//    get {
+//      return FavoritePrimesState(
+//        favoritePrimes: self.favoritePrimes,
+//        activityFeed: self.activityFeed
+//      )
+//    }
+//    set {
+//      self.activityFeed = newValue.activityFeed
+//      self.favoritePrimes = newValue.favoritePrimes
+//    }
+//  }
+//}
 
 final class Store<Value, Action>: ObservableObject {
     @Published private(set) var value: Value
@@ -155,20 +155,47 @@ func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void 
   switch action {
   case .saveFavoritePrimeTapped:
     state.favoritePrimes.append(state.count)
-    state.activityFeed.append(.init( type: .addedFavoritePrime(state.count)))
   case .removeFavoritePrimeTapped:
     state.favoritePrimes.removeAll(where: { $0 == state.count })
-    state.activityFeed.append(.init( type: .removedFavoritePrime(state.count)))
   }
 }
 
-func favoritePrimesReducer(state: inout FavoritePrimesState, action: FavoritePrimesAction) -> Void {
+func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesAction) -> Void {
   switch action {
   case let .deleteFavoritePrimes(indexSet):
     for index in indexSet {
-      state.activityFeed.append(.init(type: .removedFavoritePrime(state.favoritePrimes[index])))
-      state.favoritePrimes.remove(at: index)
+      state.remove(at: index)
     }
+  }
+}
+
+func activityFeed(
+  _ reducer: @escaping (inout AppState, AppAction) -> Void
+) -> (inout AppState, AppAction) -> Void {
+
+  return { state, action in
+    switch action {
+    case .counter:
+      break
+
+    case .primeModal(.removeFavoritePrimeTapped):
+      state.activityFeed.append(
+        .init(type: .removedFavoritePrime(state.count))
+      )
+
+    case .primeModal(.saveFavoritePrimeTapped):
+      state.activityFeed.append(
+        .init(type: .addedFavoritePrime(state.count))
+      )
+
+    case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
+      for index in indexSet {
+        state.activityFeed.append(
+          .init(type: .removedFavoritePrime(state.favoritePrimes[index]))
+        )
+      }
+    }
+    reducer(&state, action)
   }
 }
 
@@ -200,7 +227,7 @@ default:
 let _appReducer: (inout AppState, AppAction) -> Void = combine(
   pullback(counterReducer, value: \.count, action: \.counter),
   pullback(primeModalReducer, value: \.self, action: \.primeModal),
-  pullback(favoritePrimesReducer, value: \.favoritePrimesState, action: \.favoritePrimes)
+  pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
 )
 
 let appReducer = pullback(_appReducer, value: \.self, action: \.self)
@@ -288,10 +315,10 @@ struct IsPrimeModalView: View {
   }
 }
 
-struct FavoritePrimesState {
-  var favoritePrimes: [Int]
-  var activityFeed: [AppState.Activity]
-}
+//struct FavoritePrimesState {
+//  var favoritePrimes: [Int]
+//  var activityFeed: [AppState.Activity]
+//}
 
 struct FavoritePrimesView: View {
   @ObservedObject var store: Store<AppState, AppAction>
@@ -384,5 +411,5 @@ struct PrimeAlert: Identifiable {
 import PlaygroundSupport
 
 PlaygroundPage.current.liveView = UIHostingController(
-    rootView: ContentView(store: Store(initialValue: AppState(), reducer: appReducer))
+    rootView: ContentView(store: Store(initialValue: AppState(), reducer: activityFeed(appReducer)))
 )

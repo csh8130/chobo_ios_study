@@ -103,4 +103,107 @@ func favoritePrimesReducer(state: inout FavoritePrimesState, action: FavoritePri
 
 ### Higher-order activity feeds
 
-고차 리듀서는 이 상황을 더 좋게 만들 수 있습니다.
+고차 리듀서는 이 상황을 더 좋게 만들 수 있습니다. 액티비티 피드 갱신 위치를 이동시키기 위해 고차 리듀서를 만듭니다. counter 액션은 피드 갱신을 하지않으므로 break 합니다.
+
+```swift
+func higherOrderReducer(
+  _ reducer: @escaping (inout AppState, AppAction) -> Void
+) -> (inout AppState, AppAction) -> Void {
+
+  return { state, action in
+    switch action {
+    case .counter(_):
+        break
+    case .primeModal(.removeFavoritePrimeTapped):
+    case .primeModal(.saveFavoritePrimeTapped):
+    case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
+}
+```
+
+나머지 액션들에 대해서 피드를 추가하고 함수명을 변경합니다.
+
+```swift
+func activityFeed(
+  _ reducer: @escaping (inout AppState, AppAction) -> Void
+) -> (inout AppState, AppAction) -> Void {
+
+  return { state, action in
+    switch action {
+    case .counter:
+      break
+
+    case .primeModal(.removeFavoritePrimeTapped):
+      state.activityFeed.append(
+        .init(type: .removedFavoritePrime(state.count))
+      )
+
+    case .primeModal(.saveFavoritePrimeTapped):
+      state.activityFeed.append(
+        .init(type: .addedFavoritePrime(state.count))
+      )
+
+    case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
+      for index in indexSet {
+        state.activityFeed.append(
+          .init(type: .removedFavoritePrime(state.favoritePrimes[index]))
+        )
+      }
+    }
+    reducer(&state, action)
+  }
+}
+```
+
+이제 이고차  리듀서를 사용하여 appReducer를 받습니다.
+
+```swift
+ContentView(
+  store: Store(
+    initialValue: AppState(),
+    reducer: activityFeed(appReducer)
+  )
+)
+```
+
+마지막으로 다른 리듀서에 있는 피드 추가 코드를 모두 삭제합니다. 덕분에 즐겨찾기 화면은 더이상 글로벌 상태가 필요없습니다. 이를 주석 처리해서 삭제합니다. 즐겨찾기화면은 이제 Integer 배열만 상태로 가지면 됩니다.
+
+```swift
+//struct FavoritePrimesState {
+//  var favoritePrimes: [Int]
+//  var activityFeed: [AppState.Activity]
+//}
+
+func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesAction) -> Void {
+  switch action {
+  case let .removeFavoritePrimes(indexSet):
+    for index in indexSet {
+      state.remove(at: index)
+    }
+  }
+}
+```
+
+extension에 추가한 즐겨찾기 화면 상태 코드도 필요가없습니다. 이제 풀백에서 prime 배열에만 접근하면 됩니다.
+
+```swift
+//extension AppState {
+//  var favoritePrimesState: FavoritePrimesState {
+//    get {
+//      return FavoritePrimesState(
+//        favoritePrimes: self.favoritePrimes,
+//        activityFeed: self.activityFeed
+//      )
+//    }
+//    set {
+//      self.activityFeed = newValue.activityFeed
+//      self.favoritePrimes = newValue.favoritePrimes
+//    }
+//  }
+//}
+
+pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
+```
+
+### Higher-order logging
+
+ 이제 모든 피드 항목이 고차 리듀서로 이동했습니다. 아직 활동 피드를 조회하는 화면이 없어서 제대로 동작하는지 확인이 어렵습니다.
