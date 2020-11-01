@@ -27,6 +27,7 @@
 		C2909F80254F0DDE0026F6A3 /* ComposableArchiteture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2909F78254F0DDE0026F6A3 /* ComposableArchiteture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2909F89254F0E0F0026F6A3 /* ComposableArchiteture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2909F88254F0E0F0026F6A3 /* ComposableArchiteture.swift */; };
 		C2909F8F254F11500026F6A3 /* FavoritePrimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2909F8E254F11500026F6A3 /* FavoritePrimes.swift */; };
+		C2909F95254F13070026F6A3 /* Counter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2909F94254F13070026F6A3 /* Counter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		C2909F7B254F0DDE0026F6A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2909F88254F0E0F0026F6A3 /* ComposableArchiteture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposableArchiteture.swift; sourceTree = "<group>"; };
 		C2909F8E254F11500026F6A3 /* FavoritePrimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePrimes.swift; sourceTree = "<group>"; };
+		C2909F94254F13070026F6A3 /* Counter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Counter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 			children = (
 				C2909F40254F0BAD0026F6A3 /* Counter.h */,
 				C2909F41254F0BAD0026F6A3 /* Info.plist */,
+				C2909F94254F13070026F6A3 /* Counter.swift */,
 			);
 			path = Counter;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 					};
 					C2909F3D254F0BAD0026F6A3 = {
 						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1200;
 					};
 					C2909F50254F0BCB0026F6A3 = {
 						CreatedOnToolsVersion = 12.0;
@@ -467,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2909F95254F13070026F6A3 /* Counter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +696,7 @@
 		C2909F48254F0BAD0026F6A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -707,6 +713,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.testabc314.Counter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -717,6 +724,7 @@
 		C2909F49254F0BAD0026F6A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

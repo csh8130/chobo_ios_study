@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchiteture
 import FavoritePrimes
+import Counter
 
 struct ContentView: View {
     @ObservedObject var store: Store<AppState, AppAction>
@@ -86,10 +87,6 @@ struct AppState {
 //  }
 //}
 
-enum CounterAction {
-    case decrTapped
-    case incrTapped
-}
 enum PrimeModalAction {
     case saveFavoritePrimeTapped
     case removeFavoritePrimeTapped
@@ -132,16 +129,6 @@ enum AppAction {
             self = .favoritePrimes(newValue)
         }
     }
-}
-
-func counterReducer(state: inout Int, action: CounterAction) -> Void {
-  switch action {
-  case .decrTapped:
-    state -= 1
-
-  case .incrTapped:
-    state += 1
-  }
 }
 
 func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void {

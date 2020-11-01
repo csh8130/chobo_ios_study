@@ -68,7 +68,7 @@ import ComposableArchitecture
 
 ### Modularizing the favorite primes reducer
 
-마찬가지로 FavoritePrimes 모듈에 FavoritePrimes.swift를 추가합니다. 그리고 `favoritePrimesReducer`를 이동시킵니다. 그리고 `FavoritePrimesAction`도 함께 이동시킵니다.
+마찬가지로 `FavoritePrimes` 모듈에 FavoritePrimes.swift를 추가합니다. 그리고 `favoritePrimesReducer`를 이동시킵니다. 그리고 `FavoritePrimesAction`도 함께 이동시킵니다.
 
 
 
@@ -92,3 +92,11 @@ public func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesActi
  우리는 코드를 옮기고 거의 바로 빌드에 성공했기 때문에 한것이 거의 없는것 처럼 느껴집니다. 하지만 이것은 별도의 모듈로 분리되었기 때문에 아주 많은 진전이 있었습니다.
 
  여기에는 매우 읽기쉬운 11줄의 코드만 남았고 App 전체 영역의 State, Action에 접근이 불가능해 졌습니다. 표준 라이브러리 외에 어디에도 접근이 불가능하게 분리하였습니다.
+
+
+
+### Modularizing the counter reducer
+
+`Counter` 모듈도  `FavoritePrimes`과 동일하게 작업합니다
+
+
