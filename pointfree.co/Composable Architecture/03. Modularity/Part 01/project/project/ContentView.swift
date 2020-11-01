@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ComposableArchiteture
 
 struct ContentView: View {
     @ObservedObject var store: Store<AppState, AppAction>
@@ -83,31 +84,6 @@ struct AppState {
 //    }
 //  }
 //}
-
-func logging<Value, Action>(
-  _ reducer: @escaping (inout Value, Action) -> Void
-) -> (inout Value, Action) -> Void {
-  return { value, action in
-    reducer(&value, action)
-    print("Action: \(action)")
-    print("State:")
-    dump(value)
-    print("---")
-  }
-}
-
-final class Store<Value, Action>: ObservableObject {
-    @Published private(set) var value: Value
-    let reducer: (inout Value, Action) -> Void
-    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
-      self.value = initialValue
-      self.reducer = reducer
-    }
-    
-    func send(_ action: Action) {
-      self.reducer(&self.value, action)
-    }
-}
 
 enum CounterAction {
     case decrTapped
@@ -218,17 +194,6 @@ func activityFeed(
   }
 }
 
-func combine<Value, Action>(
-  _ reducers: (inout Value, Action) -> Void...
-) -> (inout Value, Action) -> Void {
-
-  return { value, action in
-    for reducer in reducers {
-      reducer(&value, action)
-    }
-  }
-}
-
 struct _KeyPath<Root, Value> {
   let get: (Root) -> Value
   let set: (inout Root, Value) -> Void
@@ -250,18 +215,6 @@ let _appReducer: (inout AppState, AppAction) -> Void = combine(
 )
 
 let appReducer = pullback(_appReducer, value: \.self, action: \.self)
-
-func pullback<GlobalValue, LocalValue, GlobalAction, LocalAction>(
-  _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
-  value: WritableKeyPath<GlobalValue, LocalValue>,
-  action: WritableKeyPath<GlobalAction, LocalAction?>
-) -> (inout GlobalValue, GlobalAction) -> Void {
-
-  return { globalValue, globalAction in
-    guard let localAction = globalAction[keyPath: action] else { return }
-    reducer(&globalValue[keyPath: value], localAction)
-  }
-}
 
 struct CounterView: View {
     @ObservedObject var store: Store<AppState, AppAction>

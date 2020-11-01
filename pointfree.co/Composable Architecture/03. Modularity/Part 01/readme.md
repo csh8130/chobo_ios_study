@@ -50,4 +50,20 @@
 
 ### Modularizing our reducers
 
+우리가 정의한 모든 리듀서는 구성 요소를 설명하는 단위입니다. 즉 모듈로 나눌 수 있어야 합니다. `counterReducer`, `primeModalReducer`, `favoritePrimesReducer` 3개의 리듀서가 있고 각각 하나의 화면을 나타냅니다.
+
+프로젝트로 이동하여 각 감속기마다 하나씩, 3개의 프레임워크를 추가합니다. 그리고 Store와 리듀서 구성 함수를 포함하는 아키텍쳐 핵심 라이브러리 코드가 있으므로 `ComposableArchitecture`라는 프레임 워크를 추가로 만듭니다.
+
+
+
+ ComposableArchitecture프레임워크 폴더에서 ComposableArchitecture.swift 파일을 만들고 Store와 pullback, combine, logging을 옮겨옵니다. command + b 를 통해 프레임워크를 빌드 할 수 있습니다.
+
+ 그러나 API가 공개되어있지 않기 때문에 사용 할 수 없습니다. 기본적으로 모듈 외부로는 숨겨진 상태이므로 인터페이스 앞에 public을 붙여줘야 합니다.
+
+그리고 마지막으로 ContentView.swift와 SceneDelegate.swift에서 import를 해주어야 합니다.
+
+```swift
+import ComposableArchitecture
+```
+
 

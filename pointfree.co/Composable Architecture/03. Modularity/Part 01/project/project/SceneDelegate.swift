@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import ComposableArchiteture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
