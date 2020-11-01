@@ -26,6 +26,7 @@
 		C2909F7F254F0DDE0026F6A3 /* ComposableArchiteture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2909F78254F0DDE0026F6A3 /* ComposableArchiteture.framework */; };
 		C2909F80254F0DDE0026F6A3 /* ComposableArchiteture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2909F78254F0DDE0026F6A3 /* ComposableArchiteture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2909F89254F0E0F0026F6A3 /* ComposableArchiteture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2909F88254F0E0F0026F6A3 /* ComposableArchiteture.swift */; };
+		C2909F8F254F11500026F6A3 /* FavoritePrimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2909F8E254F11500026F6A3 /* FavoritePrimes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		C2909F7A254F0DDE0026F6A3 /* ComposableArchiteture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposableArchiteture.h; sourceTree = "<group>"; };
 		C2909F7B254F0DDE0026F6A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2909F88254F0E0F0026F6A3 /* ComposableArchiteture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposableArchiteture.swift; sourceTree = "<group>"; };
+		C2909F8E254F11500026F6A3 /* FavoritePrimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePrimes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			children = (
 				C2909F66254F0BE20026F6A3 /* FavoritePrimes.h */,
 				C2909F67254F0BE20026F6A3 /* Info.plist */,
+				C2909F8E254F11500026F6A3 /* FavoritePrimes.swift */,
 			);
 			path = FavoritePrimes;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 					};
 					C2909F63254F0BE20026F6A3 = {
 						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1200;
 					};
 					C2909F77254F0DDE0026F6A3 = {
 						CreatedOnToolsVersion = 12.0;
@@ -477,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2909F8F254F11500026F6A3 /* FavoritePrimes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +795,7 @@
 		C2909F6E254F0BE20026F6A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -806,6 +812,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.testabc314.FavoritePrimes;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -816,6 +823,7 @@
 		C2909F6F254F0BE20026F6A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

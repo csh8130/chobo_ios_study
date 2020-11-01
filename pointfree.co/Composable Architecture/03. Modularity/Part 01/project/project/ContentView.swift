@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchiteture
+import FavoritePrimes
 
 struct ContentView: View {
     @ObservedObject var store: Store<AppState, AppAction>
@@ -93,9 +94,6 @@ enum PrimeModalAction {
     case saveFavoritePrimeTapped
     case removeFavoritePrimeTapped
 }
-enum FavoritePrimesAction {
-    case deleteFavoritePrimes(IndexSet)
-}
 
 enum AppAction {
   case counter(CounterAction)
@@ -152,15 +150,6 @@ func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void 
     state.favoritePrimes.append(state.count)
   case .removeFavoritePrimeTapped:
     state.favoritePrimes.removeAll(where: { $0 == state.count })
-  }
-}
-
-func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesAction) -> Void {
-  switch action {
-  case let .deleteFavoritePrimes(indexSet):
-    for index in indexSet {
-      state.remove(at: index)
-    }
   }
 }
 
