@@ -162,3 +162,13 @@ pullback(primeModalReducer, value: \.primeModal, action: \.primeModal),
 ```swift
 public typealias PrimeModalState = (count: Int, favoritePrimes: [Int])
 ```
+
+ 여전히 잘 빌드되고 작동됩니다. 그러나 튜플을 너무 남용하면 종종 문제가 됩니다. 처음에는 튜플로 만들고 나중에 구조체가 필요한 순간에 변경할 수도 있습니다.
+
+이번에 모듈화 작업을 하며 이 아키텍쳐가 얼마나 모듈화 되어있는지 알 수 있었습니다. 매우 간단하게 모듈로 분리가 가능했고 최악의 상황에는 약간의 추가 코드가 필요했을 뿐입니다.
+
+
+
+다음시간에는 우리는 리듀서와 상태 그리고 액션을 분리했지만 아직까지 `View`를 분리하지 못했습니다. 그 문제에 접근 할 예정입니다.
+
+
