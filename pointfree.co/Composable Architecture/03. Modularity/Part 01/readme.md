@@ -100,3 +100,65 @@ public func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesActi
 `Counter` 모듈도  `FavoritePrimes`과 동일하게 작업합니다
 
 
+
+### Modularizing the prime modal reducer
+
+추출할 모듈이 하나 더 있습니다. 다른 모듈과 거의 동일하지만 좀 더 복잡합니다. 이전과 똑같이 작업하면 AppState를 찾지 못해서 애러가 발생합니다.
+
+> Cannot find type 'AppState' in scope
+
+
+
+근본적인 문제는 모듈에서 AppState에 의존하는 코드가 있다는 점 입니다. 앱 전체 State를 모듈로 가져오고 싶지 않습니다.
+
+PrimeModalState 라는 State를 새로 만듭니다.
+
+```swift
+public struct PrimeModalState {
+  public var count: Int
+  public var favoritePrimes: [Int]
+
+  public init(count: Int, favoritePrimes: [Int]) {
+    self.count = count
+    self.favoritePrimes = favoritePrimes
+  }
+}
+```
+
+AppState와 동일한 구성이기 때문에 애러가 나는부분은 pullback을 호출하는 부분 뿐입니다. 
+
+```swift
+pullback(primeModalReducer, value: \.self, action: \.primeModal),
+```
+
+키-패스를 사용할 수 있게 추가합니다.
+
+```swift
+extension AppState {
+  var primeModal: PrimeModalState {
+    get {
+      PrimeModalState(
+        count: self.count,
+        favoritePrimes: self.favoritePrimes
+      )
+    }
+    set {
+      self.count = newValue.count
+      self.favoritePrimes = newValue.favoritePrimes
+    }
+  }
+}
+
+// 키패스 경로 변경   
+pullback(primeModalReducer, value: \.primeModal, action: \.primeModal),
+```
+
+ 모든것이 이전처럼 잘 작동합니다. 앱의 모든 리듀서를 모듈화 했습니다. 3개중 2개의 리듀서는 간단하게 모듈화가 가능했지만 나머지 하나는 앱 상태의 여러 부분에 접근이 필요해서 복잡했습니다. 이를 해결하기 위해 관심있는 정보만 가져오기위한 중간 구조체를 도입했습니다.
+
+ 이것은 앞으로도 여러 전역 상태에 접근 할 때 마다 반복적으로 사용 가능한 트릭입니다. 하지만 `boilerplate` 코드가 그 때 마다 발생하므로 이를 해결하기위해 공개 이니셜라이저를 정의 합니다.
+
+
+
+```swift
+public typealias PrimeModalState = (count: Int, favoritePrimes: [Int])
+```

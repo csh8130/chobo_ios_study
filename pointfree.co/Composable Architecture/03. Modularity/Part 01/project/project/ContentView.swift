@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchiteture
 import FavoritePrimes
 import Counter
+import PrimeModal
 
 struct ContentView: View {
     @ObservedObject var store: Store<AppState, AppAction>
@@ -72,6 +73,21 @@ struct AppState {
   }
 }
 
+extension AppState {
+    var primeModal: PrimeModalState {
+        get {
+            PrimeModalState(
+                count: self.count,
+                favoritePrimes: self.favoritePrimes
+            )
+        }
+        set {
+            self.count = newValue.count
+            self.favoritePrimes = newValue.favoritePrimes
+        }
+    }
+}
+
 //extension AppState {
 //  var favoritePrimesState: FavoritePrimesState {
 //    get {
@@ -87,10 +103,6 @@ struct AppState {
 //  }
 //}
 
-enum PrimeModalAction {
-    case saveFavoritePrimeTapped
-    case removeFavoritePrimeTapped
-}
 
 enum AppAction {
   case counter(CounterAction)
@@ -129,15 +141,6 @@ enum AppAction {
             self = .favoritePrimes(newValue)
         }
     }
-}
-
-func primeModalReducer(state: inout AppState, action: PrimeModalAction) -> Void {
-  switch action {
-  case .saveFavoritePrimeTapped:
-    state.favoritePrimes.append(state.count)
-  case .removeFavoritePrimeTapped:
-    state.favoritePrimes.removeAll(where: { $0 == state.count })
-  }
 }
 
 func activityFeed(
@@ -185,9 +188,9 @@ struct _KeyPath<Root, Value> {
 //}
 
 let _appReducer: (inout AppState, AppAction) -> Void = combine(
-  pullback(counterReducer, value: \.count, action: \.counter),
-  pullback(primeModalReducer, value: \.self, action: \.primeModal),
-  pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
+    pullback(counterReducer, value: \.count, action: \.counter),
+    pullback(primeModalReducer, value: \.primeModal, action: \.primeModal),
+    pullback(favoritePrimesReducer, value: \.favoritePrimes, action: \.favoritePrimes)
 )
 
 let appReducer = pullback(_appReducer, value: \.self, action: \.self)
