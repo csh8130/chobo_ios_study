@@ -130,3 +130,86 @@ store.value // 11
 다시 global store에 액션을 보내게 되면 값이 틀어지게 됩니다.
 
 local store에서 action을 호출하면 global store의 action을 직접 호출하게 됩니다. 하지만 global store에서 데이터를 받을 방법이 없습니다. 
+
+
+
+### What's in a name?
+
+위의 문제는 잠시 후 해결 할 것입니다. 그전에 map에 대해 생각 해 보겠습니다. 기존의 map과 모양과 이름은 같지만 우리가 사용하던 map과 다릅니다.
+
+```swift
+var xs = [1, 2, 3]
+var ys = xs.map { $0 }
+
+ys.append(4)
+
+xs // [1, 2, 3]
+ys // [1, 2, 3, 4]
+```
+
+xs와 ys는 다릅니다. 우리가 Store에서 수행한 map과 다릅니다. 그래서 우리는 이 함수를 map이라고 부르는것이 편하지 않습니다. 
+
+map 대신 view(관점) 이라는 이름으로 함수명을 변경합니다.
+
+
+
+### Propagating global changes locally
+
+```swift
+final class Store<Value, Action>: ObservableObject {
+  …
+  @Published public private(set) var value: Value
+```
+
+store는 `ObservableObject` 프로토콜을 따르며 값은 `@Published` 래핑되어있습니다.
+
+ 이 프로퍼티와 프로퍼티 래퍼는 Apple의 `Combine` 프레임워크에서 왔으며 이를 사용하면 관심이있는 모두에게 변경사항을 개시 할 수 있습니다.
+
+```swift
+@ObservedObject var store: Store<AppState, AppAction>
+```
+
+```swift
+public func view<LocalValue>(
+        _ f: @escaping (Value) -> LocalValue
+    ) -> Store<LocalValue, Action> {
+        let localStore = Store<LocalValue, Action>(
+            initialValue: f(self.value),
+            reducer: { localValue, action in
+                self.send(action)
+                localValue = f(self.value)
+            }
+        )
+        self.$value.sink { newValue in
+          localStore.value = f(newValue)
+        }
+        return localStore
+    }
+```
+
+localStore의 참조를 캡쳐하고 sink를 사용하여 새로운 값을 local 저장소에 보낼 수 있습니다.
+
+
+
+### Focusing on view state
+
+```swift
+struct FavoritePrimesView: View {
+  @ObservedObject var store: Store<[Int], AppAction>
+```
+
+ 이제 이를 이용하여 Int 배열에만 관심을 가지도록 수정합니다. 잘 작동하는것을 확인했습니다. 여전히 global AppAction에 접근하지만 잠시 후에 수정 할 예정입니다. 
+
+`IsPrimeModalView`, `CounterView` store도 동일한 방식으로 수정합니다.
+
+
+
+우리의 뷰는 이제 global state보다 더 작은 상태만 취급합니다.
+
+
+
+### Till next time
+
+여전히 global AppAction에 의존하고 있기 때문에 뷰를 모듈로 추출 할 수 없습니다. 우리는 Store를 변경 할 수 있다는것을 확인 했습니다. 마찬가지로 Action도 변경이 가능할 것이라고 기대합니다.
+
+

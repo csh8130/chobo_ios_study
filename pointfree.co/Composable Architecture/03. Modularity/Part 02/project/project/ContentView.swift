@@ -16,12 +16,19 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: CounterView(store: self.store)) {
-                    Text("Counter demo")
-                }
-                NavigationLink(destination: FavoritePrimesView(store: self.store)) {
-                  Text("Favorite primes")
-                }
+                NavigationLink(
+                  "Counter demo",
+                  destination: CounterView(
+                    store: self.store
+                      .view { ($0.count, $0.favoritePrimes) }
+                  )
+                )
+                NavigationLink(
+                  "Favorite primes",
+                  destination: FavoritePrimesView(
+                    store: self.store.view { $0.favoritePrimes }
+                  )
+                )
             }
             .navigationBarTitle("State management")
         }
@@ -195,8 +202,10 @@ let _appReducer: (inout AppState, AppAction) -> Void = combine(
 
 let appReducer = pullback(_appReducer, value: \.self, action: \.self)
 
+typealias CounterViewState = (count: Int, favoritePrimes: [Int])
+
 struct CounterView: View {
-    @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<CounterViewState, AppAction>
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
     @State var isNthPrimeButtonDisabled = false
@@ -219,6 +228,9 @@ struct CounterView: View {
         .font(.title)
         .navigationBarTitle("Counter demo")
         .sheet(isPresented: $isPrimeModalShown) {
+//            IsPrimeModalView(
+//              store: self.store.view { ($0.count, $0.favoritePrimes) }
+//            )
             IsPrimeModalView(store: self.store)
         }
         .alert(item: self.$alertNthPrime) { alert in
@@ -245,7 +257,7 @@ struct CounterView: View {
 }
 
 struct IsPrimeModalView: View {
-  @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<PrimeModalState, AppAction>
   var body: some View {
     VStack {
       if isPrime(self.store.value.count) {
@@ -272,11 +284,11 @@ struct IsPrimeModalView: View {
 //}
 
 struct FavoritePrimesView: View {
-  @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<[Int], AppAction>
 
     var body: some View {
         List {
-            ForEach(self.store.value.favoritePrimes, id: \.self) { prime in
+            ForEach(self.store.value, id: \.self) { prime in
                 Text("\(prime)")
             }.onDelete { indexSet in
              self.store.send(.favoritePrimes(.deleteFavoritePrimes(indexSet)))
