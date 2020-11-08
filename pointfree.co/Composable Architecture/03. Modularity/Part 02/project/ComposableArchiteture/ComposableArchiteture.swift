@@ -12,6 +12,18 @@ public final class Store<Value, Action>: ObservableObject {
     public func send(_ action: Action) {
       self.reducer(&self.value, action)
     }
+    
+    public func map<LocalValue>(
+        _ f: @escaping (Value) -> LocalValue
+    ) -> Store<LocalValue, Action> {
+        return Store<LocalValue, Action>(
+            initialValue: f(self.value),
+            reducer: { localValue, action in
+                self.send(action)
+                localValue = f(self.value)
+            }
+        )
+    }
 }
 
 public func combine<Value, Action>(

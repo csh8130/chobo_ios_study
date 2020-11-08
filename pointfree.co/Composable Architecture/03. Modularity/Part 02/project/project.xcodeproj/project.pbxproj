@@ -80,6 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C23E307F255835D10029F8BF /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C2909F21254F064C0026F6A3 /* project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2909F24254F064C0026F6A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2909F26254F064C0026F6A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 		C2909F18254F064C0026F6A3 = {
 			isa = PBXGroup;
 			children = (
+				C23E307F255835D10029F8BF /* MyPlayground.playground */,
 				C2909F23254F064C0026F6A3 /* project */,
 				C2909F3F254F0BAD0026F6A3 /* Counter */,
 				C2909F52254F0BCB0026F6A3 /* PrimeModal */,
