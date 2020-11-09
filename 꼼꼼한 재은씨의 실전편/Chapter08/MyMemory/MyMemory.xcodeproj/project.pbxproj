@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -37,6 +37,7 @@
 		C25C9C55251282A700A550F1 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C54251282A700A550F1 /* MemoCell.swift */; };
 		C25C9C572512881C00A550F1 /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C25C9C562512881C00A550F1 /* MemoData.swift */; };
 		C2A18C1E2535447D004BA812 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A18C1D2535447D004BA812 /* UserInfoManager.swift */; };
+		C2A8628925598D3300A35D7D /* JoinVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A8628825598D3200A35D7D /* JoinVC.swift */; };
 		C2AB045C2530C88600234BA8 /* CSLogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AB045B2530C88600234BA8 /* CSLogButton.swift */; };
 		C2AB04622530C98D00234BA8 /* fountainpen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2AB045F2530C98C00234BA8 /* fountainpen@2x.png */; };
 		C2AB04632530C98D00234BA8 /* memo-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2AB04602530C98D00234BA8 /* memo-background@2x.png */; };
@@ -81,6 +82,7 @@
 		C25C9C54251282A700A550F1 /* MemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		C25C9C562512881C00A550F1 /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		C2A18C1D2535447D004BA812 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		C2A8628825598D3200A35D7D /* JoinVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinVC.swift; sourceTree = "<group>"; };
 		C2AB045B2530C88600234BA8 /* CSLogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLogButton.swift; sourceTree = "<group>"; };
 		C2AB045F2530C98C00234BA8 /* fountainpen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fountainpen@2x.png"; sourceTree = "<group>"; };
 		C2AB04602530C98D00234BA8 /* memo-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "memo-background@2x.png"; sourceTree = "<group>"; };
@@ -104,7 +106,6 @@
 				2012CC8C46CEDB7FB00B042C /* Pods-MyMemory.debug.xcconfig */,
 				AAA2EF133E111D8D7F7C15D0 /* Pods-MyMemory.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -161,6 +162,7 @@
 				C25C9C54251282A700A550F1 /* MemoCell.swift */,
 				C25C9C562512881C00A550F1 /* MemoData.swift */,
 				C21143AD2531C9ED00A23C35 /* MyMemory-Bridging-Header.h */,
+				C2A8628825598D3200A35D7D /* JoinVC.swift */,
 			);
 			path = MyMemory;
 			sourceTree = "<group>";
@@ -328,6 +330,7 @@
 				C21143CC2531D2B700A23C35 /* SideBarVC.swift in Sources */,
 				C2003FE22535A983006B5D41 /* Utils.swift in Sources */,
 				C25C9C55251282A700A550F1 /* MemoCell.swift in Sources */,
+				C2A8628925598D3300A35D7D /* JoinVC.swift in Sources */,
 				C25C9C572512881C00A550F1 /* MemoData.swift in Sources */,
 				C25C9C4225126A4100A550F1 /* MyMemory.xcdatamodeld in Sources */,
 				C25C9C3825126A4100A550F1 /* AppDelegate.swift in Sources */,
