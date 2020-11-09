@@ -17,6 +17,7 @@ class JoinVC: UIViewController {
     var fieldAccount: UITextField!
     var fieldPassword: UITextField!
     var fieldName: UITextField!
+    var isCalling = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,13 @@ class JoinVC: UIViewController {
     }
     
     @IBAction func submit(_ sender: Any) {
+        if self.isCalling == true {
+            self.alert("진행 중입니다. 잠시만 기다려주세요.")
+            return
+        } else {
+            self.isCalling = true
+        }
+        
         self.indicatorView.startAnimating()
         
         // 1. 전달할 값 준비
@@ -58,6 +66,7 @@ class JoinVC: UIViewController {
             
           // 3-1. JSON 형식으로 값이 제대로 전달되었는지 확인
           guard let jsonObject = try!  res.result.get() as? [String: Any] else {
+            self.isCalling = false
             self.alert("서버 호출 과정에서 오류가 발생했습니다.")
             return
           }
@@ -69,6 +78,7 @@ class JoinVC: UIViewController {
               self.performSegue(withIdentifier: "backProfileVC", sender: self)
             }
           } else { // 3-4. 응답 코드가 0이 아닐 때에는 실패
+            self.isCalling = false
             let errorMsg = jsonObject["error_msg"] as! String
             self.alert("오류발생 : \(errorMsg)")
           }
