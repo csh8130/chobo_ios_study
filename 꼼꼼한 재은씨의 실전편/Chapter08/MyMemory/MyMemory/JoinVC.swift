@@ -12,6 +12,7 @@ import Alamofire
 class JoinVC: UIViewController {
     @IBOutlet weak var profile: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     var fieldAccount: UITextField!
     var fieldPassword: UITextField!
@@ -29,9 +30,12 @@ class JoinVC: UIViewController {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tappedProfile(_:)))
         self.profile.addGestureRecognizer(gesture)
+        self.view.bringSubviewToFront(self.indicatorView)
     }
     
     @IBAction func submit(_ sender: Any) {
+        self.indicatorView.startAnimating()
+        
         // 1. 전달할 값 준비
         // 1-1. 이미지를 Base64 인코딩 처리
         let profile = self.profile.image!.pngData()?.base64EncodedString()
@@ -50,6 +54,8 @@ class JoinVC: UIViewController {
         
         // 3. 서버 응답값 처리
         call.responseJSON { res in
+            self.indicatorView.stopAnimating()
+            
           // 3-1. JSON 형식으로 값이 제대로 전달되었는지 확인
           guard let jsonObject = try!  res.result.get() as? [String: Any] else {
             self.alert("서버 호출 과정에서 오류가 발생했습니다.")
