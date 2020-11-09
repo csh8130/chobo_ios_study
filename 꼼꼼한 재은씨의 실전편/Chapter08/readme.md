@@ -94,7 +94,13 @@ JavaScript Object Notation의 약자로 자바스크립트 객체를 간결하�
 > 추가로 setValue혹은 addValue를 사용하여 헤더를 설정합니다.
 > 
 > URLSession 객체에 request 객체를 담아 전송 준비를하고, 응답값을 받을 클로저를 만듭니다.
-> 
-> 
+
+
+
+## Alamofire
+
+ 위에서 API 호출에 이용한 URLRequest는 사용하기 다소 복잡합니다. URLRequst와 URLSession 객체를 간소화 해 쉽게 쓸 수 있게 만든 라이브러리가 있으며 그 중 하나가 Alamofire입니다.
+
+ Alamofire는 HTTP 네트워킹을 위해 스위프트 기반으로 개발된 비동기 라이브러리로 API 호출 역시 간결하게 작성 할 수 있습니다.
 
 
