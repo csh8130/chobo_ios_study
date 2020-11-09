@@ -26,12 +26,37 @@ Content-Type: application/x-www-form-urlencoded
 account=swift%40swift.com&passwd=1234
 ```
 
-위는 http 메시지 예시로 구조가 간단하여 분석이 쉽습니다.
+http 메시지의 예시로 구조가 간단하게 되어있습니다.
 
 - 첫번째 줄은 `라인`입니다. POST 방식으로 어떤 경로에 요청을 보내야 하는지, 그리고 HTTP 버전이 따라옵니다.
 
 - 두번째 줄 부터 `헤더`이고 공백을 만나면 그 아래로는 바디입니다. 헤더는 key-value 형태로 구성되며 위의 예제는 Host와 Content-Type을 가지고있습니다.
+  
+  Content-Type의 `application/x-www-form-urlencoded`는 우리가 알고있는 일반적인 방식으로 전송하라는 의미입니다. 만약 바디에 json 형태로 요청을 보내야한다면 `application/json`으로 보내야 합니다.
 
-Content-Type의 `application/x-www-form-urlencoded`는 우리가 알고있는 일반적인 방식으로 전송하라는 의미입니다. 만약 바디에 json 형태로 요청을 보내야한다면 `application/json`으로 보내야 합니다.
+- 공백 다음 줄 부터 `바디`입니다. `application/x-www-form-urlencoded`방식의 요청에서 바디는 `&`를 사용해서 데이터를 구분합니다.
+  
+  특수 문자가 있을경우 URLEncoding형식으로 변환합니다. swift@swift.com이 swift%40swift.com으로 변환되었습니다.
 
-- 공백 다음 줄 부터 바디입니다. 
+만약 POST가 아닌 GET 방식인 경우 구조가 달라집니다.
+
+```http
+GET /userAccount/login?account=swift%40swift.com&passwd=1234 HTTP/1.1
+
+Host: swiftapi.asdfasf.co.kr:2020
+Cache-Control: no-cache
+```
+
+ 메시지 본문이 사라지고 본문에 있어야할 데이터가 `라인`의 경로에 `?` 다음 위치에 존재합니다. 이 처럼 GET방식에서 URL에 연결된 파라미터를 `쿼리 스트링(Query String)`이라고 합니다.
+
+ 메시지 본문이 사라지기 때문에 헤더에 `Content-Type`이 없습니다. 하지만 URL 경로는 1024Byte 길이 제한이 있으므로 큰 값을 전달 할 수 없고 주로 GET방식은 무언가를 요청할때 쓰입니다.
+
+
+
+###### HTTPS
+
+HTTP + Secure의 약자로 보안 인증에는 SSL 인증, TLS 인증 등 다양한 버전이 존재합니다.
+
+
+
+###### RESTful API
