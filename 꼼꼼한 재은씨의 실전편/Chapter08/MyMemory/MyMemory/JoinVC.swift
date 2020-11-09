@@ -108,4 +108,11 @@ extension JoinVC: UINavigationControllerDelegate, UIImagePickerControllerDelegat
         }
       }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let img = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage {
+          self.profile.image = img
+        }
+        self.dismiss(animated: true)
+    }
 }
