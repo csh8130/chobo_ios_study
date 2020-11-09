@@ -101,16 +101,15 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         loginAlert.addAction(UIAlertAction(title: "Login", style: .destructive, handler: { (_) in
             let account = loginAlert.textFields?[0].text ?? ""
             let passwd = loginAlert.textFields?[1].text ?? ""
-            if self.uinfo.login(account: account, passwd: passwd) {
-                self.tv.reloadData() //테이블 뷰 갱신
-                self.profileImage.image = self.uinfo.profile //이미지뷰는 테이블 뷰와 별도이므로 갱신
+            
+            
+            self.uinfo.login(account: account, passwd: passwd, success: {
+                self.tv.reloadData() // 테이블 뷰를 갱신한다.
+                self.profileImage.image = self.uinfo.profile // 이미지 프로필을 갱신한다.
                 self.drawBtn()
-            } else {
-                let msg = "로그인에 실패했습니다."
-                let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.present(alert, animated: false)
-            }
+            }, fail: { msg in
+                self.alert(msg)
+            })
         }))
         self.present(loginAlert, animated: false)
     }
