@@ -51,13 +51,9 @@ Cache-Control: no-cache
 
  메시지 본문이 사라지기 때문에 헤더에 `Content-Type`이 없습니다. 하지만 URL 경로는 1024Byte 길이 제한이 있으므로 큰 값을 전달 할 수 없고 주로 GET방식은 무언가를 요청할때 쓰입니다.
 
-
-
 ### HTTPS
 
 HTTP + Secure의 약자로 보안 인증에는 SSL 인증, TLS 인증 등 다양한 버전이 존재합니다.
-
-
 
 ### RESTful API
 
@@ -67,13 +63,9 @@ HTTP + Secure의 약자로 보안 인증에는 SSL 인증, TLS 인증 등 다양
 
 RESTful API에서 주고 받는 내용은 `바디`에 담겨 `JSON`형식으로 전달됩니다. 
 
-
-
 ### JSON
 
 JavaScript Object Notation의 약자로 자바스크립트 객체를 간결하게 표현하기위한 형식 입니다. 지금은 다른 언어에서도 지원하는 대표적인 텍스트 기반 데이터 구조입니다.
-
-
 
 ## 파운데이션 프레임워크를 이용하여 API 호출하기
 
@@ -95,16 +87,38 @@ JavaScript Object Notation의 약자로 자바스크립트 객체를 간결하�
 > 
 > URLSession 객체에 request 객체를 담아 전송 준비를하고, 응답값을 받을 클로저를 만듭니다.
 
-
-
 ## Alamofire
 
  위에서 API 호출에 이용한 URLRequest는 사용하기 다소 복잡합니다. URLRequst와 URLSession 객체를 간소화 해 쉽게 쓸 수 있게 만든 라이브러리가 있으며 그 중 하나가 Alamofire입니다.
 
  Alamofire는 HTTP 네트워킹을 위해 스위프트 기반으로 개발된 비동기 라이브러리로 API 호출 역시 간결하게 작성 할 수 있습니다.
 
-
-
 ## 실습) 메모 앱에 로그인 및 API 인증 과정 구현하기
+
+~~
+
+## OAuth token
+
+id, password 로 login api를 호출하면 토큰을 받게된다.
+
+refresh token, access token 두 종류가 있으며, refresh token은 유효기간이 없고 access token은 제한 시간이 있다.
+
+제한 시간 이내에는 access token 을 이용하여 서버의 API를 호출 할 수 있다.
+
+제한 시간이 만료되면 제한 시간이 없는 refresh token을 이용하여 access token을 새로 받을 수 있다.
+
+refresh token은 id, password를 매번 입력하는것을 대체하기 위한 용도로 사용하므로 무조건 refresh를 허용 해 주는것이 아닌 iPhone의 touch id 와 같은 local 인증을 통과한 경우 갱신을 허용 하도록 구현한다.
+
+로그아웃을 하는경우 모든 token은 무효화 된다.
+
+예를들어 쿠팡 앱을 다운받았다면 최초 1회 로그인을 해 두면 로그아웃 하기 전까지 계속 사용이 가능하다. 이는 refresh token의 유효기간이 없기 때문이다.
+
+
+
+ 원래 OAuth의 존재 목적은 써드 파티 앱에 로그인 기능을 제공하기 위해 구현된 것이다. 써드 파티앱에 id password를 직접 노출하지 않고도 인증을 가능하게 할 수 있고, 서드파티 앱 마다 수준별로 다른 접근 권한을 제공하여 제어가 가능하다.
+
+
+
+위의 메모앱에서 OAuth를 구현하는 부분은 오버엔지니어링 처럼 보이기도 한다. 왜냐하면 key-chain에 id, password를 저장하는것 정도로도 동일한 효과를 보기 때문이다. 하지만 보통 로그인 같은 기능은 서버를 직접 구현하기보다 "카카오톡 로그인하기" 와 같은 써드파티 로그인을 구현하는게 일반적이므로 인증 토큰을 다룰 줄 알아야 하는것이 좋다.
 
 
