@@ -221,9 +221,11 @@
                     <connections>
                         <outlet property="contents" destination="M8C-S9-dc1" id="7tu-ed-Sw3"/>
                         <outlet property="preview" destination="FZQ-If-7NT" id="JHW-pk-4co"/>
+                        <segue destination="CtX-JW-RfD" kind="unwind" identifier="backProfileVC" unwindAction="backProfileVC:" id="a96-Ns-Uak"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4K1-R8-h2k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="CtX-JW-RfD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="487" y="79"/>
         </scene>

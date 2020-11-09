@@ -151,6 +151,11 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
         v.addSubview(btn)
     }
+    
+    @IBAction func backProfileVC(_ segue: UIStoryboardSegue) {
+        //아무 내용 없음
+        //프로필 화면으로 돌아오기위한 세그만 연결
+    }
 }
 
 //프로필 이미지 변경
