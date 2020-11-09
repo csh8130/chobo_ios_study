@@ -22,6 +22,12 @@ class JoinVC: UIViewController {
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+        
+        self.profile.layer.cornerRadius = self.profile.frame.width / 2
+        self.profile.layer.masksToBounds = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tappedProfile(_:)))
+        self.profile.addGestureRecognizer(gesture)
     }
     
     @IBAction func submit(_ sender: Any) {
@@ -69,4 +75,37 @@ extension JoinVC: UITableViewDelegate, UITableViewDataSource {
       return 40
     }
     
+}
+
+extension JoinVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    @objc func tappedProfile(_ sender: Any) {
+      // 액션시트를 열어주는 부분
+      let msg = "프로필 이미지를 읽어올 곳을 선택하세요."
+      let sheet = UIAlertController(title: msg, message: nil, preferredStyle: .actionSheet)
+      
+      sheet.addAction(UIAlertAction(title: "취소", style: .cancel))
+      sheet.addAction(UIAlertAction(title: "저장된 앨범", style: .default) { (_) in
+        selectLibrary(src: .savedPhotosAlbum) // 저장된 앨범에서 이미지 선택하기
+      })
+      sheet.addAction(UIAlertAction(title: "포토 라이브러리", style: .default) { (_) in
+        selectLibrary(src: .photoLibrary) // 포토 라이브러리에서 이미지 선택하기
+      })
+      sheet.addAction(UIAlertAction(title: "카메라", style: .default) { (_) in
+        selectLibrary(src: .camera) // 카메라에서 이미지 촬영하기
+      })
+      self.present(sheet, animated: false)
+      
+      // 이미지 피커창을 여는 함수
+        func selectLibrary(src: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(src) {
+          let picker = UIImagePickerController()
+          picker.delegate = self
+          picker.allowsEditing = true
+          
+          self.present(picker, animated: false)
+        } else {
+          self.alert("사용할 수 없는 타입입니다.")
+        }
+      }
+    }
 }
