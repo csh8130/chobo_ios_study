@@ -76,7 +76,7 @@ class JoinVC: UIViewController {
           if resultCode == 0 {
             self.alert("가입이 완료되었습니다.") {
               //self.performSegue(withIdentifier: "backProfileVC", sender: self)
-            self.performSegue(withIdentifier: "backProfileVC", sender: self)
+//            self.performSegue(withIdentifier: "backProfileVC", sender: self)
             }
           } else { // 3-4. 응답 코드가 0이 아닐 때에는 실패
             self.isCalling = false
