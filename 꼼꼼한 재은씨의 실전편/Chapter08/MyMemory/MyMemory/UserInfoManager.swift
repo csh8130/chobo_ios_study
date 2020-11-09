@@ -98,8 +98,21 @@ class UserInfoManager {
              // 3-2. 응답 코드 확인. 0이면 성공
              let resultCode = jsonObject["result_code"] as! Int
              if resultCode == 0 { // 로그인 성공
-               // 3-3. 로그인 성공 처리 로직이 여기에 들어갑니다.
+               // 3-3. user_info 이하 항목을 딕셔너리 형태로 추출하여 저장
+               let user = jsonObject["user_info"] as! NSDictionary
+               self.loginId = user["user_id"] as! Int
+               self.account = user["account"] as? String
+               self.name = user["name"] as? String
                
+               // 3-4. user_info 항목 중에서 프로필 이미지 처리
+               if let path = user["profile_path"] as? String {
+                 if let imageData = try? Data(contentsOf: URL(string: path)!) {
+                   self.profile = UIImage(data: imageData)
+                 }
+               }
+               
+               // 3-5. 인자값으로 입력된 success 클로저 블록을 실행한다.
+               success?()
              } else { // 로그인 실패
                let msg = (jsonObject["error_msg"] as? String) ?? "로그인이 실패했습니다."
                fail?(msg)
