@@ -289,22 +289,6 @@ struct IsPrimeModalView: View {
 //  var activityFeed: [AppState.Activity]
 //}
 
-struct FavoritePrimesView: View {
-    @ObservedObject var store: Store<[Int], FavoritePrimesAction>
-
-    var body: some View {
-        List {
-            ForEach(self.store.value, id: \.self) { prime in
-                Text("\(prime)")
-            }.onDelete { indexSet in
-                self.store.send(.deleteFavoritePrimes(indexSet))
-            }
-        }
-        .navigationBarTitle(Text("Favorite Primes"))
-    }
-    
-}
-
 private func isPrime (_ p: Int) -> Bool {
   if p <= 1 { return false }
   if p <= 3 { return true }

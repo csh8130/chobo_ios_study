@@ -85,3 +85,25 @@ NavigationLink(
 ```
 
 
+
+### Extracting our first modular view
+
+  이제 뷰 자체를 모듈화 시킬 준비가 되었습니다. `FavoritePrimesView`를 잘라내어 `FavoritePrimes`모듈로 이동 시킵니다.
+
+ 이전에 PrimeModal을 모듈로 옮길 때 와 마찬가지로 자동 생성 이니셜 라이저로는 접근제어자를 변경 할 수 없어서 생성자를 만들어 줘야 합니다.
+
+```swift
+public struct FavoritePrimesView: View {
+  @ObservedObject var store: Store<[Int], FavoritePrimesAction>
+
+  public init(store: Store<[Int], FavoritePrimesAction>)
+    self.store = store
+  }
+
+  public var body: some View {
+    …
+  }
+}
+```
+
+
