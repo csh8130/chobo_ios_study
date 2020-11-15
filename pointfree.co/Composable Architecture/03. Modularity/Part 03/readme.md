@@ -107,3 +107,7 @@ public struct FavoritePrimesView: View {
 ```
 
 
+
+### Focusing on prime modal actions
+
+ PrimeModal을 위에서 한것과 마찬가지로 모듈로 이동시킨다.
