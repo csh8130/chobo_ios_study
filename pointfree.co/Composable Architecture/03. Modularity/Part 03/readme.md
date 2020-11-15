@@ -110,4 +110,89 @@ public struct FavoritePrimesView: View {
 
 ### Focusing on prime modal actions
 
- PrimeModal을 위에서 한것과 마찬가지로 모듈로 이동시킨다.
+ PrimeModal을 위에서 한것과 마찬가지로 모듈로 이동시킨다. 동일한 작업이었고 변경하는데 몇 초 걸리지 않았다.
+
+
+
+### Focusing on counter actions
+
+ 카운터 View는 PrimeModal Action을 보낼 수 있어야 합니다. 이전에 PrimeModal의 State를 제한 할 때 사용한 방식처럼 중간 유형을 만듭니다. 대신 구조체를 사용하지않고 열거형으로 만들었습니다.
+
+```swift
+enum CounterViewAction {
+  case counter(CounterAction)
+  case primeModal(PrimeModalAction)
+}
+```
+
+ 다른것은 더 변경 할 필요가 없습니다. 다만 카운터 뷰의 초기화 호출 부분이 변경되어야 합니다.
+
+```swift
+NavigationLink(
+  "Counter demo",
+  destination: CounterView(
+    store: self.store.view(
+      value: { ($0.count, $0.favoritePrimes) },
+      action: { $0 }
+    )
+  )
+)
+```
+
+기존의 이런 형태에서
+
+```swift
+NavigationLink(
+  "Counter demo",
+  destination: CounterView(
+    store: self.store.view(
+      value: { ($0.count, $0.favoritePrimes) },
+      action: {
+        switch $0 {
+        case let .counter(action):
+          return AppAction.counter(action)
+        case let .primeModal(action):
+          return AppAction.primeModal(action)
+        }
+      }
+    )
+  )
+)
+```
+
+이런 방식이 됩니다.
+
+ 이제 카운터 뷰를 모듈로 옮길 준비가 끝났습니다. 많은 요소가 함께 이동되어야합니다.
+
+```swift
+struct PrimeAlert: Identifiable {
+  …
+}
+
+enum CounterViewAction {
+  …
+}
+
+struct CounterView: View {
+  @ObservedObject var store: Store<CounterViewState, CounterViewAction>
+  …
+
+  var body: some View {
+    …
+  }
+}
+
+func nthPrime(_ n: Int, callback: @escaping (Int?) -> Void) -> Void {
+  …
+}
+
+func ordinal(_ n: Int) -> String {
+  …
+}
+```
+
+ 추가적으로 `import  PrimeModal`가 필요합니다.
+
+ 많은 컴파일 애러가 발생하게됩니다, 접근제어를 public으로 변경하고, wolframAlpha api 들을 가져옵니다. 그리고 컴파일에 성공하게 됩니다.
+
+

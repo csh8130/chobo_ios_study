@@ -17,14 +17,20 @@ struct ContentView: View {
         NavigationView {
             List {
                 NavigationLink(
-                  "Counter demo",
-                  destination: CounterView(
-                    store: self.store
-                        .view(
+                    "Counter demo",
+                    destination: CounterView(
+                        store: self.store.view(
                             value: { ($0.count, $0.favoritePrimes) },
-                            action: { $0 }
+                            action: {
+                                switch $0 {
+                                case let .counter(action):
+                                    return AppAction.counter(action)
+                                case let .primeModal(action):
+                                    return AppAction.primeModal(action)
+                                }
+                            }
                         )
-                  )
+                    )
                 )
                 NavigationLink(
                   "Favorite primes",
@@ -38,28 +44,6 @@ struct ContentView: View {
     }
 }
 
-//class AppState: ObservableObject {
-//    @Published var count: Int = 0
-//    @Published var favoritePrimes: [Int] = []
-//    @Published var loggedInUser: User?
-//    @Published var activityFeed: [Activity] = []
-//
-//    struct Activity {
-//      let timestamp: Date
-//      let type: ActivityType
-//
-//      enum ActivityType {
-//        case addedFavoritePrime(Int)
-//        case removedFavoritePrime(Int)
-//      }
-//    }
-//
-//    struct User {
-//      let id: Int
-//      let name: String
-//      let bio: String
-//    }
-//}
 struct AppState {
   var count = 0
   var favoritePrimes: [Int] = []
@@ -97,22 +81,6 @@ extension AppState {
         }
     }
 }
-
-//extension AppState {
-//  var favoritePrimesState: FavoritePrimesState {
-//    get {
-//      return FavoritePrimesState(
-//        favoritePrimes: self.favoritePrimes,
-//        activityFeed: self.activityFeed
-//      )
-//    }
-//    set {
-//      self.activityFeed = newValue.activityFeed
-//      self.favoritePrimes = newValue.favoritePrimes
-//    }
-//  }
-//}
-
 
 enum AppAction {
   case counter(CounterAction)
@@ -188,15 +156,6 @@ struct _KeyPath<Root, Value> {
   let set: (inout Root, Value) -> Void
 }
 
-//let action = AppAction.favoritePrimes(.deleteFavoritePrimes([1]))
-//let favoritePrimes: FavoritePrimesAction?
-//switch action {
-//case let .favoritePrimes(action):
-//    favoritePrimes = action
-//default:
-//    favoritePrimes = nil
-//}
-
 let _appReducer: (inout AppState, AppAction) -> Void = combine(
     pullback(counterReducer, value: \.count, action: \.counter),
     pullback(primeModalReducer, value: \.primeModal, action: \.primeModal),
@@ -204,117 +163,3 @@ let _appReducer: (inout AppState, AppAction) -> Void = combine(
 )
 
 let appReducer = pullback(_appReducer, value: \.self, action: \.self)
-
-typealias CounterViewState = (count: Int, favoritePrimes: [Int])
-
-struct CounterView: View {
-    @ObservedObject var store: Store<CounterViewState, AppAction>
-    @State var isPrimeModalShown: Bool = false
-    @State var alertNthPrime: PrimeAlert?
-    @State var isNthPrimeButtonDisabled = false
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Button("-") { self.store.send(.counter(.decrTapped)) }
-                Text("\(self.store.value.count)")
-                Button("+") { self.store.send(.counter(.incrTapped)) }
-            }
-            Button(action: { self.isPrimeModalShown = true }) {
-                Text("Is this prime?")
-            }
-            Button(action: nthPrimeButtonAction) {
-              Text("What's the \(ordinal(self.store.value.count)) prime?")
-            }
-            .disabled(isNthPrimeButtonDisabled)
-        }
-        .font(.title)
-        .navigationBarTitle("Counter demo")
-        .sheet(isPresented: $isPrimeModalShown) {
-            IsPrimeModalView(
-              store: self.store.view(
-                value: { ($0.count, $0.favoritePrimes) }, action: { .primeModal($0) }
-              )
-            )
-        }
-        .alert(item: self.$alertNthPrime) { alert in
-          Alert(
-            title: Text("The \(ordinal(self.store.value.count)) prime is \(alert.prime)"),
-            dismissButton: .default(Text("Ok"))
-          )
-        }
-    }
-    
-    private func ordinal(_ n: Int) -> String {
-      let formatter = NumberFormatter()
-      formatter.numberStyle = .ordinal
-      return formatter.string(for: n) ?? ""
-    }
-    
-    func nthPrimeButtonAction() {
-        self.isNthPrimeButtonDisabled = true
-        nthPrime(self.store.value.count) { prime in
-            self.alertNthPrime = prime.map{PrimeAlert(prime: $0)}
-            self.isNthPrimeButtonDisabled = false
-        }
-    }
-}
-
-struct WolframAlphaResult: Decodable {
-  let queryresult: QueryResult
-
-  struct QueryResult: Decodable {
-    let pods: [Pod]
-
-    struct Pod: Decodable {
-      let primary: Bool?
-      let subpods: [SubPod]
-
-      struct SubPod: Decodable {
-        let plaintext: String
-      }
-    }
-  }
-}
-
-func wolframAlpha(query: String, callback: @escaping (WolframAlphaResult?) -> Void) -> Void {
-    let wolframAlphaApiKey = "6H69Q3-828TKQJ4EP"
-  var components = URLComponents(string: "https://api.wolframalpha.com/v2/query")!
-  components.queryItems = [
-    URLQueryItem(name: "input", value: query),
-    URLQueryItem(name: "format", value: "plaintext"),
-    URLQueryItem(name: "output", value: "JSON"),
-    URLQueryItem(name: "appid", value: wolframAlphaApiKey),
-  ]
-
-  URLSession.shared.dataTask(with: components.url(relativeTo: nil)!) { data, response, error in
-    callback(
-      data
-        .flatMap { try? JSONDecoder().decode(WolframAlphaResult.self, from: $0) }
-    )
-    }
-    .resume()
-}
-
-func nthPrime(_ n: Int, callback: @escaping (Int?) -> Void) -> Void {
-  wolframAlpha(query: "prime \(n)") { result in
-    callback(
-      result
-        .flatMap {
-          $0.queryresult
-            .pods
-            .first(where: { $0.primary == .some(true) })?
-            .subpods
-            .first?
-            .plaintext
-      }
-      .flatMap(Int.init)
-    )
-  }
-}
-
-struct PrimeAlert: Identifiable {
-  let prime: Int
-
-  var id: Int { self.prime }
-}
