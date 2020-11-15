@@ -29,7 +29,7 @@ struct ContentView: View {
                 NavigationLink(
                   "Favorite primes",
                   destination: FavoritePrimesView(
-                    store: self.store.view { $0.favoritePrimes } action: { $0 }
+                    store: self.store.view { $0.favoritePrimes } action: { .favoritePrimes($0) }
                   )
                 )
             }
@@ -231,10 +231,13 @@ struct CounterView: View {
         .font(.title)
         .navigationBarTitle("Counter demo")
         .sheet(isPresented: $isPrimeModalShown) {
-//            IsPrimeModalView(
-//              store: self.store.view { ($0.count, $0.favoritePrimes) }
-//            )
-            IsPrimeModalView(store: self.store)
+            IsPrimeModalView(
+                store: self.store
+                .view(
+                  value: { ($0.count, $0.favoritePrimes) },
+                  action: { $0 }
+              )
+            )
         }
         .alert(item: self.$alertNthPrime) { alert in
           Alert(
@@ -287,14 +290,14 @@ struct IsPrimeModalView: View {
 //}
 
 struct FavoritePrimesView: View {
-    @ObservedObject var store: Store<[Int], AppAction>
+    @ObservedObject var store: Store<[Int], FavoritePrimesAction>
 
     var body: some View {
         List {
             ForEach(self.store.value, id: \.self) { prime in
                 Text("\(prime)")
             }.onDelete { indexSet in
-             self.store.send(.favoritePrimes(.deleteFavoritePrimes(indexSet)))
+                self.store.send(.deleteFavoritePrimes(indexSet))
             }
         }
         .navigationBarTitle(Text("Favorite Primes"))

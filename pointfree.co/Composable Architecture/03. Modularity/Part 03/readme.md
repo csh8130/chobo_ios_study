@@ -62,3 +62,26 @@ public func view<LocalValue, LocalAction>(
 ```
 
 
+
+### Focusing on favorite primes actions
+
+```swift
+struct FavoritePrimesView: View {
+  @ObservedObject var store: Store<[Int], FavoritePrimesAction>
+```
+
+ 즐겨찾기 View의 액션을 바꿔줍니다. 
+
+```swift
+NavigationLink(
+  "Favorite primes",
+  destination: FavoritePrimesView(
+    store: self.store.view(
+      value: { $0.favoritePrimes },
+      action: { AppAction.favoritePrimes($0) }
+    )
+  )
+)
+```
+
+
