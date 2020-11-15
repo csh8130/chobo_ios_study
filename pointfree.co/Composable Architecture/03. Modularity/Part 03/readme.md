@@ -37,3 +37,28 @@ final class Store<Value, Action>: ObservableObject {
 ```
 
 
+
+### Combining view functions
+
+ global Store를 local Store로 변환하는 함수와 global Action을 local Action으로 변환하는 기능은 하나로 합칠 수 있습니다.
+
+```swift
+public func view<LocalValue, LocalAction>(
+        value toLocalValue: @escaping (Value) -> LocalValue,
+        action toGlobalAction: @escaping (LocalAction) -> Action
+    ) -> Store<LocalValue, LocalAction> {
+        let localStore = Store<LocalValue, LocalAction>(
+            initialValue: toLocalValue(self.value),
+            reducer: { localValue, localAction in
+                self.send(toGlobalAction(localAction))
+                localValue = toLocalValue(self.value)
+            }
+        )
+        localStore.cancellable = self.$value.sink { [weak localStore] newValue in
+            localStore?.value = toLocalValue(newValue)
+        }
+        return localStore
+    }
+```
+
+
