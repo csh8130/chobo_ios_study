@@ -9,6 +9,8 @@
 import UIKit
 
 class MenuItemTableViewCell: UITableViewCell {
+    var onCountChanged: (Int) -> Void = { _ in }
+    
     private var storeItem: (menu: MenuItem, count: Int) = (MenuItem(name: "", price: 0), 0)
     var item: (menu: MenuItem, count: Int) {
         get {
@@ -17,7 +19,7 @@ class MenuItemTableViewCell: UITableViewCell {
         set {
             storeItem = newValue
             title.text = newValue.menu.name
-            count.text = "0"
+            count.text = "\(newValue.count)"
             price.text = "\(newValue.menu.price)"
         }
     }
@@ -27,8 +29,10 @@ class MenuItemTableViewCell: UITableViewCell {
     @IBOutlet var price: UILabel!
 
     @IBAction func onIncreaseCount() {
+        onCountChanged(1)
     }
 
     @IBAction func onDecreaseCount() {
+        onCountChanged(-1)
     }
 }
