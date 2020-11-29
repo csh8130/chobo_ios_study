@@ -9,16 +9,16 @@
 import UIKit
 
 class MenuItemTableViewCell: UITableViewCell {
-    private var storeItem: MenuItem = MenuItem(name: "", price: 0)
-    var item: MenuItem {
+    private var storeItem: (menu: MenuItem, count: Int) = (MenuItem(name: "", price: 0), 0)
+    var item: (menu: MenuItem, count: Int) {
         get {
             return storeItem
         }
         set {
             storeItem = newValue
-            title.text = newValue.name
+            title.text = newValue.menu.name
             count.text = "0"
-            price.text = "\(newValue.price)"
+            price.text = "\(newValue.menu.price)"
         }
     }
     

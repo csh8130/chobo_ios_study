@@ -31,7 +31,7 @@ class MenuViewController: UIViewController {
     }
     
     // MARK: business logic
-    var items: [MenuItem] = []
+    var items: [(menu: MenuItem, count: Int)] = []
     
     func fetchMenus() {
         activityIndicator.isHidden = false
@@ -51,7 +51,7 @@ class MenuViewController: UIViewController {
                     }
                     return
                 }
-                self.items = response.menus
+                self.items = response.menus.map { ($0, 0) }
                 DispatchQueue.main.async {
                     self.activityIndicator.isHidden = true
                     self.tableView.reloadData()
