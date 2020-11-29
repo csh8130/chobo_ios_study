@@ -13,6 +13,7 @@ class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchMenus()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -27,6 +28,39 @@ class MenuViewController: UIViewController {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default))
         present(alertVC, animated: true, completion: nil)
+    }
+    
+    // MARK: business logic
+    var items: [MenuItem] = []
+    
+    func fetchMenus() {
+        activityIndicator.isHidden = false
+        APIService.fetchAllMenus { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                struct Response: Decodable {
+                    let menus: [MenuItem]
+                }
+                guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
+                    self.showAlert("error", "json decode error")
+                    DispatchQueue.main.async {
+                        self.activityIndicator.isHidden = true
+                    }
+                    return
+                }
+                self.items = response.menus
+                DispatchQueue.main.async {
+                    self.activityIndicator.isHidden = true
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
     }
 
     // MARK: - InterfaceBuilder Links
@@ -48,16 +82,12 @@ class MenuViewController: UIViewController {
 
 extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
-
-        cell.title.text = "MENU \(indexPath.row)"
-        cell.price.text = "\(indexPath.row * 100)"
-        cell.count.text = "0"
-
+        cell.item = items[indexPath.row]
         return cell
     }
 }
