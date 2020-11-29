@@ -89,12 +89,16 @@ extension MenuViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
         cell.item = items[indexPath.row]
         cell.onCountChanged = { [weak self] inc in
+            guard let self = self else {
+                return
+            }
+            
             var count = cell.item.count + inc
             if count < 0 {
                 count = 0
             }
-            self?.items[indexPath.row].count = count
-            cell.item = self?.items[indexPath.row] as! (menu: MenuItem, count: Int)
+            self.items[indexPath.row].count = count
+            cell.item = self.items[indexPath.row]
             tableView.beginUpdates()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
