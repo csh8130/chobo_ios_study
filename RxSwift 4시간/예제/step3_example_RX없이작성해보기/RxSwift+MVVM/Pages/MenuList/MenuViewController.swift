@@ -14,6 +14,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchMenus()
+        refreshTotal()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,6 +63,13 @@ class MenuViewController: UIViewController {
             }
         }
     }
+    
+    func refreshTotal() {
+        let allCount = items.map { $0.count }.reduce(0, +)
+        let allPrice = items.map { $0.count * $0.menu.price}.reduce(0, +)
+        itemCountLabel.text = "\(allCount)"
+        totalPrice.text = allPrice.currencyKR()
+    }
 
     // MARK: - InterfaceBuilder Links
 
@@ -102,6 +110,8 @@ extension MenuViewController: UITableViewDataSource {
             tableView.beginUpdates()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
+            
+            self.refreshTotal()
         }
         return cell
     }
