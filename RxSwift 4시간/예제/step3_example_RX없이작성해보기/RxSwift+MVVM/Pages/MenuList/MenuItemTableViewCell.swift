@@ -11,16 +11,11 @@ import UIKit
 class MenuItemTableViewCell: UITableViewCell {
     var onCountChanged: (Int) -> Void = { _ in }
     
-    private var storeItem: (menu: MenuItem, count: Int) = (MenuItem(name: "", price: 0), 0)
-    var item: (menu: MenuItem, count: Int) {
-        get {
-            return storeItem
-        }
-        set {
-            storeItem = newValue
-            title.text = newValue.menu.name
-            count.text = "\(newValue.count)"
-            price.text = "\(newValue.menu.price)"
+    var item: (menu: MenuItem, count: Int)? {
+        didSet {
+            title.text = item?.menu.name ?? ""
+            count.text = "\(item?.count ?? 0)"
+            price.text = "\(item?.menu.price ?? 0)"
         }
     }
     

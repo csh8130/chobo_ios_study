@@ -101,7 +101,7 @@ extension MenuViewController: UITableViewDataSource {
                 return
             }
             
-            var count = cell.item.count + inc
+            var count = (cell.item?.count ?? 0) + inc
             if count < 0 {
                 count = 0
             }
