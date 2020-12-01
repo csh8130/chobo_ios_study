@@ -79,11 +79,18 @@ class MenuViewController: UIViewController {
     @IBOutlet var totalPrice: UILabel!
 
     @IBAction func onClear() {
+        items = items.map { ($0.menu, 0) }
+        tableView.reloadData()
+        refreshTotal()
     }
 
     @IBAction func onOrder(_ sender: UIButton) {
-        // TODO: no selection
-        // showAlert("Order Fail", "No Orders")
+        let allCount = items.map { $0.count }.reduce(0, +)
+        guard allCount > 0 else {
+            showAlert("Order Fail", "No Orders")
+            return
+        }
+        
         performSegue(withIdentifier: "OrderViewController", sender: nil)
     }
 }
