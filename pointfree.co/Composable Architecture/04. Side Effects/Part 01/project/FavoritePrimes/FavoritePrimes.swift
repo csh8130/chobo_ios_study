@@ -33,6 +33,22 @@ public func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesActi
             .appendingPathComponent("favorite-primes.json")
         try! data.write(to: favoritePrimesUrl)
     }
+    
+  case .loadButtonTapped:
+    
+    return {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory, .userDomainMask, true
+        )[0]
+        let documentsUrl = URL(fileURLWithPath: documentsPath)
+        let favoritePrimesUrl = documentsUrl
+            .appendingPathComponent("favorite-primes.json")
+        guard
+            let data = try? Data(contentsOf: favoritePrimesUrl),
+            let favoritePrimes = try? JSONDecoder().decode([Int].self, from: data)
+        else { return }
+        self.store.send(.favoritePrimesLoaded(favoritePrimes))
+    }
   }
 }
 
@@ -40,6 +56,7 @@ public enum FavoritePrimesAction {
     case deleteFavoritePrimes(IndexSet)
     case loadedFavoritePrimes([Int])
     case saveButtonTapped
+    case loadButtonTapped
 }
 
 public struct FavoritePrimesView: View {
@@ -72,17 +89,18 @@ public struct FavoritePrimesView: View {
 //                    try! data.write(to: favoritePrimesUrl)
                 }
                 Button("Load") {
-                    let documentsPath = NSSearchPathForDirectoriesInDomains(
-                      .documentDirectory, .userDomainMask, true
-                      )[0]
-                    let documentsUrl = URL(fileURLWithPath: documentsPath)
-                    let favoritePrimesUrl = documentsUrl
-                      .appendingPathComponent("favorite-primes.json")
-                    guard
-                      let data = try? Data(contentsOf: favoritePrimesUrl),
-                      let favoritePrimes = try? JSONDecoder().decode([Int].self, from: data)
-                      else { return }
-                    self.store.send(.loadedFavoritePrimes(favoritePrimes))
+                    self.store.send(.loadButtonTapped)
+//                    let documentsPath = NSSearchPathForDirectoriesInDomains(
+//                      .documentDirectory, .userDomainMask, true
+//                      )[0]
+//                    let documentsUrl = URL(fileURLWithPath: documentsPath)
+//                    let favoritePrimesUrl = documentsUrl
+//                      .appendingPathComponent("favorite-primes.json")
+//                    guard
+//                      let data = try? Data(contentsOf: favoritePrimesUrl),
+//                      let favoritePrimes = try? JSONDecoder().decode([Int].self, from: data)
+//                      else { return }
+//                    self.store.send(.loadedFavoritePrimes(favoritePrimes))
                   }
             }
         )
