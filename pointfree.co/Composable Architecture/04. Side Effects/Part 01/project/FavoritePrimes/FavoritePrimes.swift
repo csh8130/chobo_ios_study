@@ -15,11 +15,14 @@ public func favoritePrimesReducer(state: inout [Int], action: FavoritePrimesActi
     for index in indexSet {
       state.remove(at: index)
     }
+  case let .loadedFavoritePrimes(favoritePrimes):
+    state = favoritePrimes
   }
 }
 
 public enum FavoritePrimesAction {
     case deleteFavoritePrimes(IndexSet)
+    case loadedFavoritePrimes([Int])
 }
 
 public struct FavoritePrimesView: View {
@@ -38,6 +41,33 @@ public struct FavoritePrimesView: View {
             }
         }
         .navigationBarTitle(Text("Favorite Primes"))
+        .navigationBarItems(
+            trailing: HStack {
+                Button("Save") {
+                    let data = try! JSONEncoder().encode(self.store.value)
+                    let documentsPath = NSSearchPathForDirectoriesInDomains(
+                        .documentDirectory, .userDomainMask, true
+                    )[0]
+                    let documentsUrl = URL(fileURLWithPath: documentsPath)
+                    let favoritePrimesUrl = documentsUrl
+                        .appendingPathComponent("favorite-primes.json")
+                    try! data.write(to: favoritePrimesUrl)
+                }
+                Button("Load") {
+                    let documentsPath = NSSearchPathForDirectoriesInDomains(
+                      .documentDirectory, .userDomainMask, true
+                      )[0]
+                    let documentsUrl = URL(fileURLWithPath: documentsPath)
+                    let favoritePrimesUrl = documentsUrl
+                      .appendingPathComponent("favorite-primes.json")
+                    guard
+                      let data = try? Data(contentsOf: favoritePrimesUrl),
+                      let favoritePrimes = try? JSONDecoder().decode([Int].self, from: data)
+                      else { return }
+                    self.store.send(.loadedFavoritePrimes(favoritePrimes))
+                  }
+            }
+        )
     }
     
 }
