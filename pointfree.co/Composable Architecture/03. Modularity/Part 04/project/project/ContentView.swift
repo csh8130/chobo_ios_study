@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchiteture
 import FavoritePrimes
 import Counter
-import PrimeModal
+//import PrimeModal
 
 struct ContentView: View {
     @ObservedObject var store: Store<AppState, AppAction>
@@ -20,7 +20,7 @@ struct ContentView: View {
                     "Counter demo",
                     destination: CounterView(
                         store: self.store.view(
-                            value: { ($0.count, $0.favoritePrimes) },
+                            value: { $0.counterView },
                             action: { .counterView($0) }
                         )
                     )
