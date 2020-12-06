@@ -1,7 +1,9 @@
 import SwiftUI
 import Combine
 
-public typealias Reducer<Value, Action> = (inout Value, Action) -> Void
+public typealias Effect = () -> Void
+
+public typealias Reducer<Value, Action> = (inout Value, Action) -> Effect
 
 public final class Store<Value, Action>: ObservableObject {
     @Published public private(set) var value: Value
@@ -14,7 +16,8 @@ public final class Store<Value, Action>: ObservableObject {
     }
     
     public func send(_ action: Action) {
-      self.reducer(&self.value, action)
+        let effect = self.reducer(&self.value, action)
+        effect()
     }
     
     public func view<LocalValue, LocalAction>(
@@ -26,6 +29,7 @@ public final class Store<Value, Action>: ObservableObject {
             reducer: { localValue, localAction in
                 self.send(toGlobalAction(localAction))
                 localValue = toLocalValue(self.value)
+                return {}
             }
         )
         localStore.cancellable = self.$value.sink { [weak localStore] newValue in
@@ -40,8 +44,11 @@ public func combine<Value, Action>(
 ) -> Reducer<Value, Action> {
 
   return { value, action in
-    for reducer in reducers {
-      reducer(&value, action)
+    let effects = reducers.map { $0(&value, action) }
+    return {
+        for effect in effects {
+            effect()
+          }
     }
   }
 }
@@ -53,8 +60,9 @@ public func pullback<GlobalValue, LocalValue, GlobalAction, LocalAction>(
 ) -> Reducer<GlobalValue, GlobalAction> {
 
   return { globalValue, globalAction in
-    guard let localAction = globalAction[keyPath: action] else { return }
-    reducer(&globalValue[keyPath: value], localAction)
+    guard let localAction = globalAction[keyPath: action] else { return {} }
+    let effect = reducer(&globalValue[keyPath: value], localAction)
+    return effect
   }
 }
 
@@ -62,10 +70,14 @@ public func logging<Value, Action>(
   _ reducer: @escaping Reducer<Value, Action>
 ) -> Reducer<Value, Action> {
   return { value, action in
-    reducer(&value, action)
-    print("Action: \(action)")
-    print("State:")
-    dump(value)
-    print("---")
+    let effect = reducer(&value, action)
+    let newValue = value
+    return {
+        print("Action: \(action)")
+        print("Value:")
+        dump(newValue)
+        print("---")
+        effect()
+    }
   }
 }
