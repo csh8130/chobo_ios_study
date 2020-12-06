@@ -22,4 +22,26 @@
 
 ### The favorite primes app
 
+ 즐겨찾기 화면을 playground에서 테스트 해보겠습니다.
 
+```swift
+import ComposableArchitecture
+import FavoritePrimes
+import SwiftUI
+import PlaygroundSupport
+
+PlaygroundPage.current.liveView = UIHostingController(
+  rootView: FavoritePrimesView(
+    store: Store<[Int], FavoritePrimesAction>(
+      initialValue: [],
+      reducer: favoritePrimesReducer
+    )
+  )
+)
+```
+
+실행하면 빈 뷰가 나타나지만 이는 초기값을 제공하지 않아서 입니다.
+
+```swift
+
+```
