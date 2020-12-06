@@ -1,12 +1,14 @@
 import SwiftUI
 import Combine
 
+public typealias Reducer<Value, Action> = (inout Value, Action) -> Void
+
 public final class Store<Value, Action>: ObservableObject {
     @Published public private(set) var value: Value
     private var cancellable: Cancellable?
     
-    let reducer: (inout Value, Action) -> Void
-    public init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
+    let reducer: Reducer<Value, Action>
+    public init(initialValue: Value, reducer: @escaping Reducer<Value, Action>) {
       self.value = initialValue
       self.reducer = reducer
     }
@@ -34,8 +36,8 @@ public final class Store<Value, Action>: ObservableObject {
 }
 
 public func combine<Value, Action>(
-  _ reducers: (inout Value, Action) -> Void...
-) -> (inout Value, Action) -> Void {
+  _ reducers: Reducer<Value, Action>...
+) -> Reducer<Value, Action> {
 
   return { value, action in
     for reducer in reducers {
@@ -45,10 +47,10 @@ public func combine<Value, Action>(
 }
 
 public func pullback<GlobalValue, LocalValue, GlobalAction, LocalAction>(
-  _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
+  _ reducer: @escaping Reducer<LocalValue, LocalAction>,
   value: WritableKeyPath<GlobalValue, LocalValue>,
   action: WritableKeyPath<GlobalAction, LocalAction?>
-) -> (inout GlobalValue, GlobalAction) -> Void {
+) -> Reducer<GlobalValue, GlobalAction> {
 
   return { globalValue, globalAction in
     guard let localAction = globalAction[keyPath: action] else { return }
@@ -57,8 +59,8 @@ public func pullback<GlobalValue, LocalValue, GlobalAction, LocalAction>(
 }
 
 public func logging<Value, Action>(
-  _ reducer: @escaping (inout Value, Action) -> Void
-) -> (inout Value, Action) -> Void {
+  _ reducer: @escaping Reducer<Value, Action>
+) -> Reducer<Value, Action> {
   return { value, action in
     reducer(&value, action)
     print("Action: \(action)")
