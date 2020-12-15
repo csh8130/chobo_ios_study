@@ -65,32 +65,28 @@ class MenuViewController: UIViewController {
 //                break
 //            }
 //        }
+        
         let observable = APIService.fetchAllMenusRx()
-        observable.subscribe { event in
-            switch event {
-            case let .next(data):
-                struct Response: Decodable {
-                    let menus: [MenuItem]
-                }
-                
-                guard let data = event.element, let response = try? JSONDecoder().decode(Response.self, from: data) else {
-                    print("error")
-                    DispatchQueue.main.async {
-                        self.showAlert("error", "json decode error")
-                        self.activityIndicator.isHidden = true
-                    }
-                    return
-                }
-                
-                self.items = response.menus.map { ($0, 0) }
-                DispatchQueue.main.async {
-                    self.activityIndicator.isHidden = true
-                    self.tableView.reloadData()
-                }
-            default:
-                break
+        observable.subscribe(onNext: { data in
+            struct Response: Decodable {
+                let menus: [MenuItem]
             }
-        }.disposed(by: disposeBag)
+            
+            guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
+                print("error")
+                DispatchQueue.main.async {
+                    self.showAlert("error", "json decode error")
+                    self.activityIndicator.isHidden = true
+                }
+                return
+            }
+            
+            self.items = response.menus.map { ($0, 0) }
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = true
+                self.tableView.reloadData()
+            }
+        }).disposed(by: disposeBag)
     }
     
     func refreshTotal() {
