@@ -114,6 +114,21 @@ class MenuViewController: UIViewController {
             .map { $0.map { ($0.menu, 0) }}
             .bind(to: menus)
             .disposed(by: disposeBag)
+        
+        //order 버튼 누를 때
+        orderButton.rx.tap
+            .withLatestFrom(menus)
+            .map { $0.map { $0.count }.reduce(0, +) }   //갯수 체크
+            .do(onNext: { [weak self] count in          //갯수 0개이하이면 중지
+                if count <= 0 {
+                    self?.showAlert("Order Fail", "No Orders")
+                }
+            })
+            .filter { $0 > 0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.performSegue(withIdentifier: "OrderViewController", sender: nil)
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - InterfaceBuilder Links
@@ -123,18 +138,7 @@ class MenuViewController: UIViewController {
     @IBOutlet var itemCountLabel: UILabel!
     @IBOutlet var totalPrice: UILabel!
     @IBOutlet weak var clearButton: UIButton!
-    
-
-    @IBAction func onOrder(_ sender: UIButton) {
-        let items = menus.value
-        let allCount = items.map { $0.count }.reduce(0, +)
-        guard allCount > 0 else {
-            showAlert("Order Fail", "No Orders")
-            return
-        }
-        
-        performSegue(withIdentifier: "OrderViewController", sender: nil)
-    }
+    @IBOutlet weak var orderButton: UIButton!
 }
 
 //extension MenuViewController: UITableViewDataSource {
