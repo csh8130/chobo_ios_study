@@ -28,4 +28,19 @@ class APIService {
             onComplete(.success(data))
         }.resume()
     }
+    
+    static func fetchAllMenusRx() -> Observable<Data> {
+        return Observable.create { emitter -> Disposable in
+            fetchAllMenus { result in
+                switch result {
+                case let .success(data):
+                    emitter.onNext(data)
+                    emitter.onCompleted()
+                case let .failure(err):
+                    emitter.onError(err)
+                }
+            }
+            return Disposables.create()
+        }
+    }
 }
