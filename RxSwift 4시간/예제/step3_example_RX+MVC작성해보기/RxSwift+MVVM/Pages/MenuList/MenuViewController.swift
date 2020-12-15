@@ -107,6 +107,13 @@ class MenuViewController: UIViewController {
             .map { $0.currencyKR() }
             .bind(to: totalPrice.rx.text)
             .disposed(by: disposeBag)
+        
+        //clear 버튼 누를 때
+        clearButton.rx.tap
+            .withLatestFrom(menus)
+            .map { $0.map { ($0.menu, 0) }}
+            .bind(to: menus)
+            .disposed(by: disposeBag)
     }
 
     // MARK: - InterfaceBuilder Links
@@ -115,11 +122,8 @@ class MenuViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var itemCountLabel: UILabel!
     @IBOutlet var totalPrice: UILabel!
-
-    @IBAction func onClear() {
-        menus.accept(menus.value.map { ($0.0, 0) })
-        tableView.reloadData()
-    }
+    @IBOutlet weak var clearButton: UIButton!
+    
 
     @IBAction func onOrder(_ sender: UIButton) {
         let items = menus.value
