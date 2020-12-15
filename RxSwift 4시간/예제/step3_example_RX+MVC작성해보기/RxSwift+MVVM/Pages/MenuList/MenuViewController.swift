@@ -14,7 +14,6 @@ class MenuViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     // MARK: - Life Cycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
@@ -37,7 +36,6 @@ class MenuViewController: UIViewController {
     }
     
     // MARK: business logic
-//    var items: [(menu: MenuItem, count: Int)] = []
     let menus: BehaviorRelay<[(menu: MenuItem, count: Int)]> = BehaviorRelay(value: [])
     
     func fetchMenus() {
@@ -140,34 +138,3 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var orderButton: UIButton!
 }
-
-//extension MenuViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return menus.value.count
-//    }
-
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
-//        cell.item = menus.value[indexPath.row]
-//        cell.onCountChanged = { [weak self] inc in
-//            guard let self = self else {
-//                return
-//            }
-//
-//            var count = (cell.item?.count ?? 0) + inc
-//            if count < 0 {
-//                count = 0
-//            }
-//            var currentItems = self.menus.value
-//            currentItems[indexPath.row].count = count
-//            self.menus.accept(currentItems)
-//
-//            tableView.beginUpdates()
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//            tableView.endUpdates()
-//
-//            self.refreshTotal()
-//        }
-//        return cell
-//    }
-//}
