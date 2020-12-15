@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class MenuViewController: UIViewController {
+    let disposeBag = DisposeBag()
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -36,32 +39,58 @@ class MenuViewController: UIViewController {
     
     func fetchMenus() {
         activityIndicator.isHidden = false
-        APIService.fetchAllMenus { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
+//        APIService.fetchAllMenus { [weak self] result in
+//            guard let self = self else {
+//                return
+//            }
+//            switch result {
+//            case .success(let data):
+//                struct Response: Decodable {
+//                    let menus: [MenuItem]
+//                }
+//                guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
+//                    self.showAlert("error", "json decode error")
+//                    DispatchQueue.main.async {
+//                        self.activityIndicator.isHidden = true
+//                    }
+//                    return
+//                }
+//                self.items = response.menus.map { ($0, 0) }
+//                DispatchQueue.main.async {
+//                    self.activityIndicator.isHidden = true
+//                    self.tableView.reloadData()
+//                }
+//            case .failure(let error):
+//                print(error)
+//                break
+//            }
+//        }
+        let observable = APIService.fetchAllMenusRx()
+        observable.subscribe { event in
+            switch event {
+            case let .next(data):
                 struct Response: Decodable {
                     let menus: [MenuItem]
                 }
-                guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
-                    self.showAlert("error", "json decode error")
+                
+                guard let data = event.element, let response = try? JSONDecoder().decode(Response.self, from: data) else {
+                    print("error")
                     DispatchQueue.main.async {
+                        self.showAlert("error", "json decode error")
                         self.activityIndicator.isHidden = true
                     }
                     return
                 }
+                
                 self.items = response.menus.map { ($0, 0) }
                 DispatchQueue.main.async {
                     self.activityIndicator.isHidden = true
                     self.tableView.reloadData()
                 }
-            case .failure(let error):
-                print(error)
+            default:
                 break
             }
-        }
+        }.disposed(by: disposeBag)
     }
     
     func refreshTotal() {
