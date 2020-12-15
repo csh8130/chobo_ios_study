@@ -78,6 +78,15 @@ class MenuViewController: UIViewController {
     
     // MARK: - UI Logic
     func setupBindings() {
+        
+        //당겨서 새로고침
+        let refreshControl = UIRefreshControl()
+        refreshControl.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: fetchMenus)
+            .disposed(by: disposeBag)
+        tableView.refreshControl = refreshControl
+        
+        //테이블 뷰
         menus.bind(to: tableView.rx.items(cellIdentifier: "MenuItemTableViewCell", cellType: MenuItemTableViewCell.self)) { row, element, cell in
             cell.item = element
             cell.onCountChanged = { [weak self] inc in
