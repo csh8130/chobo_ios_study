@@ -73,7 +73,6 @@ class MenuViewController: UIViewController {
         let allCount = items.map { $0.count }.reduce(0, +)
         let allPrice = items.map { $0.count * $0.menu.price}.reduce(0, +)
         itemCountLabel.text = "\(allCount)"
-        totalPrice.text = allPrice.currencyKR()
     }
     
     // MARK: - UI Logic
@@ -105,6 +104,13 @@ class MenuViewController: UIViewController {
                 self.refreshTotal()
             }
         }
+        .disposed(by: disposeBag)
+        
+        //선택된 아이템 총 개수
+        menus.map { $0.map { $0.count }.reduce(0, +) }
+            .map { "\($0)" }
+            .bind(to: itemCountLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 
     // MARK: - InterfaceBuilder Links
