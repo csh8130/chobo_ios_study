@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class MenuViewController: UIViewController {
     let disposeBag = DisposeBag()
@@ -24,6 +25,7 @@ class MenuViewController: UIViewController {
         let identifier = segue.identifier ?? ""
         if identifier == "OrderViewController",
             let orderVC = segue.destination as? OrderViewController {
+            let items = menus.value.filter { $0.count > 0 }
             orderVC.orderedMenuItems = items.filter { $0.count > 0 }
         }
     }
@@ -35,61 +37,40 @@ class MenuViewController: UIViewController {
     }
     
     // MARK: business logic
-    var items: [(menu: MenuItem, count: Int)] = []
+//    var items: [(menu: MenuItem, count: Int)] = []
+    let menus: BehaviorRelay<[(menu: MenuItem, count: Int)]> = BehaviorRelay(value: [])
     
     func fetchMenus() {
         activityIndicator.isHidden = false
-//        APIService.fetchAllMenus { [weak self] result in
-//            guard let self = self else {
-//                return
-//            }
-//            switch result {
-//            case .success(let data):
-//                struct Response: Decodable {
-//                    let menus: [MenuItem]
-//                }
-//                guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
-//                    self.showAlert("error", "json decode error")
-//                    DispatchQueue.main.async {
-//                        self.activityIndicator.isHidden = true
-//                    }
-//                    return
-//                }
-//                self.items = response.menus.map { ($0, 0) }
-//                DispatchQueue.main.async {
-//                    self.activityIndicator.isHidden = true
-//                    self.tableView.reloadData()
-//                }
-//            case .failure(let error):
-//                print(error)
-//                break
-//            }
-//        }
         
-        let observable = APIService.fetchAllMenusRx()
-        observable.subscribe(onNext: { data in
-            struct Response: Decodable {
-                let menus: [MenuItem]
-            }
-            
-            guard let response = try? JSONDecoder().decode(Response.self, from: data) else {
-                print("error")
-                DispatchQueue.main.async {
-                    self.showAlert("error", "json decode error")
-                    self.activityIndicator.isHidden = true
+        APIService.fetchAllMenusRx()
+            .map { data -> [(menu: MenuItem, count: Int)] in
+                struct Response: Decodable {
+                    let menus: [MenuItem]
                 }
-                return
+                guard let res = try? JSONDecoder().decode(Response.self, from: data) else {
+                    throw NSError(domain: "json decode error", code: -1, userInfo: nil)
+                }
+                return res.menus.map { ($0, 0) }
             }
-            
-            self.items = response.menus.map { ($0, 0) }
-            DispatchQueue.main.async {
-                self.activityIndicator.isHidden = true
-                self.tableView.reloadData()
-            }
-        }).disposed(by: disposeBag)
+            .observeOn(MainScheduler.instance)
+            .subscribe (
+                onNext: { [weak self] items in
+                    self?.menus.accept(items)
+                    self?.tableView.reloadData()
+                },
+                onError: { [weak self] err in
+                    self?.showAlert("Fetch Fail", err.localizedDescription)
+                },
+                onDisposed: { [weak self] in
+                    self?.activityIndicator.isHidden = true
+                    self?.tableView.refreshControl?.endRefreshing()
+                })
+            .disposed(by: disposeBag)
     }
     
     func refreshTotal() {
+        let items = menus.value
         let allCount = items.map { $0.count }.reduce(0, +)
         let allPrice = items.map { $0.count * $0.menu.price}.reduce(0, +)
         itemCountLabel.text = "\(allCount)"
@@ -104,12 +85,13 @@ class MenuViewController: UIViewController {
     @IBOutlet var totalPrice: UILabel!
 
     @IBAction func onClear() {
-        items = items.map { ($0.menu, 0) }
+        menus.accept(menus.value.map { ($0.0, 0) })
         tableView.reloadData()
         refreshTotal()
     }
 
     @IBAction func onOrder(_ sender: UIButton) {
+        let items = menus.value
         let allCount = items.map { $0.count }.reduce(0, +)
         guard allCount > 0 else {
             showAlert("Order Fail", "No Orders")
@@ -122,12 +104,12 @@ class MenuViewController: UIViewController {
 
 extension MenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return menus.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
-        cell.item = items[indexPath.row]
+        cell.item = menus.value[indexPath.row]
         cell.onCountChanged = { [weak self] inc in
             guard let self = self else {
                 return
@@ -137,8 +119,10 @@ extension MenuViewController: UITableViewDataSource {
             if count < 0 {
                 count = 0
             }
-            self.items[indexPath.row].count = count
-            cell.item = self.items[indexPath.row]
+            var currentItems = self.menus.value
+            currentItems[indexPath.row].count = count
+            self.menus.accept(currentItems)
+            
             tableView.beginUpdates()
             tableView.reloadRows(at: [indexPath], with: .automatic)
             tableView.endUpdates()
