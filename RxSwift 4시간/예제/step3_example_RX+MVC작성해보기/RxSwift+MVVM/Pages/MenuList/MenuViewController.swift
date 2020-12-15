@@ -19,7 +19,6 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         setupBindings()
         fetchMenus()
-        refreshTotal()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -68,13 +67,6 @@ class MenuViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    func refreshTotal() {
-        let items = menus.value
-        let allCount = items.map { $0.count }.reduce(0, +)
-        let allPrice = items.map { $0.count * $0.menu.price}.reduce(0, +)
-        itemCountLabel.text = "\(allCount)"
-    }
-    
     // MARK: - UI Logic
     func setupBindings() {
         
@@ -100,8 +92,6 @@ class MenuViewController: UIViewController {
                 var currentItems = self.menus.value
                 currentItems[row].count = count
                 self.menus.accept(currentItems)
-                
-                self.refreshTotal()
             }
         }
         .disposed(by: disposeBag)
@@ -110,6 +100,12 @@ class MenuViewController: UIViewController {
         menus.map { $0.map { $0.count }.reduce(0, +) }
             .map { "\($0)" }
             .bind(to: itemCountLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        //총 가격
+        menus.map { $0.map { $0.menu.price * $0.count }.reduce(0, +) }
+            .map { $0.currencyKR() }
+            .bind(to: totalPrice.rx.text)
             .disposed(by: disposeBag)
     }
 
@@ -123,7 +119,6 @@ class MenuViewController: UIViewController {
     @IBAction func onClear() {
         menus.accept(menus.value.map { ($0.0, 0) })
         tableView.reloadData()
-        refreshTotal()
     }
 
     @IBAction func onOrder(_ sender: UIButton) {
