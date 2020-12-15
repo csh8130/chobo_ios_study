@@ -17,6 +17,7 @@ class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBindings()
         fetchMenus()
         refreshTotal()
     }
@@ -54,18 +55,16 @@ class MenuViewController: UIViewController {
                 return res.menus.map { ($0, 0) }
             }
             .observeOn(MainScheduler.instance)
-            .subscribe (
-                onNext: { [weak self] items in
-                    self?.menus.accept(items)
-                    self?.tableView.reloadData()
-                },
+            .do (
                 onError: { [weak self] err in
                     self?.showAlert("Fetch Fail", err.localizedDescription)
                 },
-                onDisposed: { [weak self] in
+                onDispose: { [weak self] in
                     self?.activityIndicator.isHidden = true
                     self?.tableView.refreshControl?.endRefreshing()
                 })
+            .take(1)
+            .bind(to: menus)
             .disposed(by: disposeBag)
     }
     
@@ -75,6 +74,28 @@ class MenuViewController: UIViewController {
         let allPrice = items.map { $0.count * $0.menu.price}.reduce(0, +)
         itemCountLabel.text = "\(allCount)"
         totalPrice.text = allPrice.currencyKR()
+    }
+    
+    // MARK: - UI Logic
+    func setupBindings() {
+        menus.bind(to: tableView.rx.items(cellIdentifier: "MenuItemTableViewCell", cellType: MenuItemTableViewCell.self)) { row, element, cell in
+            cell.item = element
+            cell.onCountChanged = { [weak self] inc in
+                guard let self = self else {
+                    return
+                }
+                
+                var count = (cell.item?.count ?? 0) + inc
+                if count < 0 {
+                    count = 0
+                }
+                var currentItems = self.menus.value
+                currentItems[row].count = count
+                self.menus.accept(currentItems)
+                
+                self.refreshTotal()
+            }
+        }
     }
 
     // MARK: - InterfaceBuilder Links
@@ -102,33 +123,33 @@ class MenuViewController: UIViewController {
     }
 }
 
-extension MenuViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menus.value.count
-    }
+//extension MenuViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return menus.value.count
+//    }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
-        cell.item = menus.value[indexPath.row]
-        cell.onCountChanged = { [weak self] inc in
-            guard let self = self else {
-                return
-            }
-            
-            var count = (cell.item?.count ?? 0) + inc
-            if count < 0 {
-                count = 0
-            }
-            var currentItems = self.menus.value
-            currentItems[indexPath.row].count = count
-            self.menus.accept(currentItems)
-            
-            tableView.beginUpdates()
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            tableView.endUpdates()
-            
-            self.refreshTotal()
-        }
-        return cell
-    }
-}
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableViewCell") as! MenuItemTableViewCell
+//        cell.item = menus.value[indexPath.row]
+//        cell.onCountChanged = { [weak self] inc in
+//            guard let self = self else {
+//                return
+//            }
+//
+//            var count = (cell.item?.count ?? 0) + inc
+//            if count < 0 {
+//                count = 0
+//            }
+//            var currentItems = self.menus.value
+//            currentItems[indexPath.row].count = count
+//            self.menus.accept(currentItems)
+//
+//            tableView.beginUpdates()
+//            tableView.reloadRows(at: [indexPath], with: .automatic)
+//            tableView.endUpdates()
+//
+//            self.refreshTotal()
+//        }
+//        return cell
+//    }
+//}
