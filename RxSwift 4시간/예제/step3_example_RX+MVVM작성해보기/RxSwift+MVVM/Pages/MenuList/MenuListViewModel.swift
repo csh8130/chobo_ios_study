@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+class MenuListViewModel {
+    let menus: [MenuItem] = []
+    let itemsCount: Int = 5
+    let totalPrice: Int = 10_000
+}

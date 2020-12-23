@@ -12,12 +12,15 @@ import RxCocoa
 
 class MenuViewController: UIViewController {
     let disposeBag = DisposeBag()
+    let viewModel = MenuListViewModel()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBindings()
-        fetchMenus()
+//        setupBindings()
+//        fetchMenus()
+        itemCountLabel.text = "\(viewModel.itemsCount)"
+        totalPrice.text = viewModel.totalPrice.currencyKR()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
