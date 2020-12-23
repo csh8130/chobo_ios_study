@@ -20,7 +20,12 @@ class MenuViewController: UIViewController {
 //        setupBindings()
 //        fetchMenus()
         itemCountLabel.text = "\(viewModel.itemsCount)"
-        totalPrice.text = viewModel.totalPrice.currencyKR()
+        viewModel.totalPrice
+            .map { $0.currencyKR() }
+            .subscribe(onNext: {
+                self.totalPrice.text = $0
+            })
+            .disposed(by: disposeBag)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

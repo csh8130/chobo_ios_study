@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import RxSwift
 
 class MenuListViewModel {
     let menus: [MenuItem] = []
     let itemsCount: Int = 5
-    let totalPrice: Int = 10_000
+    let totalPrice: Observable<Int> = Observable.just(10_000)
 }
