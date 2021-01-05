@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import FSCalendar
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var calendar: FSCalendar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavGradient()
         UIApplication.shared.statusBarStyle = .lightContent
         
-        title = "1월"
+        setTitleMonth(calendar)
+        calendar.placeholderType = .fillSixRows
     }
     
     func setNavGradient() {
@@ -44,5 +47,15 @@ class ViewController: UIViewController {
         UIGraphicsEndImageContext()
         return gradientImage
     }
+    
+    func setTitleMonth(_ calendar: FSCalendar) {
+        let month = Calendar.current.component(.month, from: calendar.currentPage)
+        title = "\(month)월"
+    }
 }
 
+extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        setTitleMonth(calendar)
+    }
+}
