@@ -13,6 +13,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setNavGradient()
         UIApplication.shared.statusBarStyle = .lightContent
+        
+        title = "1월"
     }
     
     func setNavGradient() {
