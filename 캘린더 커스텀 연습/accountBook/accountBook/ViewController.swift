@@ -12,12 +12,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavGradient()
+        UIApplication.shared.statusBarStyle = .lightContent
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
     
     func setNavGradient() {
         if let navigationBar = self.navigationController?.navigationBar {
@@ -47,3 +43,4 @@ class ViewController: UIViewController {
         return gradientImage
     }
 }
+
