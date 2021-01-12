@@ -9,13 +9,15 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var closeHandler: (String)->(Void) = { _ in }
+    
     var date: Date?
     @IBOutlet weak var dayTitle: UILabel!
     @IBOutlet weak var input: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        dayTitle.text = "\(date)"
         // Do any additional setup after loading the view.
     }
     
@@ -24,10 +26,8 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func pay(_ sender: Any) {
-        let vc = presentingViewController as? UINavigationController
-        let firstVc = vc?.viewControllers[0] as? ViewController
-        firstVc?.dictionary[date!]?.append(AccountDayData(date: date!, amount: input.text!))
-        firstVc?.tableView.reloadData()
+        closeHandler(input.text!)
+        dismiss(animated: true)
     }
     /*
     // MARK: - Navigation

@@ -72,6 +72,13 @@ class ViewController: UIViewController {
         guard let vc = storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
+        
+        vc.closeHandler = { [weak self] amount in
+            guard let self = self else { return }
+            self.dictionary[self.calendar.selectedDate!]?.append(AccountDayData(date: self.calendar.selectedDate!, amount: amount))
+            self.tableView.reloadData()
+        }
+        
         if calendar.selectedDate == nil {
             vc.date = calendar.today
         } else {
