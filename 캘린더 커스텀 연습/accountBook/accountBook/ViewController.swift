@@ -8,7 +8,7 @@
 import UIKit
 import FSCalendar
 
-struct accountDayData {
+struct AccountDayData {
     var date: Date
     var amount: Int
 }
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tableView: UITableView!
     
-    var dictionary: [Date: [accountDayData]] = [:]
+    var dictionary: [Date: [AccountDayData]] = [:]
 //    var selection: Date
     
     override func viewDidLoad() {
@@ -67,6 +67,12 @@ class ViewController: UIViewController {
     func setTitleMonth(_ calendar: FSCalendar) {
         let month = Calendar.current.component(.month, from: calendar.currentPage)
         title = "\(month)월"
+    }
+    @IBAction func addButton(_ sender: Any) {
+        guard let vc = storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+            return
+        }
+        present(vc, animated: true, completion: nil)
     }
 }
 
@@ -160,6 +166,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if calendar.selectedDate == nil {
             day = calendar.today
         }
+        if dictionary[day!] == nil {
+            dictionary[day!] = []
+        }
+        
         return dictionary[day!]!.count
     }
     
@@ -167,7 +177,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainCell") as? MainCell else {
             return UITableViewCell()
         }
-        cell.title.text = "ASd"
+        cell.title.text = "\(dictionary[calendar.selectedDate!]![indexPath.row].date)"
+        cell.won.text = "\(dictionary[calendar.selectedDate!]![indexPath.row].amount)"
         return cell
     }
 }

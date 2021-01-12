@@ -9,6 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var date: Date?
     @IBOutlet weak var dayTitle: UILabel!
     @IBOutlet weak var input: UIButton!
     
