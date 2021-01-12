@@ -59,25 +59,6 @@
                                 <rect key="frame" x="0.0" y="629" width="414" height="233"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wX-Ej-oLH" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="129" width="414" height="500"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="500" id="ihc-ya-CUH"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="headerHeight">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="fMH-mV-p6W"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="EQh-cU-ffT"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZJ-Jz-WAV" userLabel="Bottom View">
                                 <rect key="frame" x="0.0" y="629" width="414" height="233"/>
                                 <subviews>
@@ -149,6 +130,35 @@
                                     <constraint firstItem="FjM-sy-S4Q" firstAttribute="leading" secondItem="mZJ-Jz-WAV" secondAttribute="leading" id="oEY-XC-Ouh"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wX-Ej-oLH" customClass="FSCalendar">
+                                <rect key="frame" x="0.0" y="129" width="414" height="500"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="500" id="ihc-ya-CUH"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="headerHeight">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="fMH-mV-p6W"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="EQh-cU-ffT"/>
+                                </connections>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNm-mG-ODN">
+                                <rect key="frame" x="354" y="802" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="3ux-nv-A1q"/>
+                                    <constraint firstAttribute="height" constant="50" id="Fy6-AI-rWQ"/>
+                                </constraints>
+                                <state key="normal" image="plus.circle" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -157,8 +167,10 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3wX-Ej-oLH" secondAttribute="trailing" id="5sy-jZ-jyu"/>
                             <constraint firstItem="NOR-kO-r31" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="FsG-Of-old"/>
                             <constraint firstItem="mZJ-Jz-WAV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HUZ-0f-3oH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oNm-mG-ODN" secondAttribute="trailing" constant="10" id="Mjm-zM-W5C"/>
                             <constraint firstItem="NOR-kO-r31" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SO2-zg-71j"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mZJ-Jz-WAV" secondAttribute="trailing" id="Sig-vx-loc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oNm-mG-ODN" secondAttribute="bottom" constant="10" id="b0Z-R3-zhY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ujl-KL-cYL" secondAttribute="trailing" id="dVf-mA-2xs"/>
                             <constraint firstItem="ujl-KL-cYL" firstAttribute="top" secondItem="mZJ-Jz-WAV" secondAttribute="top" id="kY1-xl-Rqx"/>
                             <constraint firstItem="ujl-KL-cYL" firstAttribute="top" secondItem="3wX-Ej-oLH" secondAttribute="bottom" id="n2b-oP-WSV"/>
@@ -184,6 +196,65 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1028.985507246377" y="97.767857142857139"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="MXH-ww-MTd">
+            <objects>
+                <viewController id="IZa-jn-rR8" customClass="DetailViewController" customModule="accountBook" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ffB-Ug-EW4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PUf-Lu-Gfy">
+                                <rect key="frame" x="260" y="142" width="100" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="tey-ET-11m"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="날짜" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmH-2g-kIz">
+                                <rect key="frame" x="74" y="59" width="29.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BR9-X6-P8L">
+                                <rect key="frame" x="364" y="54" width="30" height="30"/>
+                                <state key="normal" title="닫기"/>
+                                <connections>
+                                    <action selector="closeButton:" destination="IZa-jn-rR8" eventType="touchUpInside" id="k1n-Nk-Yni"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7l-wT-zDa">
+                                <rect key="frame" x="263" y="211" width="30" height="30"/>
+                                <state key="normal" title="지출"/>
+                                <connections>
+                                    <action selector="pay:" destination="IZa-jn-rR8" eventType="touchUpInside" id="mdX-ZV-o79"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="SrJ-N6-Amt"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="SrJ-N6-Amt" firstAttribute="trailing" secondItem="U7l-wT-zDa" secondAttribute="trailing" constant="121" id="3xa-de-d54"/>
+                            <constraint firstItem="SrJ-N6-Amt" firstAttribute="trailing" secondItem="PUf-Lu-Gfy" secondAttribute="trailing" constant="54" id="7Rh-0U-89o"/>
+                            <constraint firstItem="BR9-X6-P8L" firstAttribute="top" secondItem="SrJ-N6-Amt" secondAttribute="top" constant="10" id="FNN-55-j1B"/>
+                            <constraint firstItem="SrJ-N6-Amt" firstAttribute="trailing" secondItem="BR9-X6-P8L" secondAttribute="trailing" constant="20" id="OwP-Jx-t2h"/>
+                            <constraint firstItem="PUf-Lu-Gfy" firstAttribute="top" secondItem="SrJ-N6-Amt" secondAttribute="top" constant="98" id="YAg-Kp-FNT"/>
+                            <constraint firstItem="cmH-2g-kIz" firstAttribute="top" secondItem="SrJ-N6-Amt" secondAttribute="top" constant="15" id="c4r-nM-CNW"/>
+                            <constraint firstItem="U7l-wT-zDa" firstAttribute="top" secondItem="PUf-Lu-Gfy" secondAttribute="bottom" constant="35" id="ckD-7i-7UV"/>
+                            <constraint firstItem="cmH-2g-kIz" firstAttribute="leading" secondItem="SrJ-N6-Amt" secondAttribute="leading" constant="74" id="lK7-Kb-XAu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dayTitle" destination="cmH-2g-kIz" id="P8x-bw-IhG"/>
+                        <outlet property="input" destination="U7l-wT-zDa" id="Ld4-1Y-Wnt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A7a-G5-Ttg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1867" y="98"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6uZ-z9-hs2">
@@ -211,6 +282,7 @@
     <resources>
         <image name="doc.plaintext" catalog="system" width="115" height="128"/>
         <image name="pencil.circle" catalog="system" width="128" height="121"/>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
