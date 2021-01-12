@@ -8,11 +8,19 @@
 import UIKit
 import FSCalendar
 
+struct accountDayData {
+    var date: Date
+    var amount: Int
+}
+
 class ViewController: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewTop: NSLayoutConstraint!
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tableView: UITableView!
+    
+    var dictionary: [Date: [accountDayData]] = [:]
+//    var selection: Date
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +32,8 @@ class ViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        dictionary[calendar.today!] = []
     }
     
     func setNavGradient() {
@@ -76,6 +86,10 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
                         self.view.layoutIfNeeded()
                        }, completion: { [weak self] _ in
                        })
+    }
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        tableView.reloadData()
     }
     
     func nthWeek(_ d: Date) -> Int {
@@ -141,7 +155,12 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        var day: Date? = calendar.selectedDate
+        
+        if calendar.selectedDate == nil {
+            day = calendar.today
+        }
+        return dictionary[day!]!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
