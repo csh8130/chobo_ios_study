@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		067DEF28721860A43F01C12C /* Pods_accountBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB5426414CC00552940A807 /* Pods_accountBook.framework */; };
+		C258DA1D25AD9C6300707359 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C258DA1C25AD9C6300707359 /* MainCell.swift */; };
 		C2DB7AD425A4443000121443 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DB7AD325A4443000121443 /* AppDelegate.swift */; };
 		C2DB7AD625A4443000121443 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DB7AD525A4443000121443 /* SceneDelegate.swift */; };
 		C2DB7AD825A4443000121443 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DB7AD725A4443000121443 /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 		1AB5426414CC00552940A807 /* Pods_accountBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_accountBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA4239FF86D61D4306C3169 /* Pods-accountBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accountBook.debug.xcconfig"; path = "Target Support Files/Pods-accountBook/Pods-accountBook.debug.xcconfig"; sourceTree = "<group>"; };
 		BAB7C7E3F084C6F90B61C1BB /* Pods-accountBook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accountBook.release.xcconfig"; path = "Target Support Files/Pods-accountBook/Pods-accountBook.release.xcconfig"; sourceTree = "<group>"; };
+		C258DA1C25AD9C6300707359 /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
 		C2DB7AD025A4443000121443 /* accountBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = accountBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2DB7AD325A4443000121443 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C2DB7AD525A4443000121443 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				C2DB7ADC25A4443300121443 /* Assets.xcassets */,
 				C2DB7ADE25A4443300121443 /* LaunchScreen.storyboard */,
 				C2DB7AE125A4443300121443 /* Info.plist */,
+				C258DA1C25AD9C6300707359 /* MainCell.swift */,
 			);
 			path = accountBook;
 			sourceTree = "<group>";
@@ -88,7 +91,6 @@
 				9BA4239FF86D61D4306C3169 /* Pods-accountBook.debug.xcconfig */,
 				BAB7C7E3F084C6F90B61C1BB /* Pods-accountBook.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -208,6 +210,7 @@
 			files = (
 				C2DB7AD825A4443000121443 /* ViewController.swift in Sources */,
 				C2DB7AD425A4443000121443 /* AppDelegate.swift in Sources */,
+				C258DA1D25AD9C6300707359 /* MainCell.swift in Sources */,
 				C2DB7AD625A4443000121443 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

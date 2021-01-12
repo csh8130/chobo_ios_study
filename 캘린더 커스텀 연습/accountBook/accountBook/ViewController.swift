@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewTop: NSLayoutConstraint!
     @IBOutlet weak var calendar: FSCalendar!
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class ViewController: UIViewController {
         
         setTitleMonth(calendar)
         calendar.placeholderType = .fillSixRows
+        
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     func setNavGradient() {
@@ -135,4 +139,16 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
 }
 
-
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainCell") as? MainCell else {
+            return UITableViewCell()
+        }
+        cell.title.text = "ASd"
+        return cell
+    }
+}
