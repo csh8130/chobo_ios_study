@@ -252,7 +252,7 @@
                     </view>
                     <connections>
                         <outlet property="dayTitle" destination="cmH-2g-kIz" id="P8x-bw-IhG"/>
-                        <outlet property="input" destination="U7l-wT-zDa" id="Ld4-1Y-Wnt"/>
+                        <outlet property="input" destination="PUf-Lu-Gfy" id="HzX-qZ-E5A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A7a-G5-Ttg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -10,7 +10,7 @@ import FSCalendar
 
 struct AccountDayData {
     var date: Date
-    var amount: Int
+    var amount: String
 }
 
 class ViewController: UIViewController {
@@ -72,6 +72,12 @@ class ViewController: UIViewController {
         guard let vc = storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
+        if calendar.selectedDate == nil {
+            vc.date = calendar.today
+        } else {
+            vc.date = calendar.selectedDate
+        }
+        
         present(vc, animated: true, completion: nil)
     }
 }
