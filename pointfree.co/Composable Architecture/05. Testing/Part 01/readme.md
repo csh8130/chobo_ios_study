@@ -413,3 +413,113 @@ effects를 전혀 테스트하지 않았지만 이게 얼마나 멋진지 생각
 그런다음 테스트의 동작을 먼저 구현한 다음 테스트 구현을 기반으로 reducer를 구현합니다.
 
 
+
+### Unhappy paths and integration tests
+
+Counter View는 꽤 잘 테스트되었습니다. 여기서 멈출 수도 있지만 테스트를 다음단계로 끌어올릴 수 있습니다.
+
+1. 우리는 n번째 Prime 호출이 항상 성공하는 경우만 테스트하고 있었습니다. 실패하는 경우도 생각해야 합니다.
+
+2.  CounterView는 `PrimeModal`의 기능을 포함하고 있으며 이 기능은 PrimeModal test에서 이미 다뤘지만 `PrimeModal`기능이 Counter View 를 망치는 케이스는 없는지 테스트 해보고 싶습니다. 이는 `통합 테스트`를 작성해서 확인 할 수 있습니다.
+
+우선 기존의 테스트는 행복한(?) 상황을 가정했으므로 테스트 이름을 변경합니다.
+
+```swift
+func testNthPrimeButtonHappyFlow() {
+```
+
+이제 불행한 케이스를 테스트하기위해 행복한 케이스를 복사해와서 변경을 시도합니다.
+
+```swift
+func testNthPrimeButtonUnhappyFlow() {
+        var state = CounterViewState(
+            alertNthPrime: nil,
+            count: 2,
+            favoritePrimes: [3, 5],
+            isNthPrimeButtonDisabled: false
+        )
+        var effects = counterViewReducer(&state, .counter(.nthPrimeButtonTapped))
+        XCTAssertEqual(
+            state,
+            CounterViewState(
+                alertNthPrime: nil,
+                count: 2,
+                favoritePrimes: [3, 5],
+                isNthPrimeButtonDisabled: true
+            )
+        )
+        XCTAssertEqual(effects.count, 1)
+        effects = counterViewReducer(&state, .counter(.nthPrimeResponse(nil)))
+        XCTAssertEqual(
+            state,
+            CounterViewState(
+                alertNthPrime: nil,
+                count: 2,
+                favoritePrimes: [3, 5],
+                isNthPrimeButtonDisabled: false
+            )
+        )
+        XCTAssert(effects.isEmpty)
+    }
+```
+
+테스트는 성공합니다.
+
+
+
+이제 counter와 primeModal이 잘 통합되었는지 통합 테스트를 작성합니다.
+
+```swift
+func testPrimeModal() {
+  var state = CounterViewState(
+    alertNthPrime: nil,
+    count: 2,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: false
+  )
+
+  var effects = counterViewReducer(&state, .primeModal(.saveFavoritePrimeTapped))
+
+  XCTAssertEqual(
+    state,
+    CounterViewState(
+      alertNthPrime: nil,
+      count: 2,
+      favoritePrimes: [3, 5, 2],
+      isNthPrimeButtonDisabled: false
+    )
+  )
+  XCTAssert(effects.isEmpty)
+
+  effects = counterViewReducer(&state, .primeModal(.removeFavoritePrimeTapped))
+
+  XCTAssertEqual(
+    state,
+    CounterViewState(
+      alertNthPrime: nil,
+      count: 2,
+      favoritePrimes: [3, 5],
+      isNthPrimeButtonDisabled: false
+    )
+  )
+  XCTAssert(effects.isEmpty)
+}
+```
+
+여기서 PrimeModal이 Counter에 포함되었을때 Counter의 어떤 state를 망가뜨리지 않는지 검사합니다.
+
+이것은 기본적으로 reducer에 대한 통합 테스트 입니다.
+
+여러 계층의 기능을 테스트하고,
+
+서로 상호작용하는것을 테스트해서 함께 잘 작동하는것을 알았습니다.
+
+이것은 꽤 큰 작업입니다! 지금은 장난감 앱이지만 대규모 앱에서는 여러개의 재사용 가능한 구성요소가 함께 연결되어도 계속 제대로 작동되는지 테스트 할 수 있습니다.
+
+이미 강력한 테스트를 작성했지만 아직 Effect 에 대한 테스트를 작성하지 않았습니다.
+
+
+
+
+
+
