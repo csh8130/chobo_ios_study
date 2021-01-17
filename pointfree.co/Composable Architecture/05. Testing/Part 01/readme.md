@@ -186,3 +186,26 @@ XCTAssert(effects.isEmpty)
 ```
 
 
+
+다음으로 저장 버튼 동작의 테스트를 작성하겠습니다. 이 action은 수행후 state가 변경되지 않습니다. 디스크에 저장하기만 하면 됩니다. 
+
+```swift
+func testSaveButtonTapped() {
+  var state = [2, 3, 5, 7]
+
+  let effects = favoritePrimesReducer(state: &state, action: .saveButtonTapped)
+
+  XCTAssertEqual(state, [2, 3, 5, 7])
+  XCTAssert(effects.isEmpty) // ?
+}
+```
+
+effects에 대한 assert를 어떻게 작성해야 합니까? 이번에는 비어있지 않으며 하나의 값이 있습니다.
+
+```swift
+XCTAssertEqual(effects.count, 1)
+```
+
+갯수만 검사하는것은 잘못된 방법입니다. effect가 어떤 일을 일으키는지 관심이 없기 때문입니다.
+
+불행히도 지금은 이것이 최선입니다. 나중에 이 부분을 다시 살펴보겠습니다.

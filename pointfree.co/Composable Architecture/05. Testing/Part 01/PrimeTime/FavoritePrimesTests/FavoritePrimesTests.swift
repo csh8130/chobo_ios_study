@@ -15,4 +15,14 @@ class FavoritePrimesTests: XCTestCase {
         XCTAssertEqual(state, [2, 3, 7])
         XCTAssert(effects.isEmpty)
     }
+    
+    func testSaveButtonTapped() {
+      var state = [2, 3, 5, 7]
+
+      let effects = favoritePrimesReducer(state: &state, action: .saveButtonTapped)
+
+      XCTAssertEqual(state, [2, 3, 5, 7])
+//      XCTAssert(effects.isEmpty) // ?
+        XCTAssertEqual(effects.count, 1)
+    }
 }
