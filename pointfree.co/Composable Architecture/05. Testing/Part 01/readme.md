@@ -209,3 +209,44 @@ XCTAssertEqual(effects.count, 1)
 갯수만 검사하는것은 잘못된 방법입니다. effect가 어떤 일을 일으키는지 관심이 없기 때문입니다.
 
 불행히도 지금은 이것이 최선입니다. 나중에 이 부분을 다시 살펴보겠습니다.
+
+
+
+다음으로 저장된 즐겨찾기 목록을 불러오는 버튼의 테스트를 작성합니다.
+
+```swift
+func testLoadButtonTapped() {
+  var state = [2, 3, 5, 7]
+
+  let effects = favoritePrimesReducer(state: &state, action: .loadButtonTapped)
+
+  XCTAssertEqual(state, [2, 3, 5, 7])
+  XCTAssertEqual(effects.count, 1)
+}
+```
+
+`.loadButtonTapped`이후 불리는 `.loadedFavoritePrimes` 까지 포함해서 전체 흐름을 테스트 하는것이 더 낫습니다.
+
+```swift
+...
+var effects = favoritePrimesReducer(state: &state, action: .loadButtonTapped)
+
+  XCTAssertEqual(state, [2, 3, 5, 7])
+  XCTAssertEqual(effects.count, 1)
+
+  effects = favoritePrimesReducer(state: &state, action: .loadedFavoritePrimes([2, 31]))
+
+  XCTAssertEqual(state, [2, 31])
+  XCTAssert(effects.isEmpty)
+}
+```
+
+`effects`를 변경가능하게 `var` 로 바꾸고, 두번째 action의 effects는 비어있는 배열을 반환받습니다.
+
+그리고 전체 흐름을 테스트 함을 표현하기위해 테스트 이름을 바꿉니다.
+
+`testLoadFavoritePrimesFlow`
+
+
+
+
