@@ -151,3 +151,38 @@ XCTAssert(effects.isEmpty)
 ```
 
 
+
+### Testing favorite primes
+
+primeModal 화면보다 복잡한 화면으로 테스트를 시도합니다.
+
+마찬가지로 우선 테스트를 작성하기 전 `favoritePrimesReducer`의 무엇을 테스트할지 생각합니다. 
+
+`state`는 단순히 Int 배열입니다. `action`은 4가지가 있습니다.
+
+
+
+우선 가장 간단한 action은 즐겨찾기된 소수를 제거하는 action입니다. `.deleteFavoritePrimes`
+
+이를 테스트 하려면 삭제할 state와 index가 필요합니다.
+
+```swift
+var state = [2, 3, 5, 7]
+
+favoritePrimesReducer(state: &state, action: .deleteFavoritePrimes([2]))
+```
+
+이렇게하면 state에서 5가 제거되길 기대합니다. 테스트에 맞는 이름을 추가하고 조건에 맞는 assert를 작성합니다.
+
+```swift
+func testDeleteFavoritePrimes() {
+var state = [2, 3, 5, 7]
+
+let effects = favoritePrimesReducer(state: &state, action: .deleteFavoritePrimes([2]))
+
+XCTAssertEqual(state, [2, 3, 7])
+XCTAssert(effects.isEmpty)
+}
+```
+
+
