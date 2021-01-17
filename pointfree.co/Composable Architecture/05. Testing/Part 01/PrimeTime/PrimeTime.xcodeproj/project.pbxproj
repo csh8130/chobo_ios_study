@@ -722,7 +722,6 @@
 					};
 					DCF0C5C523260348008B45A0 = {
 						CreatedOnToolsVersion = 11.0;
-						TestTargetID = DC90716B22FA102900B38B42;
 					};
 					DCF0C5DF2326035C008B45A0 = {
 						CreatedOnToolsVersion = 11.0;
@@ -1383,7 +1382,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrimeTime.app/PrimeTime";
 			};
 			name = Debug;
 		};
@@ -1402,7 +1400,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrimeTime.app/PrimeTime";
 			};
 			name = Release;
 		};

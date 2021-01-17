@@ -247,6 +247,69 @@ var effects = favoritePrimesReducer(state: &state, action: .loadButtonTapped)
 
 `testLoadFavoritePrimesFlow`
 
+그러나 이 테스트도 반환받은 effect의 갯수만 검사하기 때문에 잘못 작성되어 보입니다.
+
+지금 이 문제를 해결할 수 없으므로 이 방법으로 계속 진행합니다.
 
 
 
+### Testing the counter
+
+마지막으로 남은 화면은 숫자 선택 화면으로 숫자 변경 버튼 이외에 "nth prime"을 요청 할 수 있습니다.
+
+먼저 `couterViewReducer`가 취하는 `state`와 `action`을 기억해 봅니다.
+
+```swift
+var state = CounterViewState(
+  alertNthPrime: nil,
+  count: 2,
+  favoritePrimes: [3, 5],
+  isNthPrimeButtonDisabled: false
+)
+```
+
+먼저 구조체 형태의 state를 초기화합니다.
+
+`CounterViewAction`은 두가지 케이스가 존재합니다.
+
+`PrimeModalAction`과 `CounterAction`
+
+`PrimeModalAction`은 앞에서 테스트 했으므로 후자에 집중하고 싶습니다.
+
+
+
+`CounterAction`는 또 다수의 케이스가 존재합니다.
+
+우선 증가 버튼을 누를때 숫자가 1씩 증가하는 action을 테스트합니다.
+
+```swift
+counterViewReducer(&state, .counter(.incrTapped))
+
+XCTAssertEqual(
+  state,
+  CounterViewState(
+    alertNthPrime: nil,
+    count: 3,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: false
+  )
+)
+```
+
+하지만 즉시 컴파일 애러가 발생합니다.
+
+🛑 Global function ‘XCTAssertEqual(*:*:_:file:line:)’ requires that ‘CounterViewState’ conform to ‘Equatable’
+
+```swift
+public struct CounterViewState: Equatable {
+```
+
+CounterViewState가 Equatable을 준수하도록 즉시 고칩니다.
+
+다음으로 PrimeAlert에서 마찬가지 오류가 발생합니다.
+
+```swift
+public struct PrimeAlert: Identifiable, Equatable {
+```
+
+테스트를 통과합니다.
