@@ -84,3 +84,25 @@ XCTAssertEqual(state.favoritePrimes, [3, 5, 2])
 ```
 
 컴파일이 잘 되고 테스트는 통과됩니다.
+
+
+
+ 그러나 이 방법은 테스트를 놓치고 통과시킬 수도 있습니다. 만약 state에 새로운 필드가 추가되고 그 필드가 tap action에 의해 변경되었다면 지금 assert문으로는 그 작업을 완전히 놓치게됩니다.
+
+ 이상적으로 생각할 때 state에 새로운 필드가 추가된경우 컴파일 애러가 일어나게 만들어야 놓치지 않습니다.
+
+
+
+이를 위해 튜플에 저장되는 필드를 명시적으로 다시 할당하고 분해하는 방법을 사용합니다.
+
+```swift
+func testExample() {
+  var state = (count: 2, favoritePrimes: [3, 5])
+
+  primeModalReducer(state: &state, action: .saveFavoritePrimeTapped)
+
+  let (count, favoritePrimes) = state
+  XCTAssertEqual(count, 2)
+  XCTAssertEqual(favoritePrimes, [3, 5, 2])
+}
+```
