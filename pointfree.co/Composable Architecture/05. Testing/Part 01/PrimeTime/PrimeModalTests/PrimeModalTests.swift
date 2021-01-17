@@ -2,7 +2,7 @@ import XCTest
 @testable import PrimeModal
 
 class PrimeModalTests: XCTestCase {
-    func testExample() {
+    func testSaveFavoritePrimesTapped() {
         var state = (count: 2, favoritePrimes: [3, 5])
         primeModalReducer(state: &state, action: .saveFavoritePrimeTapped)
         let (count, favoritePrimes) = state

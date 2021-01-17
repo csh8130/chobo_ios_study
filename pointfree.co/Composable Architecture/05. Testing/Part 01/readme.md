@@ -131,4 +131,8 @@ XCTAssert(effects.isEmpty)
 
  불필요한 코드처럼 보이지만 reducer가 effect를 사용하도록 변경되면 즉시 테스트 실패가 발생하여 분명히 알 수 있습니다. 따라서 reducer가 effects를 반환하지 않더라도 이러한 코드를 넣는것이 좋습니다.
 
+마지막으로 테스트 이름을 알맞게 변경합니다. `func  testSaveFavoritePrimesTapped() `
+
+
+
 
