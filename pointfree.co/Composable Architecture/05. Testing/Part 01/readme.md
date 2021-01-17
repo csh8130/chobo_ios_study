@@ -355,7 +355,7 @@ XCTAssertEqual(effects.count, 1)
 
 반환된 effects에 대해 알 수 없지만 api response가 돌아오면 그 결과가 store로 되돌아 오는것을 알고 있습니다.
 
-지금은 이것을 수동으로 reducer를 호출해서 발생시킵니다.
+지금은 이것을 수동으로 reducer를 호출해서 발생시킵니다. `nthPrimeResponse`
 
 ```swift
 effects = counterViewReducer(&state, .counter(.nthPrimeResponse(3)))
@@ -371,5 +371,31 @@ XCTAssertEqual(
 )
 XCTAssert(effects.isEmpty)
 ```
+
+state의 두 부분이 바뀌게됩니다.
+
+PrimeAlert은 3을 나타냅니다. (2번째 prime이 3이므로)
+
+버튼의 disable 상태가 enable로 바뀝니다.
+
+
+
+test flow에 아직 한단계가 더 남아있습니다. 사용자가 Alert을 닫을 수 있습니다.
+
+```swift
+effects = counterViewReducer(&state, .counter(.alertDismissButtonTapped))
+XCTAssertEqual(
+  state,
+  CounterViewState(
+    alertNthPrime: nil,
+    count: 2,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: false
+  )
+)
+XCTAssert(effects.isEmpty)
+```
+
+effects를 전혀 테스트하지 않았지만 이게 얼마나 멋진지 생각 해 볼 가치가 있습니다.
 
 
