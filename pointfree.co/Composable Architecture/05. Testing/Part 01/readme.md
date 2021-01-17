@@ -106,3 +106,29 @@ func testExample() {
   XCTAssertEqual(favoritePrimes, [3, 5, 2])
 }
 ```
+
+이제 state가 변경되면 컴파일이 실패하고 테스트를 다시 작성해야 합니다.
+
+
+
+ 혹은 다른방법으로`XCTAssertEqual`에서 튜플이 동작되도록 변경하거나, `PrimeModalState`가 `Equatable`를 만족하도록 바꿀 수 있을 것입니다. 하지만 튜플을 이용하는 방법도 충분히 가볍습니다.
+
+
+
+테스트는 정상적으로 동작했지만 경고가 발생했습니다.
+
+⚠️ Result of call to ‘primeModalReducer(state:action:)’ is unused
+
+`primeModalReducer`가 반환하는 Effect를 사용하지 않았기 때문입니다. 운 좋게도 이 reducer는 실제로 어떤 값도 반환하지 않으므로 이 배열은 비어있는것으로 간주합니다.
+
+```swift
+let effects = primeModalReducer(state: &state, action: .saveFavoritePrimeTapped)
+
+...
+
+XCTAssert(effects.isEmpty)
+```
+
+ 불필요한 코드처럼 보이지만 reducer가 effect를 사용하도록 변경되면 즉시 테스트 실패가 발생하여 분명히 알 수 있습니다. 따라서 reducer가 effects를 반환하지 않더라도 이러한 코드를 넣는것이 좋습니다.
+
+
