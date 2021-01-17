@@ -318,4 +318,58 @@ public struct PrimeAlert: Identifiable, Equatable {
 
 
 
+남아있는 작성해야할 테스트는 "nth prime"에 대한 테스트입니다.
+
+우리는 이미 effect가 있는 action을 테스트하기에 얼마나 부족한 상황인지 알아봤었습니다.
+
+그래도 최선의 방법으로 테스트를 작성합니다.
+
+```swift
+func testNthPrimeButtonFlow() {
+  var state = CounterViewState(
+    alertNthPrime: nil,
+    count: 2,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: false
+  )
+ var effects = counterViewReducer(&state, .counter(.nthPrimeButtonTapped))
+ }
+```
+
+이 테스트 flow에서 처음 발생하는것은 버튼을 탭 하는 것입니다.
+
+이 동작을 수행하면 api요청은 진행 중이고 단일 effect가 발생하기때문에 버튼이 비활성화 상태가 될것입니다. (아직 effect에 대해서 코드에서는 알 수 없습니다)
+
+```swift
+XCTAssertEqual(
+  state,
+  CounterViewState(
+    alertNthPrime: nil,
+    count: 2,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: true
+  )
+)
+XCTAssertEqual(effects.count, 1)
+```
+
+반환된 effects에 대해 알 수 없지만 api response가 돌아오면 그 결과가 store로 되돌아 오는것을 알고 있습니다.
+
+지금은 이것을 수동으로 reducer를 호출해서 발생시킵니다.
+
+```swift
+effects = counterViewReducer(&state, .counter(.nthPrimeResponse(3)))
+
+XCTAssertEqual(
+  state,
+  CounterViewState(
+    alertNthPrime: PrimeAlert(prime: 3),
+    count: 2,
+    favoritePrimes: [3, 5],
+    isNthPrimeButtonDisabled: false
+  )
+)
+XCTAssert(effects.isEmpty)
+```
+
 
