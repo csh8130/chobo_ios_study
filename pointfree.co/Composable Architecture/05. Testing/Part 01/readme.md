@@ -312,4 +312,10 @@ CounterViewState가 Equatable을 준수하도록 즉시 고칩니다.
 public struct PrimeAlert: Identifiable, Equatable {
 ```
 
-테스트를 통과합니다.
+테스트를 통과합니다. 테스트 이름을 알맞게 변경합니다. `testIncrButtonTapped`
+
+이 테스트를 복사해서 감소 action에 대해서도 동일하게 테스트합니다.
+
+
+
+

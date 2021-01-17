@@ -10,7 +10,7 @@ import XCTest
 
 class CounterTests: XCTestCase {
 
-    func testing() {
+    func testIncrButtonTapped() {
         var state = CounterViewState(
             alertNthPrime: nil,
             count: 2,
@@ -32,4 +32,24 @@ class CounterTests: XCTestCase {
         XCTAssert(effects.isEmpty)
     }
 
+    func testDecrButtonTapped() {
+        var state = CounterViewState(
+            alertNthPrime: nil,
+            count: 2,
+            favoritePrimes: [3, 5],
+            isNthPrimeButtonDisabled: false
+        )
+        let effects = counterViewReducer(&state, .counter(.decrTapped))
+        
+        XCTAssertEqual(
+            state,
+            CounterViewState(
+                alertNthPrime: nil,
+                count: 1,
+                favoritePrimes: [3, 5],
+                isNthPrimeButtonDisabled: false
+            )
+        )
+        XCTAssert(effects.isEmpty)
+    }
 }
