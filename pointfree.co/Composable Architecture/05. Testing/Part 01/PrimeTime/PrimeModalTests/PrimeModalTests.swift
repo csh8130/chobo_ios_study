@@ -3,6 +3,8 @@ import XCTest
 
 class PrimeModalTests: XCTestCase {
   func testExample() {
-    XCTAssertTrue(false)
+    var state = (count: 2, favoritePrimes: [3, 5])
+    primeModalReducer(state: &state, action: .saveFavoritePrimeTapped)
+    XCTAssertEqual(state, (2, [3, 5, 2]))
   }
 }
