@@ -138,5 +138,16 @@ XCTAssert(effects.isEmpty)
 이제 즐겨찾기 삭제를 테스트 해보겠습니다. 방금 테스트를 복사해서 일부만 수정합니다.
 
 ```swift
+    func testRemoveFavoritePrimeTapped() {
+      var state = (count: 3, favoritePrimes: [3, 5])
 
+      let effects = primeModalReducer(state: &state, action: .removeFavoritePrimeTapped)
+
+      let (count, favoritePrimes) = state
+      XCTAssertEqual(count, 3)
+      XCTAssertEqual(favoritePrimes, [5])
+      XCTAssert(effects.isEmpty)
+    }
 ```
+
+
