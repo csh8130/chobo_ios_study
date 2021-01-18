@@ -13,7 +13,7 @@ class MyCalenderCell: FSCalendarCell {
     override init!(frame: CGRect) {
         super.init(frame: frame)
         selectionView = UIView(frame: CGRect(x: 0, y: 0, width: contentView.fs_width, height: contentView.fs_height))
-        selectionView?.setGradient(color1: UICo#imageLiteral(resourceName: "simulator_screenshot_102E31DD-52E0-4DB9-AFDC-9CA84472D035.png")lor(red: 233.0/256, green: 144.0/256, blue: 196.0/256, alpha: 1), color2: UIColor(red: 235.0/256, green: 174.0/256, blue: 177.0/256, alpha: 1))
+        selectionView?.setGradient(color1: UIColor(red: 233.0/256, green: 144.0/256, blue: 196.0/256, alpha: 1), color2: UIColor(red: 235.0/256, green: 174.0/256, blue: 177.0/256, alpha: 1))
         selectionView?.isHidden = true
         self.contentView.insertSubview(selectionView ?? UIView(), at: 0)
     }
