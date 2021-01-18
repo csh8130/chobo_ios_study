@@ -191,8 +191,6 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
             guard let cell = calendarCell as? MyCalenderCell else {
                 return
             }
-            cell.backgroundColor = .blue
-            
         }
     }
 }
