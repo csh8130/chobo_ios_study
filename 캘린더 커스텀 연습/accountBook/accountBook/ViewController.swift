@@ -115,7 +115,15 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tableView.reloadData()
+        refreshVisibleCells()
     }
+    
+    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+        let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position)
+        return cell
+    }
+    
+    //private func
     
     func nthWeek(_ d: Date) -> Int {
         let formatter = DateFormatter()
@@ -177,9 +185,15 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         }
     }
     
-    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position)
-        return cell
+    func refreshVisibleCells() {
+        calendar.visibleCells().forEach { calendarCell in
+            let date = calendar.date(for: calendarCell)
+            guard let cell = calendarCell as? MyCalenderCell else {
+                return
+            }
+            cell.backgroundColor = .blue
+            
+        }
     }
 }
 

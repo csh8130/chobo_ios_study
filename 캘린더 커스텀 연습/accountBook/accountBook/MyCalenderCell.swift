@@ -9,10 +9,13 @@ import UIKit
 import FSCalendar
 
 class MyCalenderCell: FSCalendarCell {
+    var selectionView: UIView?
     override init!(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.shapeLayer.isHidden = true
+        selectionView = UIView(frame: CGRect(x: 0, y: 0, width: contentView.fs_width-1, height: contentView.fs_height-1))
+        selectionView?.backgroundColor = .yellow
+        selectionView?.isHidden = true
+        self.contentView.insertSubview(selectionView ?? UIView(), at: 0)
     }
     
     required init!(coder aDecoder: NSCoder!) {
