@@ -111,11 +111,16 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
                         self.view.layoutIfNeeded()
                        }, completion: { [weak self] _ in
                        })
+        
+    }
+    
+    func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        refreshVisibleCells(selecteddate: calendar.selectedDate)
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         tableView.reloadData()
-        refreshVisibleCells(selecteddate: date, selectedmonthPosition: monthPosition)
+        refreshVisibleCells(selecteddate: date)
     }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
@@ -185,7 +190,7 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         }
     }
     
-    func refreshVisibleCells(selecteddate: Date, selectedmonthPosition: FSCalendarMonthPosition) {
+    func refreshVisibleCells(selecteddate: Date?) {
         calendar.visibleCells().forEach { calendarCell in
             let date = calendar.date(for: calendarCell)
             guard let cell = calendarCell as? MyCalenderCell else {
