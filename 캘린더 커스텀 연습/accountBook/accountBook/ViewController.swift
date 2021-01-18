@@ -34,6 +34,12 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         
         dictionary[calendar.today!] = []
+        setupView()
+    }
+    
+    func setupView() {
+        
+        calendar.register(MyCalenderCell.self, forCellReuseIdentifier: "cell")
     }
     
     func setNavGradient() {
@@ -169,6 +175,11 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
         for i in comp1.day!...comp2.day! {
             print(i)
         }
+    }
+    
+    func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+        let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position)
+        return cell
     }
 }
 
