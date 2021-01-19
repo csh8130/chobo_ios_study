@@ -56,10 +56,10 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wX-Ej-oLH" customClass="FSCalendar">
-                                <rect key="frame" x="0.0" y="129" width="414" height="500"/>
+                                <rect key="frame" x="0.0" y="129" width="414" height="380"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="500" id="ihc-ya-CUH"/>
+                                    <constraint firstAttribute="height" constant="380" id="ihc-ya-CUH"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
@@ -68,6 +68,12 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="headerHeight">
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="fMH-mV-p6W"/>
@@ -75,11 +81,11 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ujl-KL-cYL" userLabel="Bottom Base View">
-                                <rect key="frame" x="0.0" y="629" width="414" height="233"/>
+                                <rect key="frame" x="0.0" y="509" width="414" height="353"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZJ-Jz-WAV" userLabel="Bottom View">
-                                <rect key="frame" x="0.0" y="629" width="414" height="233"/>
+                                <rect key="frame" x="0.0" y="509" width="414" height="353"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rzn-Hu-Ucs" userLabel="top separator">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
@@ -89,7 +95,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FjM-sy-S4Q">
-                                        <rect key="frame" x="0.0" y="1" width="414" height="232"/>
+                                        <rect key="frame" x="0.0" y="1" width="414" height="352"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MainCell" id="dre-tR-dNp" customClass="MainCell" customModule="accountBook" customModuleProvider="target">

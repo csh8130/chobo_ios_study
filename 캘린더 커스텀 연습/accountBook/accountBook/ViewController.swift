@@ -201,6 +201,12 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
             } else {
                 cell.deselect()
             }
+            
+            if cell.dateIsToday {
+                cell.backgroundColor = .lightGray
+            } else {
+                cell.backgroundColor = .clear
+            }
         }
     }
 }
