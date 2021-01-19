@@ -40,6 +40,9 @@ class ViewController: UIViewController {
     func setupView() {
         
         calendar.register(MyCalenderCell.self, forCellReuseIdentifier: "cell")
+        
+        calendar.appearance.titleOffset = CGPoint(x: 0, y: -13)
+        calendar.appearance.titleFont = .boldSystemFont(ofSize: 14)
     }
     
     func setNavGradient() {
