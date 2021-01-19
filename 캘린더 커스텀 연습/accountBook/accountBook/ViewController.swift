@@ -43,6 +43,11 @@ class ViewController: UIViewController {
         
         calendar.appearance.titleOffset = CGPoint(x: 0, y: -13)
         calendar.appearance.titleFont = .boldSystemFont(ofSize: 14)
+        
+        // 달력의 요일 글자 바꾸기
+        calendar.locale = Locale(identifier: "ko_KR")
+        calendar.appearance.weekdayFont = .systemFont(ofSize: 11)
+        calendar.appearance.weekdayTextColor = .lightGray
     }
     
     func setNavGradient() {
