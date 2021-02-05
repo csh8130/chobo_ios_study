@@ -18,3 +18,12 @@ extension UIView{
         layer.addSublayer(gradient)
     }
 }
+
+extension Int {
+    func currencyKR() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: NSNumber(value: self)) ?? ""
+    }
+}

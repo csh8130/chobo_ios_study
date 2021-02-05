@@ -9,7 +9,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var closeHandler: (String)->(Void) = { _ in }
+    var closeHandler: (Int, Bool)->(Void) = { _, _ in }
     
     var date: Date?
     @IBOutlet weak var dayTitle: UILabel!
@@ -26,7 +26,17 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func pay(_ sender: Any) {
-        closeHandler(input.text!)
+        closeHandler(-Int(input.text!)!, true)
+        dismiss(animated: true)
+    }
+    
+    @IBAction func payMoney(_ sender: Any) {
+        closeHandler(-Int(input.text!)!, false)
+        dismiss(animated: true)
+    }
+    
+    @IBAction func plus(_ sender: Any) {
+        closeHandler(Int(input.text!)!, true)
         dismiss(animated: true)
     }
     /*

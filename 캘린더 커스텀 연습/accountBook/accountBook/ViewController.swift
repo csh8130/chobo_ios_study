@@ -10,7 +10,8 @@ import FSCalendar
 
 struct AccountDayData {
     var date: Date
-    var amount: String
+    var amount: Int
+    var isCard: Bool
 }
 
 class ViewController: UIViewController {
@@ -18,6 +19,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomViewTop: NSLayoutConstraint!
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var incomeLabel: UILabel!
+    @IBOutlet weak var moneyLabel: UILabel!
+    
+    @IBOutlet weak var payTotalLabel: UILabel!
+    
+    @IBOutlet weak var payMoneyLabel: UILabel!
+    @IBOutlet weak var payCardLabel: UILabel!
     
     var dictionary: [Date: [AccountDayData]] = [:]
 //    var selection: Date
@@ -30,6 +39,8 @@ class ViewController: UIViewController {
         setTitleMonth(calendar)
         calendar.placeholderType = .fillSixRows
         
+        loadData()
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -38,7 +49,6 @@ class ViewController: UIViewController {
     }
     
     func setupView() {
-        
         calendar.register(MyCalenderCell.self, forCellReuseIdentifier: "cell")
         
         calendar.appearance.titleOffset = CGPoint(x: 0, y: -13)
@@ -48,6 +58,8 @@ class ViewController: UIViewController {
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.appearance.weekdayFont = .systemFont(ofSize: 11)
         calendar.appearance.weekdayTextColor = .lightGray
+        
+        calcTotal()
     }
     
     func setNavGradient() {
@@ -82,15 +94,24 @@ class ViewController: UIViewController {
         let month = Calendar.current.component(.month, from: calendar.currentPage)
         title = "\(month)월"
     }
+    
+    func saveData() {// Save
+    }
+    
+    func loadData() {// Load
+    }
+    
     @IBAction func addButton(_ sender: Any) {
         guard let vc = storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
         }
         
-        vc.closeHandler = { [weak self] amount in
+        vc.closeHandler = { [weak self] amount, isCard in
             guard let self = self else { return }
-            self.dictionary[self.calendar.selectedDate!]?.append(AccountDayData(date: self.calendar.selectedDate!, amount: amount))
+            self.dictionary[self.calendar.selectedDate!]?.append(AccountDayData(date: self.calendar.selectedDate!, amount: amount, isCard: isCard))
             self.tableView.reloadData()
+            self.calcTotal()
+            self.saveData()
         }
         
         if calendar.selectedDate == nil {
@@ -115,7 +136,7 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
                        options: [.curveEaseInOut],
                        animations: { [weak self] () -> Void in
                         guard let self = self else { return }
-                        self.bottomViewTop.constant = height
+                        self.bottomViewTop.constant = height + 10
                         self.view.layoutIfNeeded()
                        }, completion: { [weak self] _ in
                        })
@@ -124,6 +145,7 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
         refreshVisibleCells(selecteddate: calendar.selectedDate)
+        calcTotal()
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -204,10 +226,19 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
             guard let cell = calendarCell as? MyCalenderCell else {
                 return
             }
+            
+            if Int(cell.incomeLabel!.text!) ?? 0 > 0 {
+                cell.incomeLabel?.isHidden = false
+            } else {
+                cell.incomeLabel?.isHidden = true
+            }
+            
             if date == selecteddate {
                 cell.select(nil)
+                cell.incomeLabel?.textColor = .green
             } else {
                 cell.deselect()
+                cell.incomeLabel?.textColor = .white
             }
             
             if cell.dateIsToday {
@@ -216,6 +247,44 @@ extension ViewController: FSCalendarDelegate, FSCalendarDataSource {
                 cell.backgroundColor = .clear
             }
         }
+    }
+    
+    func calcTotal() {
+        let curPageYear = Calendar.current.component(.year, from: calendar.currentPage)
+        let curPageMonth = Calendar.current.component(.month, from: calendar.currentPage)
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        
+        var payCard = 0
+        var payMoney = 0
+        var income = 0
+        
+        dictionary.forEach { date, infos in
+            formatter.dateFormat = "yyyy"
+            let year = Int(formatter.string(from: date))!
+            formatter.dateFormat = "MM"
+            let month = Int(formatter.string(from: date))!
+//            print(year)
+//            print(month)
+            if year == curPageYear && month == curPageMonth {
+                infos.forEach { info in
+                    if info.amount > 0 {
+                        income += info.amount
+                    } else if info.isCard {
+                        payCard += -info.amount
+                    } else if info.isCard == false {
+                        payMoney += -info.amount
+                    }
+                }
+            }
+        }
+        
+        incomeLabel.text = "\(income.currencyKR())원"
+        moneyLabel.text = "\((income - payMoney).currencyKR())원"
+        payMoneyLabel.text = "\(payMoney.currencyKR())"
+        payCardLabel.text = "\(payCard.currencyKR())"
+        payTotalLabel.text = "\((payCard + payMoney).currencyKR())원"
     }
 }
 
@@ -237,8 +306,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainCell") as? MainCell else {
             return UITableViewCell()
         }
-        cell.title.text = "\(dictionary[calendar.selectedDate!]![indexPath.row].date)"
+//        cell.title.text = "\(dictionary[calendar.selectedDate!]![indexPath.row].date)"
         cell.won.text = "\(dictionary[calendar.selectedDate!]![indexPath.row].amount)"
+        cell.setLayout()
         return cell
     }
 }
