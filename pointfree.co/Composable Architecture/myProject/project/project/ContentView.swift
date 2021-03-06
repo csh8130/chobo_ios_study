@@ -7,15 +7,24 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
-    }
+class AppState: ObservableObject {
+    @Published var count: Int = 0
+    @Published var favoritePrimes: [Int] = []
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+struct ContentView: View {
+    @ObservedObject var state: AppState
+    var body: some View {
+        NavigationView {
+            List {
+                NavigationLink(destination: CounterView(state: self.state)) {
+                    Text("Counter demo")
+                }
+                NavigationLink(destination: FavoritePrimes(state: self.state)) {
+                  Text("Favorite primes")
+                }
+            }
+            .navigationBarTitle("State management")
+        }
     }
 }
