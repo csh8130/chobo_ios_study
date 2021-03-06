@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-class AppState: ObservableObject {
-    @Published var count: Int = 0
-    @Published var favoritePrimes: [Int] = []
-}
-
 struct ContentView: View {
     @ObservedObject var state: AppState
     var body: some View {
@@ -20,7 +15,7 @@ struct ContentView: View {
                 NavigationLink(destination: CounterView(state: self.state)) {
                     Text("Counter demo")
                 }
-                NavigationLink(destination: FavoritePrimes(state: self.state)) {
+                NavigationLink(destination: FavoritePrimes(state: self.$state.favoritePrimesState)) {
                   Text("Favorite primes")
                 }
             }

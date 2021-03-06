@@ -17,6 +17,8 @@
 		C2CC7E0C25F3BAB500465915 /* wolfram.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CC7E0B25F3BAB500465915 /* wolfram.swift */; };
 		C2E7D29125F3BBD100808910 /* IsPrimeModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E7D29025F3BBD100808910 /* IsPrimeModalView.swift */; };
 		C2E7D29425F3BBF700808910 /* FavoritePrimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E7D29325F3BBF700808910 /* FavoritePrimes.swift */; };
+		C2E7D29725F3C49F00808910 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E7D29625F3C49F00808910 /* Log.swift */; };
+		C2E7D2BB25F3CF1100808910 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E7D2BA25F3CF1100808910 /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,11 +30,12 @@
 		C2556EA125F334FD00A28648 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C2556EA425F334FD00A28648 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2556EA625F334FD00A28648 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2556EAD25F3351500A28648 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C2CC7E0825F3BA7500465915 /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		C2CC7E0B25F3BAB500465915 /* wolfram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wolfram.swift; sourceTree = "<group>"; };
 		C2E7D29025F3BBD100808910 /* IsPrimeModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsPrimeModalView.swift; sourceTree = "<group>"; };
 		C2E7D29325F3BBF700808910 /* FavoritePrimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePrimes.swift; sourceTree = "<group>"; };
+		C2E7D29625F3C49F00808910 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		C2E7D2BA25F3CF1100808910 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,11 +75,12 @@
 				C2556EA325F334FD00A28648 /* LaunchScreen.storyboard */,
 				C2556EA625F334FD00A28648 /* Info.plist */,
 				C2556EA025F334FD00A28648 /* Preview Content */,
-				C2556EAD25F3351500A28648 /* MyPlayground.playground */,
 				C2CC7E0825F3BA7500465915 /* CounterView.swift */,
 				C2CC7E0B25F3BAB500465915 /* wolfram.swift */,
 				C2E7D29025F3BBD100808910 /* IsPrimeModalView.swift */,
 				C2E7D29325F3BBF700808910 /* FavoritePrimes.swift */,
+				C2E7D29625F3C49F00808910 /* Log.swift */,
+				C2E7D2BA25F3CF1100808910 /* AppState.swift */,
 			);
 			path = project;
 			sourceTree = "<group>";
@@ -162,9 +166,11 @@
 				C2E7D29425F3BBF700808910 /* FavoritePrimes.swift in Sources */,
 				C2556E9925F334FC00A28648 /* AppDelegate.swift in Sources */,
 				C2556E9B25F334FC00A28648 /* SceneDelegate.swift in Sources */,
+				C2E7D2BB25F3CF1100808910 /* AppState.swift in Sources */,
 				C2556E9D25F334FC00A28648 /* ContentView.swift in Sources */,
 				C2CC7E0C25F3BAB500465915 /* wolfram.swift in Sources */,
 				C2E7D29125F3BBD100808910 /* IsPrimeModalView.swift in Sources */,
+				C2E7D29725F3C49F00808910 /* Log.swift in Sources */,
 				C2CC7E0925F3BA7500465915 /* CounterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

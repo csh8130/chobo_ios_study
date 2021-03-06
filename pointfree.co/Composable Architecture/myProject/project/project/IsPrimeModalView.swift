@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PrimeAlert: Identifiable {
   let prime: Int
-
   var id: Int { self.prime }
 }
 
@@ -33,11 +32,18 @@ struct IsPrimeModalView: View {
             }
           Button(action: {}) {
             if self.state.favoritePrimes.contains(self.state.count) {
-                Button(action: { self.state.favoritePrimes.removeAll(where: { $0 == self.state.count }) }) {
+                Button(action: {
+                    self.state.favoritePrimes.removeAll(where: { $0 == self.state.count })
+                    self.state.activityFeed.append(.init(type: .removedFavoritePrime(self.state.count)))
+                    
+                }) {
                 Text("Remove from favorite primes")
               }
             } else {
-                Button(action: { self.state.favoritePrimes.append(self.state.count) }) {
+                Button(action: {
+                        self.state.favoritePrimes.append(self.state.count)
+                    self.state.activityFeed.append(.init(type: .addedFavoritePrime(self.state.count)))
+                }) {
                 Text("Save to favorite primes")
               }
             }
