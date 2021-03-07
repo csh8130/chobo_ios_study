@@ -7,11 +7,19 @@
 
 import SwiftUI
 
-class AppState: ObservableObject {
-    @Published var count: Int = 0
-    @Published var favoritePrimes: [Int] = []
-    @Published var activityFeed: [Activity] = []
-    @Published var loggedInUser: User?
+final class Store<Value>: ObservableObject {
+  @Published var value: Value
+
+  init(initialValue: Value) {
+    self.value = initialValue
+  }
+}
+
+struct AppState {
+    var count: Int = 0
+    var favoritePrimes: [Int] = []
+    var activityFeed: [Activity] = []
+    var loggedInUser: User?
     
     struct User {
       let id: Int
@@ -20,25 +28,25 @@ class AppState: ObservableObject {
     }
 }
 
-extension AppState {
-  func addFavoritePrime() {
-    self.favoritePrimes.append(self.count)
-    self.activityFeed.append(Activity(type: .addedFavoritePrime(self.count)))
-  }
-
-  func removeFavoritePrime(_ prime: Int) {
-    self.favoritePrimes.removeAll(where: { $0 == prime })
-    self.activityFeed.append(Activity(type: .removedFavoritePrime(prime)))
-  }
-
-  func removeFavoritePrime() {
-    self.removeFavoritePrime(self.count)
-  }
-
-  func removeFavoritePrimes(at indexSet: IndexSet) {
-    for index in indexSet {
-      self.removeFavoritePrime(self.favoritePrimes[index])
-    }
-  }
-}
+//extension AppState {
+//  func addFavoritePrime() {
+//    self.favoritePrimes.append(self.count)
+//    self.activityFeed.append(Activity(type: .addedFavoritePrime(self.count)))
+//  }
+//
+//  func removeFavoritePrime(_ prime: Int) {
+//    self.favoritePrimes.removeAll(where: { $0 == prime })
+//    self.activityFeed.append(Activity(type: .removedFavoritePrime(prime)))
+//  }
+//
+//  func removeFavoritePrime() {
+//    self.removeFavoritePrime(self.count)
+//  }
+//
+//  func removeFavoritePrimes(at indexSet: IndexSet) {
+//    for index in indexSet {
+//      self.removeFavoritePrime(self.favoritePrimes[index])
+//    }
+//  }
+//}
 

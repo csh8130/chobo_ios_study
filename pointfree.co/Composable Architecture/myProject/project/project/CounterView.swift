@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+enum CounterAction {
+  case decrTapped
+  case incrTapped
+}
+
+func counterReducer(state: AppState, action: CounterAction) -> AppState {
+  var copy = state
+  switch action {
+  case .decrTapped:
+    copy.count -= 1
+  case .incrTapped:
+    copy.count += 1
+  }
+  return copy
+}
+
 private func ordinal(_ n: Int) -> String {
   let formatter = NumberFormatter()
   formatter.numberStyle = .ordinal
@@ -14,7 +30,7 @@ private func ordinal(_ n: Int) -> String {
 }
 
 struct CounterView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     @State var isPrimeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert?
     @State var isNthPrimeButtonDisabled = false
@@ -22,11 +38,11 @@ struct CounterView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: { self.state.count -= 1 }) {
+                Button(action: { self.store.value.count -= 1 }) {
                     Text("-")
                 }
-                Text("\(self.state.count)")
-                Button(action: { self.state.count += 1 }) {
+                Text("\(self.store.value.count)")
+                Button(action: { self.store.value.count += 1 }) {
                     Text("+")
                 }
             }
@@ -35,18 +51,18 @@ struct CounterView: View {
                     
             }
             Button(action: self.nthPrimeButtonAction) {
-                Text("What's the \(ordinal(self.state.count)) prime?")
+                Text("What's the \(ordinal(self.store.value.count)) prime?")
             }
             .disabled(self.isNthPrimeButtonDisabled)
         }
         .font(.title)
         .navigationBarTitle("Counter demo")
         .sheet(isPresented: self.$isPrimeModalShown) {
-            IsPrimeModalView(state: self.state)
+            IsPrimeModalView(store: self.store)
         }
         .alert(item: self.$alertNthPrime) { alert in
             Alert(
-                title: Text("The \(ordinal(self.state.count)) prime is \(alert.prime)"),
+                title: Text("The \(ordinal(self.store.value.count)) prime is \(alert.prime)"),
                 dismissButton: .default(Text("Ok"))
             )
         }
@@ -54,7 +70,7 @@ struct CounterView: View {
     
     func nthPrimeButtonAction() {
         self.isNthPrimeButtonDisabled = true
-        nthPrime(self.state.count) { prime in
+        nthPrime(self.store.value.count) { prime in
             self.alertNthPrime = prime.map(PrimeAlert.init(prime:))
             self.isNthPrimeButtonDisabled = false
         }

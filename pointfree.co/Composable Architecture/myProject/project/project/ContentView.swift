@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: CounterView(state: self.state)) {
+                NavigationLink(destination: CounterView(store: self.store)) {
                     Text("Counter demo")
                 }
-                NavigationLink(destination: FavoritePrimes(state: self.$state.favoritePrimesState)) {
-                  Text("Favorite primes")
-                }
+//                NavigationLink(destination: FavoritePrimes(state: self.store.value.favoritePrimesState)) {
+//                  Text("Favorite primes")
+//                }
             }
             .navigationBarTitle("State management")
         }

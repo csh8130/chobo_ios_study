@@ -22,32 +22,31 @@ private func isPrime (_ p: Int) -> Bool {
 }
 
 struct IsPrimeModalView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     var body: some View {
         VStack {
-            if isPrime(self.state.count) {
-              Text("\(self.state.count) is prime 🎉")
+            if isPrime(self.store.value.count) {
+                Text("\(self.store.value.count) is prime 🎉")
             } else {
-              Text("\(self.state.count) is not prime :(")
+                Text("\(self.store.value.count) is not prime :(")
             }
-          Button(action: {}) {
-            if self.state.favoritePrimes.contains(self.state.count) {
+            if self.store.value.favoritePrimes.contains(self.store.value.count) {
                 Button(action: {
-                    self.state.favoritePrimes.removeAll(where: { $0 == self.state.count })
-                    self.state.activityFeed.append(.init(type: .removedFavoritePrime(self.state.count)))
+                    self.store.value.favoritePrimes.removeAll(where: { $0 == self.store.value.count })
+                    self.store.value.activityFeed.append(.init(type: .removedFavoritePrime(self.store.value.count)))
                     
                 }) {
-                Text("Remove from favorite primes")
-              }
+                    Text("Remove from favorite primes")
+                }
             } else {
                 Button(action: {
-                        self.state.favoritePrimes.append(self.state.count)
-                    self.state.activityFeed.append(.init(type: .addedFavoritePrime(self.state.count)))
+                    self.store.value.favoritePrimes.append(self.store.value.count)
+                    self.store.value.activityFeed.append(.init(type: .addedFavoritePrime(self.store.value.count)))
                 }) {
-                Text("Save to favorite primes")
-              }
+                    Text("Save to favorite primes")
+                }
             }
-          }
+          
         }
       }
 }
