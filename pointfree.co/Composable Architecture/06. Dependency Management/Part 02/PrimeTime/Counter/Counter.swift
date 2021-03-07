@@ -30,13 +30,13 @@ public func counterReducer(
     state.count -= 1
     let count = state.count
     return [
-      .fireAndForget {
-        print(count)
-      },
-
-      Just(CounterAction.incrTapped)
-        .delay(for: 1, scheduler: DispatchQueue.main)
-        .eraseToEffect()
+//      .fireAndForget {
+//        print(count)
+//      },
+//
+//      Just(CounterAction.incrTapped)
+//        .delay(for: 1, scheduler: DispatchQueue.main)
+//        .eraseToEffect()
     ]
 
   case .incrTapped:
