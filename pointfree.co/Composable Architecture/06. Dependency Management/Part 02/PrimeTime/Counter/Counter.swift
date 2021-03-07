@@ -77,7 +77,7 @@ public struct CounterEnvironment {
 }
 
 extension CounterEnvironment {
-  static let live = CounterEnvironment(nthPrime: Counter.nthPrime)
+  public static let live = CounterEnvironment(nthPrime: Counter.nthPrime)
 }
 
 //var Current = CounterEnvironment.live
