@@ -8,16 +8,19 @@ public enum PrimeModalAction: Equatable {
   case removeFavoritePrimeTapped
 }
 
-public func primeModalReducer(state: inout PrimeModalState, action: PrimeModalAction) -> [Effect<PrimeModalAction>] {
-  switch action {
-  case .removeFavoritePrimeTapped:
-    state.favoritePrimes.removeAll(where: { $0 == state.count })
-    return []
-
-  case .saveFavoritePrimeTapped:
-    state.favoritePrimes.append(state.count)
-    return []
-  }
+public func primeModalReducer(
+    state: inout PrimeModalState,
+    action: PrimeModalAction,
+    environment: Void) -> [Effect<PrimeModalAction>] {
+    switch action {
+    case .removeFavoritePrimeTapped:
+        state.favoritePrimes.removeAll(where: { $0 == state.count })
+        return []
+        
+    case .saveFavoritePrimeTapped:
+        state.favoritePrimes.append(state.count)
+        return []
+    }
 }
 
 public struct IsPrimeModalView: View {
