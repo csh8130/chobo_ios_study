@@ -57,16 +57,23 @@ extension AppState {
   }
 }
 
-let appReducer = combine(
+struct AppEnvironment {
+  var counter: CounterEnvironment
+  var favoritePrimes: FavoritePrimesEnvironment
+}
+
+let appReducer: Reducer<AppState, AppAction, AppEnvironment> = combine(
   pullback(
     counterViewReducer,
     value: \AppState.counterView,
-    action: /AppAction.counterView
+    action: /AppAction.counterView,
+    environment: { $0.counter }
   ),
   pullback(
     favoritePrimesReducer,
     value: \.favoritePrimes,
-    action: /AppAction.favoritePrimes
+    action: /AppAction.favoritePrimes,
+    environment: { $0.favoritePrimes }
   )
 )
 
