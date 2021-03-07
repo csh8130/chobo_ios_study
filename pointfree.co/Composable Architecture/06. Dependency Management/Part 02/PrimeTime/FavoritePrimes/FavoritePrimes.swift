@@ -66,7 +66,7 @@ public struct FileClient {
   var save: (String, Data) -> Effect<Never>
 }
 extension FileClient {
-  static let live = FileClient(
+  public static let live = FileClient(
     load: { fileName -> Effect<Data?> in
       .sync {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]

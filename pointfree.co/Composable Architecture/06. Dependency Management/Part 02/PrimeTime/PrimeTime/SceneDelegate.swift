@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import Counter
 import SwiftUI
 import UIKit
 
@@ -19,7 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 activityFeed
               )
             ),
-            environment: AppEnvironment(counter: .live, favoritePrimes: .live)
+            environment: AppEnvironment(
+                fileClient: .live,
+                nthPrime: Counter.nthPrime
+            )
           )
         )
       )

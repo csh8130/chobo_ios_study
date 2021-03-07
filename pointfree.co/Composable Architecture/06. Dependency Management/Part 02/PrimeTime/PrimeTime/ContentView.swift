@@ -57,23 +57,28 @@ extension AppState {
   }
 }
 
-struct AppEnvironment {
-  var counter: CounterEnvironment
-  var favoritePrimes: FavoritePrimesEnvironment
-}
+//struct AppEnvironment {
+//  var counter: CounterEnvironment
+//  var favoritePrimes: FavoritePrimesEnvironment
+//}
+
+typealias AppEnvironment = (
+  fileClient: FileClient,
+  nthPrime: (Int) -> Effect<Int?>
+)
 
 let appReducer: Reducer<AppState, AppAction, AppEnvironment> = combine(
   pullback(
     counterViewReducer,
     value: \AppState.counterView,
     action: /AppAction.counterView,
-    environment: { $0.counter }
+    environment: { $0.nthPrime }
   ),
   pullback(
     favoritePrimesReducer,
     value: \.favoritePrimes,
     action: /AppAction.favoritePrimes,
-    environment: { $0.favoritePrimes }
+    environment: { $0.fileClient }
   )
 )
 
