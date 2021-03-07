@@ -28,12 +28,13 @@ public struct Step<Value, Action> {
   }
 }
 
-public func assert<Value: Equatable, Action: Equatable>(
-  initialValue: Value,
-  reducer: Reducer<Value, Action>,
-  steps: Step<Value, Action>...,
-  file: StaticString = #file,
-  line: UInt = #line
+public func assert<Value: Equatable, Action: Equatable, Environment>(
+    initialValue: Value,
+    reducer: Reducer<Value, Action, Environment>,
+    environment: Environment,
+    steps: Step<Value, Action>...,
+    file: StaticString = #file,
+    line: UInt = #line
 ) {
   var state = initialValue
   var effects: [Effect<Action>] = []
@@ -46,7 +47,7 @@ public func assert<Value: Equatable, Action: Equatable>(
       if !effects.isEmpty {
         XCTFail("Action sent before handling \(effects.count) pending effect(s)", file: step.file, line: step.line)
       }
-      effects.append(contentsOf: reducer(&state, step.action))
+      effects.append(contentsOf: reducer(&state, step.action, environment))
 
     case .receive:
       guard !effects.isEmpty else {
@@ -66,7 +67,7 @@ public func assert<Value: Equatable, Action: Equatable>(
         XCTFail("Timed out waiting for the effect to complete", file: step.file, line: step.line)
       }
       XCTAssertEqual(action, step.action, file: step.file, line: step.line)
-      effects.append(contentsOf: reducer(&state, action))
+      effects.append(contentsOf: reducer(&state, action, environment))
     }
 
     step.update(&expected)
