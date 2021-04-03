@@ -13,6 +13,7 @@
 		C272F8BF26184C860037F311 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C272F8BD26184C860037F311 /* Main.storyboard */; };
 		C272F8C126184C870037F311 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C272F8C026184C870037F311 /* Assets.xcassets */; };
 		C272F8C426184C870037F311 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C272F8C226184C870037F311 /* LaunchScreen.storyboard */; };
+		C272F8D5261853520037F311 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C272F8D4261853520037F311 /* MainTabController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C272F8C026184C870037F311 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C272F8C326184C870037F311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C272F8C526184C870037F311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C272F8D4261853520037F311 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 		C272F8CF26184FD40037F311 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C272F8D4261853520037F311 /* MainTabController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			files = (
 				C272F8BC26184C860037F311 /* ViewController.swift in Sources */,
 				C272F8B826184C860037F311 /* AppDelegate.swift in Sources */,
+				C272F8D5261853520037F311 /* MainTabController.swift in Sources */,
 				C272F8BA26184C860037F311 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
