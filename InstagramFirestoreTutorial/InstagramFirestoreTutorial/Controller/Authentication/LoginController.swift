@@ -11,6 +11,12 @@ class LoginController: UIViewController {
     
     // MARK : - Properties
     
+    private let iconImage: UIImageView = {
+        let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+    
     // MARK : - Lifecycle
     
     override func viewDidLoad() {
@@ -30,5 +36,10 @@ class LoginController: UIViewController {
         gradient.locations = [0, 1]
         view.layer.addSublayer(gradient)
         gradient.frame = view.frame
+        
+        view.addSubview(iconImage)
+        iconImage.centerX(inView: view)
+        iconImage.setDimensions(height: 80, width: 120)
+        iconImage.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
     }
 }
