@@ -17,6 +17,32 @@ class LoginController: UIViewController {
         return iv
     }()
     
+    private let emailTextField: UITextField = {
+        let tf = UITextField()
+        tf.borderStyle = .none
+        tf.textColor = .white
+        tf.keyboardAppearance = .dark
+        tf.keyboardType = .emailAddress
+        tf.backgroundColor = UIColor(white: 1, alpha: 0.1)
+        tf.setHeight(50)
+        tf.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [.foregroundColor: UIColor(white: 1, alpha: 0.7)])
+        return tf
+    }()
+    
+    private let passwordTextField: UITextField = {
+        let tf = UITextField()
+        tf.borderStyle = .none
+        tf.textColor = .white
+        tf.keyboardAppearance = .dark
+        tf.keyboardType = .emailAddress
+        tf.backgroundColor = UIColor(white: 1, alpha: 0.1)
+        tf.setHeight(50)
+        tf.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [.foregroundColor: UIColor(white: 1, alpha: 0.7)])
+        
+        tf.isSecureTextEntry = true
+        return tf
+    }()
+    
     // MARK : - Lifecycle
     
     override func viewDidLoad() {
@@ -41,5 +67,12 @@ class LoginController: UIViewController {
         iconImage.centerX(inView: view)
         iconImage.setDimensions(height: 80, width: 120)
         iconImage.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        
+        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
+        stack.axis = .vertical
+        stack.spacing = 20
+        
+        view.addSubview(stack)
+        stack.anchor(top: iconImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 32, paddingRight: 32)
     }
 }
