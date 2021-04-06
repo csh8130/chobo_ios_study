@@ -70,15 +70,9 @@ class LoginController: UIViewController {
     // MARK : - Helpers
     
     func configureUI() {
-        view.backgroundColor = .white
+        configureGradientLayer()
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
-        
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemBlue.cgColor]
-        gradient.locations = [0, 1]
-        view.layer.addSublayer(gradient)
-        gradient.frame = view.frame
         
         view.addSubview(iconImage)
         iconImage.centerX(inView: view)
@@ -90,7 +84,7 @@ class LoginController: UIViewController {
         stack.spacing = 20
         
         view.addSubview(stack)
-        stack.anchor(top: iconImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 32, paddingRight: 32)
+        stack.anchor(top: iconImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 32, paddingRight: 32)
         
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.centerX(inView: view)
