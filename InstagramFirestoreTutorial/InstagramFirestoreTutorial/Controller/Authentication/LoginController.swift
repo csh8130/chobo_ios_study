@@ -11,6 +11,8 @@ class LoginController: UIViewController {
     
     // MARK : - Properties
     
+    private let viewModel = LoginViewModel()
+    
     private let iconImage: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
         iv.contentMode = .scaleAspectFill
