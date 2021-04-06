@@ -49,6 +49,7 @@ class LoginController: UIViewController {
     private let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Don't have an account?", secondPart: "Sign up")
+        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
     }()
     
@@ -57,6 +58,13 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+    
+    // MARK : - Actions
+    
+    @objc func handleShowSignUp() {
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK : - Helpers
