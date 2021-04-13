@@ -77,13 +77,13 @@ class RegistrationController: UIViewController {
         let credentials = AuthCredentials(email: email, password: password,
                                           fullname: fullname, username: username,
                                           profileImage: profileImage)
-        AuthService.registerUser(withCredential: credentials) { error in
+        AuthService.registerUser(withCredential: credentials) { [weak self] error in
             if let error = error {
                 print("DEBUG: Failed to register user \(error.localizedDescription)")
                 return
             }
             
-            print("DEBUG: Successfully registered user with firestore..")
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
