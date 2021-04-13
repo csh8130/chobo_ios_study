@@ -43,6 +43,7 @@ class FeedController: UICollectionViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(handleLogout))
+        navigationItem.title = "Feed"
     }
 }
 
