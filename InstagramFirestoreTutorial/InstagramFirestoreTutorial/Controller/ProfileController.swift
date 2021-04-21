@@ -65,16 +65,12 @@ extension ProfileController {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        print("DEBUG: did call header function")
-        
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as? ProfileHeader else {
             return UICollectionReusableView()
         }
         
         if let user = user {
             header.viewModel = ProfileHeaderViewModel(user: user)
-        } else {
-            print("DEBUG: User not yet set..")
         }
         
         return header
