@@ -7,4 +7,4 @@
 
 import Firebase
 
-let COLLECTION_USERS = Firestore.Firestore().collection("users")
+let COLLECTION_USERS = Firestore.firestore().collection("users")
