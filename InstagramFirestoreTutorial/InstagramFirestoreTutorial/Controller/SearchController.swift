@@ -13,6 +13,8 @@ class SearchController: UITableViewController {
     
     // MARK: - Properties
     
+    private var users = [User]()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -26,7 +28,8 @@ class SearchController: UITableViewController {
     
     func fetchUsers() {
         UserService.fetchUsers { users in
-            print("DEBUG: Users in Search Controller \(users)")
+            self.users = users
+            self.tableView.reloadData()
         }
     }
     
@@ -44,7 +47,7 @@ class SearchController: UITableViewController {
 
 extension SearchController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -25,8 +25,8 @@ struct UserService {
                 print("DEBUG: document in service file \(document.data())")
             }
             
-//            let users = snapshot.documents.map({ User.init(dictionary: $0.data()) })
-//            completion(users)
+            let users = snapshot.documents.map({ User.init(dictionary: $0.data()) })
+            completion(users)
         }
     }
 }
