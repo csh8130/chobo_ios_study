@@ -14,12 +14,13 @@ class SearchController: UITableViewController {
     // MARK: - Properties
     
     private var users = [User]()
+    private let searchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureSearchController()
         configureTableView()
         fetchUsers()
     }
@@ -40,6 +41,14 @@ class SearchController: UITableViewController {
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 64
+    }
+    
+    func configureSearchController() {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = false
     }
 }
 
