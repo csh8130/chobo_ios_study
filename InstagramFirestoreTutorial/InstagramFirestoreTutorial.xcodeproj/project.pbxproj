@@ -25,6 +25,7 @@
 		C272F8DE2618DA9A0037F311 /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C272F8DD2618DA9A0037F311 /* ImageSelectorController.swift */; };
 		C272F8E12618DAAD0037F311 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C272F8E02618DAAD0037F311 /* NotificationController.swift */; };
 		C272F8E42618DABE0037F311 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C272F8E32618DABE0037F311 /* ProfileController.swift */; };
+		C2868766263D023E00EF8D56 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2868765263D023E00EF8D56 /* UserCellViewModel.swift */; };
 		C2BC1900261CB4BA00B77F13 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC18FF261CB4BA00B77F13 /* CustomTextField.swift */; };
 		C2BC1903261CCA3E00B77F13 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC1902261CCA3E00B77F13 /* AuthenticationViewModel.swift */; };
 		C2C9DC99261B65FC0059139E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C9DC98261B65FC0059139E /* LoginController.swift */; };
@@ -60,6 +61,7 @@
 		C272F8DD2618DA9A0037F311 /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
 		C272F8E02618DAAD0037F311 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		C272F8E32618DABE0037F311 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		C2868765263D023E00EF8D56 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
 		C2BC18FF261CB4BA00B77F13 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		C2BC1902261CCA3E00B77F13 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C2C9DC98261B65FC0059139E /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			children = (
 				C2BC1902261CCA3E00B77F13 /* AuthenticationViewModel.swift */,
 				C2CF480426300F23007B724B /* ProfileHeaderViewModel.swift */,
+				C2868765263D023E00EF8D56 /* UserCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				C2CF480526300F23007B724B /* ProfileHeaderViewModel.swift in Sources */,
 				C2CF47FF262FDE21007B724B /* Constants.swift in Sources */,
 				C272F8D82618DA720037F311 /* FeedController.swift in Sources */,
+				C2868766263D023E00EF8D56 /* UserCellViewModel.swift in Sources */,
 				C272F8D5261853520037F311 /* MainTabController.swift in Sources */,
 				C23930A7261A225900674918 /* Extensions.swift in Sources */,
 				C2F199382621FF750017E5F1 /* ImageUploader.swift in Sources */,
