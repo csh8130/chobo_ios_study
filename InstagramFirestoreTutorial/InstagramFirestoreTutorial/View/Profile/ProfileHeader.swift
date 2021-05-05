@@ -152,6 +152,8 @@ class ProfileHeader: UICollectionReusableView {
         profileImageView.sd_setImage(with: viewModel.profileImageUrl, completed: nil)
         
         editProfileFollowButton.setTitle(viewModel.followButtonText, for: .normal)
+        editProfileFollowButton.setTitleColor(viewModel.followButtonTextColor, for: .normal)
+        editProfileFollowButton.backgroundColor = viewModel.followButtonBackgroundColor
     }
     
     func attributedStatText(value: Int, label: String) -> NSAttributedString {
