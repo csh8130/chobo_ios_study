@@ -37,7 +37,7 @@ struct UserService {
         
         COLLECTION_FOLLOWING.document(currentUid).collection("user-follwing").document(uid)
             .setData([:]) { error in
-                COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(uid).setData([:], completion: completion)
+                COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).setData([:], completion: completion)
             }
     }
     
