@@ -32,7 +32,7 @@ struct UserService {
         }
     }
     
-    static func followUser(uid: String, completion: @escaping(FirestoreCompletion)) {
+    static func follow(uid: String, completion: @escaping(FirestoreCompletion)) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
         COLLECTION_FOLLOWING.document(currentUid).collection("user-follwing").document(uid)
@@ -41,7 +41,7 @@ struct UserService {
             }
     }
     
-    static func unfollowUser(uid: String, completion: @escaping(FirestoreCompletion)) {
+    static func unfollow(uid: String, completion: @escaping(FirestoreCompletion)) {
         
     }
 }

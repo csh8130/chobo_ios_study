@@ -106,6 +106,14 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 
 extension ProfileController: ProfileHeaderDelegate {
     func header(_ profileHeader: ProfileHeader, didTapActionButtonFor user: User) {
-        print("DEBUG: ProfileHeaderDelegate")
+        if user.isCurrentUser {
+            print("DEBUG: current User")
+        } else if user.isFollowed {
+            print("DEBUG: need unfollow")
+        } else {
+            UserService.follow(uid: user.uid) { error in
+                print("DEBUG: follow 됨, update UI now")
+            }
+        }
     }
 }
