@@ -112,7 +112,8 @@ extension ProfileController: ProfileHeaderDelegate {
             print("DEBUG: need unfollow")
         } else {
             UserService.follow(uid: user.uid) { error in
-                print("DEBUG: follow 됨, update UI now")
+                self.user.isFollowed = true
+                self.collectionView.reloadData()
             }
         }
     }
