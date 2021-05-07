@@ -18,8 +18,10 @@ class UploadPhotoController: UIViewController {
         return iv
     }()
     
-    private let captionTextView: UITextView = {
-       let tv = UITextView()
+    private let captionTextView: InputTextView = {
+        let tv = InputTextView()
+        tv.placeholderText = "Enter caption.."
+        tv.font = .systemFont(ofSize: 16)
         return tv
     }()
     
