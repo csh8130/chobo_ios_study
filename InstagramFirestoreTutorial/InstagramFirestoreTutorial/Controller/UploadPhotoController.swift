@@ -18,10 +18,11 @@ class UploadPhotoController: UIViewController {
         return iv
     }()
     
-    private let captionTextView: InputTextView = {
+    private lazy var captionTextView: InputTextView = {
         let tv = InputTextView()
         tv.placeholderText = "Enter caption.."
         tv.font = .systemFont(ofSize: 16)
+        tv.delegate = self
         return tv
     }()
     
@@ -52,6 +53,12 @@ class UploadPhotoController: UIViewController {
     
     // MARK: - Helpers
     
+    func checkMaxLength(_ textView: UITextView) {
+        if (textView.text.count > 100) {
+            textView.deleteBackward()
+        }
+    }
+    
     func configureUI() {
         view.backgroundColor = .white
         navigationItem.title = "Upload Post"
@@ -69,5 +76,15 @@ class UploadPhotoController: UIViewController {
         
         view.addSubview(characterCountLabel)
         characterCountLabel.anchor(bottom: captionTextView.bottomAnchor, right: view.rightAnchor, paddingRight: 12)
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension UploadPhotoController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        checkMaxLength(textView)
+        let count = textView.text.count
+        characterCountLabel.text = "\(count)/100"
     }
 }
