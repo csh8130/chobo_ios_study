@@ -10,11 +10,14 @@ import UIKit
 class UploadPhotoController: UIViewController {
     // MARK: - Properties
     
+    var selectedImage: UIImage? {
+        didSet { photoImageView.image = selectedImage }
+    }
+    
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "venom-7")
         return iv
     }()
     
@@ -48,7 +51,18 @@ class UploadPhotoController: UIViewController {
     }
     
     @objc func didTapDone() {
-        print("DEBUG: share post here")
+        guard let image = selectedImage else { return }
+        guard let caption = captionTextView.text else { return }
+        PostServices.uploadPost(caption: caption, image: image) { [weak self] error in
+            if let error = error {
+                print("DEBUG : Failed to upload post with error \(error.localizedDescription)")
+                return
+            }
+            
+            print("DEBUG : ")
+            
+            self?.dismiss(animated: true, completion: nil)
+        }
     }
     
     // MARK: - Helpers
