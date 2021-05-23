@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		748B8ADF8C48FE4344B8BE94 /* Pods_InstagramFirestoreTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D368103CF4F5F4529A630CC9 /* Pods_InstagramFirestoreTutorial.framework */; };
 		C200CA90265918F500DD0D79 /* PostServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C200CA8F265918F500DD0D79 /* PostServices.swift */; };
+		C200CA94265A2D3800DD0D79 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C200CA93265A2D3800DD0D79 /* Post.swift */; };
 		C223269A263585EE00147F91 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2232699263585EE00147F91 /* UserCell.swift */; };
 		C2342666264531F100596A6B /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342665264531F100596A6B /* UploadPostController.swift */; };
 		C2342669264534A500596A6B /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342668264534A500596A6B /* InputTextView.swift */; };
@@ -46,6 +47,7 @@
 		030B730210052D066CFDD059 /* Pods-InstagramFirestoreTutorial.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramFirestoreTutorial.debug.xcconfig"; path = "Target Support Files/Pods-InstagramFirestoreTutorial/Pods-InstagramFirestoreTutorial.debug.xcconfig"; sourceTree = "<group>"; };
 		ADFC10FC2160DBF0BDF33E37 /* Pods-InstagramFirestoreTutorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramFirestoreTutorial.release.xcconfig"; path = "Target Support Files/Pods-InstagramFirestoreTutorial/Pods-InstagramFirestoreTutorial.release.xcconfig"; sourceTree = "<group>"; };
 		C200CA8F265918F500DD0D79 /* PostServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServices.swift; sourceTree = "<group>"; };
+		C200CA93265A2D3800DD0D79 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		C2232699263585EE00147F91 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		C2342665264531F100596A6B /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		C2342668264534A500596A6B /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				C2CF480126300A77007B724B /* User.swift */,
+				C200CA93265A2D3800DD0D79 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				C272F8D5261853520037F311 /* MainTabController.swift in Sources */,
 				C23930A7261A225900674918 /* Extensions.swift in Sources */,
 				C2F199382621FF750017E5F1 /* ImageUploader.swift in Sources */,
+				C200CA94265A2D3800DD0D79 /* Post.swift in Sources */,
 				C2F1993B2621FF920017E5F1 /* AuthService.swift in Sources */,
 				C2CF47FC262FDDB5007B724B /* UserService.swift in Sources */,
 				C24FBE0C2626AD4300DAC490 /* ProfileCell.swift in Sources */,
