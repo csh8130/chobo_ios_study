@@ -1,5 +1,5 @@
 //
-//  UploadPhotoController.swift
+//  UploadPostController.swift
 //  InstagramFirestoreTutorial
 //
 //  Created by Choi SeungHyuk on 2021/05/07.
@@ -7,8 +7,14 @@
 
 import UIKit
 
-class UploadPhotoController: UIViewController {
+protocol UploadPostControllerDelegate: class {
+    func controllerDidFinishUploadingPost(_ controller: UploadPostController)
+}
+
+class UploadPostController: UIViewController {
     // MARK: - Properties
+    
+    weak var delegate: UploadPostControllerDelegate?
     
     var selectedImage: UIImage? {
         didSet { photoImageView.image = selectedImage }
@@ -61,7 +67,9 @@ class UploadPhotoController: UIViewController {
             
             print("DEBUG : ")
             
-            self?.dismiss(animated: true, completion: nil)
+            guard let self = self else { return }
+            
+            self.delegate?.controllerDidFinishUploadingPost(self)
         }
     }
     
@@ -95,7 +103,7 @@ class UploadPhotoController: UIViewController {
 
 // MARK: - UITextViewDelegate
 
-extension UploadPhotoController: UITextViewDelegate {
+extension UploadPostController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         checkMaxLength(textView)
         let count = textView.text.count

@@ -10,7 +10,7 @@
 		748B8ADF8C48FE4344B8BE94 /* Pods_InstagramFirestoreTutorial.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D368103CF4F5F4529A630CC9 /* Pods_InstagramFirestoreTutorial.framework */; };
 		C200CA90265918F500DD0D79 /* PostServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C200CA8F265918F500DD0D79 /* PostServices.swift */; };
 		C223269A263585EE00147F91 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2232699263585EE00147F91 /* UserCell.swift */; };
-		C2342666264531F100596A6B /* UploadPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342665264531F100596A6B /* UploadPhotoController.swift */; };
+		C2342666264531F100596A6B /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342665264531F100596A6B /* UploadPostController.swift */; };
 		C2342669264534A500596A6B /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342668264534A500596A6B /* InputTextView.swift */; };
 		C23930A4261A215A00674918 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23930A3261A215A00674918 /* FeedCell.swift */; };
 		C23930A7261A225900674918 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23930A6261A225900674918 /* Extensions.swift */; };
@@ -47,7 +47,7 @@
 		ADFC10FC2160DBF0BDF33E37 /* Pods-InstagramFirestoreTutorial.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramFirestoreTutorial.release.xcconfig"; path = "Target Support Files/Pods-InstagramFirestoreTutorial/Pods-InstagramFirestoreTutorial.release.xcconfig"; sourceTree = "<group>"; };
 		C200CA8F265918F500DD0D79 /* PostServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostServices.swift; sourceTree = "<group>"; };
 		C2232699263585EE00147F91 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
-		C2342665264531F100596A6B /* UploadPhotoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPhotoController.swift; sourceTree = "<group>"; };
+		C2342665264531F100596A6B /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		C2342668264534A500596A6B /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		C23930A3261A215A00674918 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		C23930A6261A225900674918 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 				C272F8DD2618DA9A0037F311 /* ImageSelectorController.swift */,
 				C272F8E02618DAAD0037F311 /* NotificationController.swift */,
 				C272F8E32618DABE0037F311 /* ProfileController.swift */,
-				C2342665264531F100596A6B /* UploadPhotoController.swift */,
+				C2342665264531F100596A6B /* UploadPostController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -359,7 +359,7 @@
 				C223269A263585EE00147F91 /* UserCell.swift in Sources */,
 				C272F8DB2618DA870037F311 /* SearchController.swift in Sources */,
 				C272F8B826184C860037F311 /* AppDelegate.swift in Sources */,
-				C2342666264531F100596A6B /* UploadPhotoController.swift in Sources */,
+				C2342666264531F100596A6B /* UploadPostController.swift in Sources */,
 				C2CF480226300A77007B724B /* User.swift in Sources */,
 				C272F8E42618DABE0037F311 /* ProfileController.swift in Sources */,
 				C2CF480526300F23007B724B /* ProfileHeaderViewModel.swift in Sources */,
