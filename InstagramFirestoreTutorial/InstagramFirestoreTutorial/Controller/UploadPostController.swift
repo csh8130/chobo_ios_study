@@ -59,15 +59,20 @@ class UploadPostController: UIViewController {
     @objc func didTapDone() {
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
+        
+        showLoader(true)
+        
         PostServices.uploadPost(caption: caption, image: image) { [weak self] error in
+            guard let self = self else { return }
+            
+            self.showLoader(false)
+            
             if let error = error {
                 print("DEBUG : Failed to upload post with error \(error.localizedDescription)")
                 return
             }
             
             print("DEBUG : ")
-            
-            guard let self = self else { return }
             
             self.delegate?.controllerDidFinishUploadingPost(self)
         }
