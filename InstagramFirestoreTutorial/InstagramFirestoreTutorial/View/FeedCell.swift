@@ -18,6 +18,8 @@ class FeedCell: UICollectionViewCell {
         didSet { configure() }
     }
     
+    weak var delegate: FeedCellDelegate?
+    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -49,7 +51,6 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(didTapComments), for: .touchUpInside)
         return button
     }()
     
@@ -57,6 +58,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(didTapComments), for: .touchUpInside)
         return button
     }()
     
@@ -129,7 +131,8 @@ class FeedCell: UICollectionViewCell {
     }
     
     @objc func didTapComments() {
-        
+        guard let viewModel = viewModel else { return }
+        delegate?.cell(self, WantsToShowCommentsFor: viewModel.post)
     }
     
     // MARK: - Helpers
