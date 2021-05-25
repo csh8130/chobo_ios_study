@@ -16,6 +16,8 @@ class UploadPostController: UIViewController {
     
     weak var delegate: UploadPostControllerDelegate?
     
+    var currentUser: User?
+    
     var selectedImage: UIImage? {
         didSet { photoImageView.image = selectedImage }
     }
@@ -59,10 +61,11 @@ class UploadPostController: UIViewController {
     @objc func didTapDone() {
         guard let image = selectedImage else { return }
         guard let caption = captionTextView.text else { return }
+        guard let user = currentUser else { return }
         
         showLoader(true)
         
-        PostServices.uploadPost(caption: caption, image: image) { [weak self] error in
+        PostServices.uploadPost(caption: caption, image: image, user: user) { [weak self] error in
             guard let self = self else { return }
             
             self.showLoader(false)
