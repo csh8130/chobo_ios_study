@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FeedCellDelegate: class {
+    func cell(_ cell: FeedCell, WantsToShowCommentsFor post: Post)
+}
+
 class FeedCell: UICollectionViewCell {
     // MARK: - Properties
     
@@ -45,6 +49,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(didTapComments), for: .touchUpInside)
         return button
     }()
     
@@ -121,6 +126,10 @@ class FeedCell: UICollectionViewCell {
     
     @objc func didTapUsername() {
         print("tap username")
+    }
+    
+    @objc func didTapComments() {
+        
     }
     
     // MARK: - Helpers
