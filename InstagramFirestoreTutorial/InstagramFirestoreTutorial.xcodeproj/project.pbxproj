@@ -12,6 +12,7 @@
 		C200CA94265A2D3800DD0D79 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C200CA93265A2D3800DD0D79 /* Post.swift */; };
 		C200CA97265A3B7200DD0D79 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C200CA96265A3B7200DD0D79 /* PostViewModel.swift */; };
 		C20C9774265DF129002EC4CC /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20C9773265DF129002EC4CC /* Comment.swift */; };
+		C20C9777265E1B7A002EC4CC /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20C9776265E1B7A002EC4CC /* CommentViewModel.swift */; };
 		C223269A263585EE00147F91 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2232699263585EE00147F91 /* UserCell.swift */; };
 		C2342666264531F100596A6B /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342665264531F100596A6B /* UploadPostController.swift */; };
 		C2342669264534A500596A6B /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2342668264534A500596A6B /* InputTextView.swift */; };
@@ -56,6 +57,7 @@
 		C200CA93265A2D3800DD0D79 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		C200CA96265A3B7200DD0D79 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		C20C9773265DF129002EC4CC /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		C20C9776265E1B7A002EC4CC /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		C2232699263585EE00147F91 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		C2342665264531F100596A6B /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		C2342668264534A500596A6B /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				C2CF480426300F23007B724B /* ProfileHeaderViewModel.swift */,
 				C2868765263D023E00EF8D56 /* UserCellViewModel.swift */,
 				C200CA96265A3B7200DD0D79 /* PostViewModel.swift */,
+				C20C9776265E1B7A002EC4CC /* CommentViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C20C9777265E1B7A002EC4CC /* CommentViewModel.swift in Sources */,
 				C200CA97265A3B7200DD0D79 /* PostViewModel.swift in Sources */,
 				C2BC1900261CB4BA00B77F13 /* CustomTextField.swift in Sources */,
 				C24FBE0F2626D57300DAC490 /* ProfileHeader.swift in Sources */,
